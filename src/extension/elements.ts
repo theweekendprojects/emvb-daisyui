@@ -207,7 +207,10 @@ export function partElementFor(root: string): ExtensionElement {
     render: (props, ctx = DEFAULT_MODE) => {
       const values: Record<string, string> = {};
       for (const field of spec.fields) values[field.key] = String(props[field.key] ?? field.def);
-      const markup = daisyUIProvider.render(nodeFor(spec.part, values), {}, [], { mode: ctx.mode });
+      // A node id per part keeps each slide's id unique on the page.
+      const markup = daisyUIProvider.render(nodeFor(spec.part, values, [], idFor(props)), {}, [], {
+        mode: ctx.mode,
+      });
       return { markup: toVNode(markup) };
     },
   };
