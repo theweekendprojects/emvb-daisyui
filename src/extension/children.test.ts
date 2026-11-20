@@ -91,8 +91,9 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
       },
     } as Layout;
     const result = renderPage(page, emptyDesign(), { mode: "public" });
+    // The item is the list's first child: directly inside the <ul>, not beside it.
+    expect(result.html).toMatch(new RegExp(`<ul[^>]*><li data-emvb-ext="${ITEM}"`));
     expect(result.html).toContain("Home");
-    expect(result.html).toContain(`data-emvb-ext="${ITEM}"`);
     expect(result.html).not.toContain("Only text");
   });
 

@@ -267,12 +267,13 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
       if (isRoot) {
         // Part elements, when there are any, replace the items text. The slot is where they go.
         const withParts = partSpec !== undefined && (ctx.childCount ?? 0) > 0;
-        const items = withParts
-          ? { nodes: [], vnodes: [slot()] }
-          : itemsFor(id, String(props[ITEMS_FIELD] ?? ""), mode);
+        const items = withParts ? { nodes: [], vnodes: [] } : itemsFor(id, String(props[ITEMS_FIELD] ?? ""), mode);
         // The provider turns a root's items text into rows when it has no children, so clear it here.
         const node = nodeFor(id, withParts ? { ...values, items: "" } : values, items.nodes, nodeId);
-        markup = daisyUIProvider.render(node, {}, items.vnodes, { mode });
+        const rendered = daisyUIProvider.render(node, {}, items.vnodes, { mode });
+        // The provider does not place child nodes, so the slot becomes the root's children: the item
+        // elements then sit directly inside the list, where the rows would be.
+        markup = withParts ? { ...rendered, children: [slot()] } : rendered;
       } else {
         // Content lines come first, then the slot where core places the child nodes. With no
         // content and no child nodes the slot is left out, so an empty container keeps its placeholder.
