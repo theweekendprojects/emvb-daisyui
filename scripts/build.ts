@@ -19,6 +19,7 @@ const result = await Bun.build({
     join(root, "src/validation/index.ts"),
     join(root, "src/compatibility/index.ts"),
     join(root, "src/conformance/index.ts"),
+    join(root, "src/extension/index.ts"),
   ],
   outdir: dist,
   target: "browser",

@@ -48,7 +48,12 @@
       "types": "./dist/conformance.d.ts",
       "import": "./dist/conformance/index.js"
     },
-    "./runtime": "./src/runtime/index.ts"
+    "./runtime": "./src/runtime/index.ts",
+    "./extension": {
+      "bun": "./src/extension/index.ts",
+      "types": "./dist/extension/index.d.ts",
+      "import": "./dist/extension/index.js"
+    }
   },
   "scripts": {
     "generate": "bun src/generator/cli.ts",
@@ -58,7 +63,8 @@
     "build": "bun scripts/build.ts",
     "prepack": "bun run build",
     "conformance:report": "bun src/conformance/report-cli.ts",
-    "conformance:official": "bun src/conformance/compile.ts"
+    "conformance:official": "bun src/conformance/compile.ts",
+    "gen:classes": "bun scripts/gen-extension-classes.ts"
   },
   "dependencies": {
     "@perkyzz/emvb-provider-api": "file:./vendor/EmVB/packages/emvb-provider-api"
