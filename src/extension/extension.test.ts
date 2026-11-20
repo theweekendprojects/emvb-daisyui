@@ -115,3 +115,21 @@ describe("daisyUI markup passes core's markup check unchanged", () => {
     }
   });
 });
+
+describe("render mode and theme", () => {
+  test("a modal draws open on the canvas and as a closed dialog on a published page", () => {
+    clearExtensions();
+    rememberExtensions([daisyUIExtension as never]);
+    const layout = pageWith("ext:daisyui/daisy-modal", { title: "Hi", content: "Body" });
+    const canvas = renderPage(layout, emptyDesign(), { mode: "editor" }).html;
+    const published = renderPage(layout, emptyDesign(), { mode: "public" }).html;
+    expect(canvas).toContain("modal-box");
+    expect(published).toContain("<dialog");
+    expect(published).not.toContain("modal-box mx-auto");
+  });
+
+  test("a theme on a block sets data-theme on its root", () => {
+    const html = render("ext:daisyui/daisy-button", { label: "Go", theme: "dark" });
+    expect(html).toContain('data-theme="dark"');
+  });
+});

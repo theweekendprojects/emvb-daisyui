@@ -3,7 +3,9 @@
  *
  * The element name is `daisy-<component>`. The prefix keeps every name clear of EmVB's built-in
  * element types (`tabs`, `accordion`, `menu`, `carousel`, ... are built in).
- * Rendering reuses the daisyUI provider's own render, so the markup is the same as before.
+ * Rendering reuses the daisyUI provider's own render, so the markup is the same as before, and the
+ * render mode from the core ("editor" or "public") is passed through, so an open modal shows open
+ * on the canvas.
  */
 import { COMPOUND_CONFIG } from "../compound/editor.ts";
 import { daisyUIProvider } from "../provider.ts";
@@ -25,22 +27,25 @@ export type Field = {
   options?: FieldOption[];
 };
 export type VNode = { tag: string; attrs: Record<string, string>; children: (VNode | string)[] };
+export type RenderMode = "public" | "editor";
 export type ExtensionElement = {
   name: string;
   label: string;
   group: "layout" | "content" | "form" | "dynamic";
   schema: { type: "object"; properties: Record<string, PropSchema> };
   fields: Field[];
-  render: (props: Record<string, unknown>) => { markup: VNode };
+  render: (props: Record<string, unknown>, ctx?: { mode: RenderMode }) => { markup: VNode };
 };
 
 export const ELEMENT_PREFIX = "daisy-";
+/** Daisy themes a block can set. The empty value inherits the page theme. */
+export const THEMES = ["", "light", "dark", "corporate", "business", "cupcake"] as const;
 const MAX_TEXT_FIELD = 2000;
 const MAX_LONG_FIELD = 4000;
-/** Compound roots read `items` instead of content; the rows and cells come from it. */
 const ITEMS_FIELD = "items";
 const CONTENT_FIELD = "content";
-const RENDER_MODE = { mode: "public" as const };
+const THEME_FIELD = "theme";
+const DEFAULT_MODE: { mode: RenderMode } = { mode: "public" };
 
 /** The provider's VNode, as the extension output type: no undefined attributes. */
 export function toVNode(node: DaisyVNode): VNode {
@@ -58,7 +63,10 @@ export function toVNode(node: DaisyVNode): VNode {
 }
 
 /** Rows of a `table` root: each line is one row, its `|` cells are the cells. */
-function tableRows(text: string): { nodes: ReturnType<typeof nodeFor>[]; vnodes: DaisyVNode[] } {
+function tableRows(
+  text: string,
+  mode: RenderMode,
+): { nodes: ReturnType<typeof nodeFor>[]; vnodes: DaisyVNode[] } {
   const rows = text
     .split("\n")
     .map((line) => line.trim())
@@ -69,17 +77,21 @@ function tableRows(text: string): { nodes: ReturnType<typeof nodeFor>[]; vnodes:
   for (const line of rows) {
     const cells = parseCells(line);
     const cellVNodes = cells.map((cell) =>
-      daisyUIProvider.render(nodeFor("table-cell", { text: cell }), {}, [], RENDER_MODE),
+      daisyUIProvider.render(nodeFor("table-cell", { text: cell }), {}, [], { mode }),
     );
     nodes.push(nodeFor("table-row", {}, cells.map((cell) => nodeFor("table-cell", { text: cell }))));
-    vnodes.push(daisyUIProvider.render(nodeFor("table-row", {}), {}, cellVNodes, RENDER_MODE));
+    vnodes.push(daisyUIProvider.render(nodeFor("table-row", {}), {}, cellVNodes, { mode }));
   }
   return { nodes, vnodes };
 }
 
 /** The item nodes and their rendered children for one compound root. */
-export function itemsFor(root: string, text: string): { nodes: ReturnType<typeof nodeFor>[]; vnodes: DaisyVNode[] } {
-  if (root === "table") return tableRows(text);
+export function itemsFor(
+  root: string,
+  text: string,
+  mode: RenderMode,
+): { nodes: ReturnType<typeof nodeFor>[]; vnodes: DaisyVNode[] } {
+  if (root === "table") return tableRows(text, mode);
   const items: Item[] = parseItems(text);
   const part = COMPOUND_CONFIG[root as keyof typeof COMPOUND_CONFIG]?.part ?? "";
   const nodes: ReturnType<typeof nodeFor>[] = [];
@@ -91,7 +103,7 @@ export function itemsFor(root: string, text: string): { nodes: ReturnType<typeof
     if (root === "menu") props.href = item.body || "#";
     const bodyChildren = root === "menu" ? [] : contentChildren(item.body);
     nodes.push(nodeFor(part, props));
-    vnodes.push(daisyUIProvider.render(nodeFor(part, props), {}, bodyChildren, RENDER_MODE));
+    vnodes.push(daisyUIProvider.render(nodeFor(part, props), {}, bodyChildren, { mode }));
   });
   return { nodes, vnodes };
 }
@@ -109,7 +121,13 @@ const GROUP: Record<DaisyComponentDefinition["category"], ExtensionElement["grou
 const titleCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
 function fieldFor(field: DaisyFieldDefinition): Field {
-  const kind = field.kind === "textarea" ? "textarea" : field.kind === "number" ? "number" : field.kind === "boolean" ? "boolean" : field.kind === "select" ? "select" : field.kind === "href" ? "href" : "text";
+  const kind =
+    field.kind === "textarea" ? "textarea"
+    : field.kind === "number" ? "number"
+    : field.kind === "boolean" ? "boolean"
+    : field.kind === "select" ? "select"
+    : field.kind === "href" ? "href"
+    : "text";
   const options = field.options?.map((value) => ({
     value,
     label: field.optionLabels?.[value] ?? titleCase(value),
@@ -132,6 +150,8 @@ function schemaFor(field: DaisyFieldDefinition): PropSchema {
   return { type: "string", maxLength: max, default: String(field.default ?? "") };
 }
 
+const THEME_LABELS: Record<string, string> = { "": "Inherit page theme" };
+
 /** The extension element for one daisyUI definition. */
 export function elementFor(definition: DaisyComponentDefinition): ExtensionElement {
   const id = definition.id;
@@ -148,6 +168,13 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
       label: isRoot ? "Items (Label|text per line)" : "Content (one block per line)",
     });
   }
+  properties[THEME_FIELD] = { type: "enum", values: [...THEMES], default: "" };
+  fields.push({
+    key: THEME_FIELD,
+    kind: "select",
+    label: "Theme",
+    options: THEMES.map((value) => ({ value, label: THEME_LABELS[value] ?? titleCase(value) })),
+  });
   const daisyKeys = new Set(definition.fields.map((field) => field.key));
 
   return {
@@ -156,7 +183,8 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
     group: GROUP[definition.category],
     schema: { type: "object", properties },
     fields,
-    render: (props) => {
+    render: (props, ctx = DEFAULT_MODE) => {
+      const mode = ctx.mode;
       const values: Record<string, string | number | boolean> = {};
       for (const key of daisyKeys) {
         const value = props[key];
@@ -165,17 +193,21 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         }
       }
       const nodeId = idFor(props);
+      let markup: DaisyVNode;
       if (isRoot) {
-        const items = itemsFor(id, String(props[ITEMS_FIELD] ?? ""));
+        const items = itemsFor(id, String(props[ITEMS_FIELD] ?? ""), mode);
         const node = nodeFor(id, values, items.nodes, nodeId);
-        return { markup: toVNode(daisyUIProvider.render(node, {}, items.vnodes, RENDER_MODE)) };
+        markup = daisyUIProvider.render(node, {}, items.vnodes, { mode });
+      } else {
+        const children = definition.container ? contentChildren(String(props[CONTENT_FIELD] ?? "")) : [];
+        markup = daisyUIProvider.render(nodeFor(id, values, [], nodeId), {}, children, { mode });
       }
-      const children = definition.container ? contentChildren(String(props[CONTENT_FIELD] ?? "")) : [];
-      return {
-        markup: toVNode(
-          daisyUIProvider.render(nodeFor(id, values, [], nodeId), {}, children, RENDER_MODE),
-        ),
-      };
+      const root = toVNode(markup);
+      const theme = typeof props[THEME_FIELD] === "string" ? props[THEME_FIELD] : "";
+      if (theme && (THEMES as readonly string[]).includes(theme)) {
+        root.attrs["data-theme"] = theme;
+      }
+      return { markup: root };
     },
   };
 }
