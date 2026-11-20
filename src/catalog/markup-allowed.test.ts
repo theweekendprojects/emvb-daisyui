@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 // The same serializer the public renderer uses; a refused tag or attribute throws here.
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { createDaisyUIProvider } from "../render/provider.ts";
 import { DAISY_COMPONENT_CATALOG } from "./index.ts";
 

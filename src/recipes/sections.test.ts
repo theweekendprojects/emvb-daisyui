@@ -1,7 +1,7 @@
 import { must } from "../test-support.ts";
 import { describe, expect, test } from "bun:test";
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
-import { ProviderNode } from "../../../emvb/src/core/schema/layout.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
+import { ProviderNode } from "../../vendor/EmVB/packages/emvb/src/core/schema/layout.ts";
 import { daisyUIProvider } from "../provider.ts";
 import { DAISY_RECIPES } from "./index.ts";
 import type { DaisyComponentNode } from "../types.ts";

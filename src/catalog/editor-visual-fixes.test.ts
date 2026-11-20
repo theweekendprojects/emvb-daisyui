@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { nodeForRender } from "../runtime/index.ts";
 import { daisyUIProvider } from "../provider.ts";
 import { addCompoundItem } from "../compound/editor.ts";

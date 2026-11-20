@@ -1,8 +1,8 @@
 import { must } from "../test-support.ts";
 import { afterEach, describe, expect, test } from "bun:test";
 import { Window } from "happy-dom";
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
-import { ProviderNode } from "../../../emvb/src/core/schema/layout.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
+import { ProviderNode } from "../../vendor/EmVB/packages/emvb/src/core/schema/layout.ts";
 import { daisyUIProvider } from "../provider.ts";
 import { DAISY_RECIPES } from "../recipes/index.ts";
 import { DAISY_INTERACTIVE_RUNTIME } from "../runtime/browser.ts";

@@ -1,0 +1,3 @@
+[submodule "vendor/EmVB"]
+	path = vendor/EmVB
+	url = https://github.com/theweekendprojects/EmVB.git

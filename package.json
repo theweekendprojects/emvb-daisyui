@@ -53,19 +53,21 @@
   "scripts": {
     "generate": "bun src/generator/cli.ts",
     "classes:write": "bun src/generator/write-class-names.ts",
-    "test": "bun test src",
+    "test": "bun test ./src/",
     "conformance:css": "bun src/conformance/cli.ts",
-    "build": "bun ../../scripts/build-provider-packages.ts",
+    "build": "bun scripts/build.ts",
     "prepack": "bun run build",
     "conformance:report": "bun src/conformance/report-cli.ts",
     "conformance:official": "bun src/conformance/compile.ts"
   },
   "dependencies": {
-    "@perkyzz/emvb-provider-api": "workspace:*"
+    "@perkyzz/emvb-provider-api": "file:./vendor/EmVB/packages/emvb-provider-api"
   },
   "devDependencies": {
     "daisyui": "5.7.50",
-    "tailwindcss": "4.1.17"
+    "happy-dom": "21.0.4",
+    "tailwindcss": "4.1.17",
+    "zod": "4.6.7"
   },
   "peerDependencies": {
     "daisyui": "5.7.50",

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { daisyUIProvider } from "../provider.ts";
 
 // The timeline's box paints daisyUI's base colour (white in the light theme), so its text vanished

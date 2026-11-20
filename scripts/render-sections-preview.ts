@@ -2,7 +2,7 @@
 // compiled daisyUI stylesheet. Used to check the layout without touching the editor or publishing.
 // Usage: bun packages/emvb-daisyui/scripts/render-sections-preview.ts <out.html> [stylesheetUrl]
 import { writeFileSync } from "node:fs";
-import { serialize } from "../../emvb/src/core/render/vnode.ts";
+import { serialize } from "../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { daisyUIProvider } from "../src/provider.ts";
 import { DAISY_RECIPES } from "../src/recipes/index.ts";
 import type { DaisyComponentNode, DaisyVNode } from "../src/types.ts";

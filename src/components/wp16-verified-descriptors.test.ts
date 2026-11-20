@@ -1,7 +1,7 @@
 import { must } from "../test-support.ts";
 import { describe, expect, test } from "bun:test";
 import { daisyUIProvider } from "../provider.ts";
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { VERIFIED_PRIMITIVE_IDS } from "../verified/primitives.ts";
 
 const implemented = new Set(["text", "textarea", "number", "select", "boolean", "href", "media"]);

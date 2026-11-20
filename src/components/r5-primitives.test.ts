@@ -6,7 +6,7 @@ import {
   VERIFIED_PRIMITIVE_IDS,
 } from "../verified/primitives.ts";
 import { daisyUIProvider } from "../provider.ts";
-import { serialize } from "../../../emvb/src/core/render/vnode.ts";
+import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 describe("R5 verified primitive subset", () => {
   test("all ten primitives render their official root class without audit errors", () => {
     for (const id of VERIFIED_PRIMITIVE_IDS) {
