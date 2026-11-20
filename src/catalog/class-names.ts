@@ -373,6 +373,7 @@ export const CATALOG_CLASS_NAMES = [
   "megamenu-lg",
   "megamenu-md",
   "megamenu-sm",
+  "megamenu-vertical",
   "megamenu-wide",
   "megamenu-xl",
   "megamenu-xs",

@@ -255,6 +255,14 @@ export const MEGAMENU: DaisyComponentDefinition = {
       options: ["normal", "wide", "full"],
       classMap: { normal: "", wide: "megamenu-wide", full: "megamenu-full" },
     },
+    {
+      key: "orientation",
+      label: "Orientation",
+      kind: "select",
+      default: "horizontal",
+      options: ["horizontal", "vertical"],
+      classMap: { horizontal: "", vertical: "megamenu-vertical" },
+    },
   ],
   build: (node, classes) => {
     const items = lines(node.props.items, 10).map((line, index) => {

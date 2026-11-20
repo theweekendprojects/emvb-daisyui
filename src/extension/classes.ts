@@ -324,6 +324,7 @@ export const CLASSES_FOR_EXTENSION: readonly string[] = [
   "megamenu-lg",
   "megamenu-md",
   "megamenu-sm",
+  "megamenu-vertical",
   "megamenu-wide",
   "megamenu-xl",
   "megamenu-xs",

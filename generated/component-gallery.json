@@ -770,7 +770,8 @@
       "label": "Main navigation",
       "items": "Products|Overview,Features,Pricing\nCompany|About,Careers,Contact",
       "size": "md",
-      "width": "normal"
+      "width": "normal",
+      "orientation": "horizontal"
     }
   },
   {
