@@ -78,6 +78,8 @@ export interface GeneratedDaisyComponent extends ProviderComponent<DaisyComponen
     category?: string;
     /** True when the component holds child elements (see ProviderComponentDescriptor). */
     container?: boolean;
+    /** False hides the Add panel tile; existing nodes still render (see ProviderComponentDescriptor). */
+    addPanel?: boolean;
     support?: "verified" | "experimental";
     icon?: string;
     keywords?: readonly string[];

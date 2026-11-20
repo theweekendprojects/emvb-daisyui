@@ -53,6 +53,8 @@ export function generateComponent(definition: DaisyComponentDefinition): Generat
       group: "content",
       defaultTab: "content",
       container: definition.container === true,
+      // The daisyUI extension offers these components in the Add panel now; no duplicate tiles.
+      addPanel: false,
       category: official?.category ?? definition.category,
       support: isVerifiedDaisyComponent(definition.id) ? "verified" : "experimental",
       icon: official?.icon ?? "layout",
