@@ -34,8 +34,17 @@ export type ExtensionElement = {
   group: "layout" | "content" | "form" | "dynamic";
   schema: { type: "object"; properties: Record<string, PropSchema> };
   fields: Field[];
-  render: (props: Record<string, unknown>, ctx?: { mode: RenderMode }) => { markup: VNode };
+  /** Holds child nodes in the editor (core 1.x `container`). Set on non-compound containers. */
+  container?: boolean;
+  render: (
+    props: Record<string, unknown>,
+    ctx?: { mode: RenderMode; childCount?: number },
+  ) => { markup: VNode };
 };
+
+/** Core's marker for where child nodes go. Core replaces it before the output is checked. */
+export const SLOT_TAG = "emvb-slot";
+const slot = (): DaisyVNode => ({ tag: SLOT_TAG, attrs: {}, children: [] });
 
 export const ELEMENT_PREFIX = "daisy-";
 /** Daisy themes a block can set. The empty value inherits the page theme. */
@@ -176,6 +185,8 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
     options: THEMES.map((value) => ({ value, label: THEME_LABELS[value] ?? titleCase(value) })),
   });
   const daisyKeys = new Set(definition.fields.map((field) => field.key));
+  // Compound roots take their parts as items text, so only the other containers take child nodes.
+  const holdsChildren = definition.container === true && !isRoot;
 
   return {
     name: `${ELEMENT_PREFIX}${id}`,
@@ -183,6 +194,7 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
     group: GROUP[definition.category],
     schema: { type: "object", properties },
     fields,
+    ...(holdsChildren ? { container: true } : {}),
     render: (props, ctx = DEFAULT_MODE) => {
       const mode = ctx.mode;
       const values: Record<string, string | number | boolean> = {};
@@ -199,7 +211,12 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         const node = nodeFor(id, values, items.nodes, nodeId);
         markup = daisyUIProvider.render(node, {}, items.vnodes, { mode });
       } else {
-        const children = definition.container ? contentChildren(String(props[CONTENT_FIELD] ?? "")) : [];
+        // Content lines come first, then the slot where core places the child nodes. With no
+        // content and no child nodes the slot is left out, so an empty container keeps its placeholder.
+        const lines = holdsChildren ? contentChildren(String(props[CONTENT_FIELD] ?? "")) : [];
+        const hasChildNodes = (ctx.childCount ?? 0) > 0;
+        const children =
+          holdsChildren && (lines.length > 0 || hasChildNodes) ? [...lines, slot()] : lines;
         markup = daisyUIProvider.render(nodeFor(id, values, [], nodeId), {}, children, { mode });
       }
       const root = toVNode(markup);

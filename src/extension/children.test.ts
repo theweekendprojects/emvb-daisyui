@@ -1,0 +1,75 @@
+import { beforeEach, describe, expect, test } from "bun:test";
+// The core is pinned as a submodule (vendor/EmVB). These imports check the extension against it.
+import { emptyDesign } from "../../vendor/EmVB/packages/emvb/src/core/schema/design.ts";
+import {
+  LAYOUT_SCHEMA_VERSION,
+  type Layout,
+  type LayoutNode,
+} from "../../vendor/EmVB/packages/emvb/src/core/schema/layout.ts";
+import { renderPage } from "../../vendor/EmVB/packages/emvb/src/core/render/index.ts";
+import { clearExtensions, rememberExtensions } from "../../vendor/EmVB/packages/emvb/src/core/extensions/registry.ts";
+import { COMPOUND_CONFIG } from "../compound/editor.ts";
+import { daisyUIExtension } from "./index.ts";
+
+const CARD = "ext:daisyui/daisy-card";
+const BADGE = "ext:daisyui/daisy-badge";
+
+const heading = (id: string, text: string): LayoutNode => ({
+  id,
+  type: "heading",
+  props: { text, level: 3 },
+});
+
+const pageWith = (type: string, children: LayoutNode[]): Layout => ({
+  schemaVersion: LAYOUT_SCHEMA_VERSION,
+  root: {
+    id: "root0001",
+    type: "container",
+    props: {},
+    children: [{ id: "dx000001", type, props: {}, children }],
+  },
+});
+
+beforeEach(() => {
+  clearExtensions();
+  rememberExtensions([daisyUIExtension]);
+});
+
+describe("daisyUI containers take child nodes (core container, extensionApi 1.x)", () => {
+  test("non-compound containers are flagged; compound roots keep their items text", () => {
+    const flagged = daisyUIExtension.elements.filter((el) => el.container === true).map((el) => el.name);
+    expect(flagged).toContain("daisy-card");
+    for (const root of Object.keys(COMPOUND_CONFIG)) {
+      expect(flagged).not.toContain(`daisy-${root}`);
+    }
+  });
+
+  test("a card renders its children inside the card, in order", () => {
+    const result = renderPage(
+      pageWith(CARD, [heading("h0000001", "First child"), heading("h0000002", "Second child")]),
+      emptyDesign(),
+      { mode: "public" },
+    );
+    const card = result.html.indexOf('class="card');
+    expect(card).toBeGreaterThan(-1);
+    expect(result.html.indexOf("First child")).toBeGreaterThan(card);
+    expect(result.html.indexOf("Second child")).toBeGreaterThan(result.html.indexOf("First child"));
+    expect(result.html).not.toContain("emvb-slot");
+  });
+
+  test("the slot is added only when the card has content or child nodes", () => {
+    const card = daisyUIExtension.elements.find((el) => el.name === "daisy-card");
+    expect(card).toBeDefined();
+    const empty = JSON.stringify(card?.render({}, { mode: "public", childCount: 0 }));
+    const filled = JSON.stringify(card?.render({}, { mode: "public", childCount: 1 }));
+    expect(empty).not.toContain("emvb-slot");
+    expect(filled).toContain("emvb-slot");
+  });
+
+  test("a leaf daisy element ignores stored children", () => {
+    const result = renderPage(pageWith(BADGE, [heading("h0000003", "Not for a badge")]), emptyDesign(), {
+      mode: "public",
+    });
+    expect(result.html).not.toContain("Not for a badge");
+  });
+});
