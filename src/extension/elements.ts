@@ -34,8 +34,12 @@ export type ExtensionElement = {
   group: "layout" | "content" | "form" | "dynamic";
   schema: { type: "object"; properties: Record<string, PropSchema> };
   fields: Field[];
-  /** Holds child nodes in the editor (core 1.x `container`). Set on non-compound containers. */
+  /** Holds child nodes in the editor (core 1.x `container`). */
   container?: boolean;
+  /** Child element names this container takes (core 1.x `accepts`). */
+  accepts?: readonly string[];
+  /** A list part: rendered unwrapped inside its parent (core 1.x `part`). */
+  part?: boolean;
   render: (
     props: Record<string, unknown>,
     ctx?: { mode: RenderMode; childCount?: number },
@@ -161,6 +165,54 @@ function schemaFor(field: DaisyFieldDefinition): PropSchema {
 
 const THEME_LABELS: Record<string, string> = { "": "Inherit page theme" };
 
+/**
+ * Compound roots that take list parts as child elements. Each part is one item, and the root takes
+ * no other child. The root's items text stays as the fallback for a root with no part elements.
+ */
+const PART_FOR_ROOT: Record<
+  string,
+  { part: string; label: string; fields: Array<{ key: string; label: string; kind: Field["kind"]; def: string }> }
+> = {
+  menu: {
+    part: "menu-item",
+    label: "Menu item",
+    fields: [
+      { key: "label", label: "Label", kind: "text", def: "Item" },
+      { key: "href", label: "Link", kind: "href", def: "#" },
+    ],
+  },
+  carousel: {
+    part: "carousel-item",
+    label: "Slide",
+    fields: [{ key: "label", label: "Label", kind: "text", def: "Slide" }],
+  },
+};
+
+const partName = (root: string) => `${ELEMENT_PREFIX}${PART_FOR_ROOT[root]!.part}`;
+
+/** The element for one list part (a menu item or a carousel slide). */
+export function partElementFor(root: string): ExtensionElement {
+  const spec = PART_FOR_ROOT[root]!;
+  const properties: Record<string, PropSchema> = {};
+  for (const field of spec.fields) {
+    properties[field.key] = { type: "string", maxLength: MAX_TEXT_FIELD, default: field.def };
+  }
+  return {
+    name: partName(root),
+    label: spec.label,
+    group: "content",
+    part: true,
+    schema: { type: "object", properties },
+    fields: spec.fields.map((field) => ({ key: field.key, kind: field.kind, label: field.label })),
+    render: (props, ctx = DEFAULT_MODE) => {
+      const values: Record<string, string> = {};
+      for (const field of spec.fields) values[field.key] = String(props[field.key] ?? field.def);
+      const markup = daisyUIProvider.render(nodeFor(spec.part, values), {}, [], { mode: ctx.mode });
+      return { markup: toVNode(markup) };
+    },
+  };
+}
+
 /** The extension element for one daisyUI definition. */
 export function elementFor(definition: DaisyComponentDefinition): ExtensionElement {
   const id = definition.id;
@@ -174,7 +226,11 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
     fields.push({
       key: extraKey,
       kind: "textarea",
-      label: isRoot ? "Items (Label|text per line)" : "Content (one block per line)",
+      label: isRoot
+        ? PART_FOR_ROOT[id]
+          ? "Items, used when there are no item elements (Label|text per line)"
+          : "Items (Label|text per line)"
+        : "Content (one block per line)",
     });
   }
   properties[THEME_FIELD] = { type: "enum", values: [...THEMES], default: "" };
@@ -186,7 +242,8 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
   });
   const daisyKeys = new Set(definition.fields.map((field) => field.key));
   // Compound roots take their parts as items text, so only the other containers take child nodes.
-  const holdsChildren = definition.container === true && !isRoot;
+  const partSpec = isRoot ? PART_FOR_ROOT[id] : undefined;
+  const holdsChildren = (definition.container === true && !isRoot) || partSpec !== undefined;
 
   return {
     name: `${ELEMENT_PREFIX}${id}`,
@@ -195,6 +252,7 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
     schema: { type: "object", properties },
     fields,
     ...(holdsChildren ? { container: true } : {}),
+    ...(partSpec ? { accepts: [partName(id)] } : {}),
     render: (props, ctx = DEFAULT_MODE) => {
       const mode = ctx.mode;
       const values: Record<string, string | number | boolean> = {};
@@ -207,8 +265,13 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
       const nodeId = idFor(props);
       let markup: DaisyVNode;
       if (isRoot) {
-        const items = itemsFor(id, String(props[ITEMS_FIELD] ?? ""), mode);
-        const node = nodeFor(id, values, items.nodes, nodeId);
+        // Part elements, when there are any, replace the items text. The slot is where they go.
+        const withParts = partSpec !== undefined && (ctx.childCount ?? 0) > 0;
+        const items = withParts
+          ? { nodes: [], vnodes: [slot()] }
+          : itemsFor(id, String(props[ITEMS_FIELD] ?? ""), mode);
+        // The provider turns a root's items text into rows when it has no children, so clear it here.
+        const node = nodeFor(id, withParts ? { ...values, items: "" } : values, items.nodes, nodeId);
         markup = daisyUIProvider.render(node, {}, items.vnodes, { mode });
       } else {
         // Content lines come first, then the slot where core places the child nodes. With no
@@ -231,5 +294,5 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
 
 /** Elements for a list of definitions, in catalog order. */
 export function daisyElements(definitions: readonly DaisyComponentDefinition[]): ExtensionElement[] {
-  return definitions.map(elementFor);
+  return [...definitions.map(elementFor), ...Object.keys(PART_FOR_ROOT).map(partElementFor)];
 }

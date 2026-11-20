@@ -39,8 +39,13 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
   test("non-compound containers are flagged; compound roots keep their items text", () => {
     const flagged = daisyUIExtension.elements.filter((el) => el.container === true).map((el) => el.name);
     expect(flagged).toContain("daisy-card");
+    // Menu and carousel take list parts as children; the other compound roots keep their items text.
     for (const root of Object.keys(COMPOUND_CONFIG)) {
-      expect(flagged).not.toContain(`daisy-${root}`);
+      if (root === "menu" || root === "carousel") {
+        expect(flagged).toContain(`daisy-${root}`);
+      } else {
+        expect(flagged).not.toContain(`daisy-${root}`);
+      }
     }
   });
 
@@ -64,6 +69,51 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     const filled = JSON.stringify(card?.render({}, { mode: "public", childCount: 1 }));
     expect(empty).not.toContain("emvb-slot");
     expect(filled).toContain("emvb-slot");
+  });
+
+  test("a menu with item elements renders each as a list item, and not its items text", () => {
+    const MENU = "ext:daisyui/daisy-menu";
+    const ITEM = "ext:daisyui/daisy-menu-item";
+    const page: Layout = {
+      schemaVersion: LAYOUT_SCHEMA_VERSION,
+      root: {
+        id: "root0001",
+        type: "container",
+        props: {},
+        children: [
+          {
+            id: "menu0001",
+            type: MENU,
+            props: { items: "Only text|/fallback" },
+            children: [{ id: "item0001", type: ITEM, props: { label: "Home", href: "/" } }],
+          },
+        ],
+      },
+    } as Layout;
+    const result = renderPage(page, emptyDesign(), { mode: "public" });
+    expect(result.html).toContain("Home");
+    expect(result.html).toContain(`data-emvb-ext="${ITEM}"`);
+    expect(result.html).not.toContain("Only text");
+  });
+
+  test("a menu with no item elements still shows its items text", () => {
+    const page: Layout = {
+      schemaVersion: LAYOUT_SCHEMA_VERSION,
+      root: {
+        id: "root0001",
+        type: "container",
+        props: {},
+        children: [
+          {
+            id: "menu0001",
+            type: "ext:daisyui/daisy-menu",
+            props: { items: "Only text|/fallback" },
+          },
+        ],
+      },
+    } as Layout;
+    const result = renderPage(page, emptyDesign(), { mode: "public" });
+    expect(result.html).toContain("Only text");
   });
 
   test("a leaf daisy element ignores stored children", () => {

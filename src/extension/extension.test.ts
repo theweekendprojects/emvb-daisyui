@@ -40,7 +40,8 @@ const render = (type: string, props: Record<string, unknown>) => {
 
 describe("daisyUI extension names and registration", () => {
   test("every daisyUI component is one element, named with the daisy prefix", () => {
-    expect(daisyUIExtension.elements).toHaveLength(definitions.length);
+    // Two extra elements are list parts (menu item, carousel slide), one per part-taking root.
+    expect(daisyUIExtension.elements).toHaveLength(definitions.length + 2);
     for (const element of daisyUIExtension.elements) {
       expect(element.name.startsWith("daisy-")).toBe(true);
     }
