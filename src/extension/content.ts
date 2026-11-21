@@ -15,7 +15,8 @@ export const MAX_LINES = 40;
 export const MAX_TEXT = 500;
 
 /** Classes the content helpers themselves put on markup, so the class allowlist covers them. */
-export const CONTENT_CLASSES = ["link"] as const;
+// `object-cover` is on photo tags only, which the class sample never renders, so it is listed here.
+export const CONTENT_CLASSES = ["link", "object-cover"] as const;
 
 const LINK_LINE = /^\[([^\]]{1,80})\]\(([^)\s]{1,300})\)$/;
 

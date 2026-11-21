@@ -365,6 +365,7 @@ export const CLASSES_FOR_EXTENSION: readonly string[] = [
   "navbar-center",
   "navbar-end",
   "navbar-start",
+  "object-cover",
   "opacity-50",
   "opacity-60",
   "otp",

@@ -288,7 +288,13 @@ export const CARD: DaisyComponentDefinition = {
             children: [
               {
                 tag: "img",
-                attrs: { src: String(node.props.image), alt: "", loading: "lazy" },
+                // A photo keeps a fixed banner height in the card, so a large file cannot fill the page.
+                attrs: {
+                  src: String(node.props.image),
+                  alt: "",
+                  loading: "lazy",
+                  class: "w-full h-48 object-cover",
+                },
                 children: [],
               },
             ],

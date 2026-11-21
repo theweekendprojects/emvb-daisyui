@@ -218,7 +218,12 @@ export const HOVER_GALLERY: DaisyComponentDefinition = {
       attrs: { class: classes.join(" ") },
       children: urls.map((src): DaisyVNode => ({
         tag: "img",
-        attrs: { src: safeImage(src), alt: String(node.props.alt), loading: "lazy" },
+        attrs: {
+          src: safeImage(src),
+          alt: String(node.props.alt),
+          loading: "lazy",
+          class: "w-full h-48 object-cover",
+        },
         children: [],
       })),
     };
