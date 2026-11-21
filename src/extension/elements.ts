@@ -184,7 +184,10 @@ const PART_FOR_ROOT: Record<
   carousel: {
     part: "carousel-item",
     label: "Slide",
-    fields: [{ key: "label", label: "Label", kind: "text", def: "Slide" }],
+    fields: [
+      { key: "label", label: "Label", kind: "text", def: "Slide" },
+      { key: "content", label: "Content (one block per line)", kind: "textarea", def: "" },
+    ],
   },
 };
 
@@ -206,12 +209,17 @@ export function partElementFor(root: string): ExtensionElement {
     fields: spec.fields.map((field) => ({ key: field.key, kind: field.kind, label: field.label })),
     render: (props, ctx = DEFAULT_MODE) => {
       const values: Record<string, string> = {};
-      for (const field of spec.fields) values[field.key] = String(props[field.key] ?? field.def);
-      // A node id per part keeps each slide's id unique on the page.
-      const markup = daisyUIProvider.render(nodeFor(spec.part, values, [], idFor(props)), {}, [], {
-        mode: ctx.mode,
-      });
-      return { markup: toVNode(markup) };
+      for (const field of spec.fields) {
+        if (field.kind !== "textarea") values[field.key] = String(props[field.key] ?? field.def);
+      }
+      // Content lines are the item's body. Nothing links to a part's id, so none is written: two
+      // parts with the same label would otherwise share one.
+      const body = spec.fields.some((f) => f.kind === "textarea")
+        ? contentChildren(String(props.content ?? ""))
+        : [];
+      const markup = toVNode(daisyUIProvider.render(nodeFor(spec.part, values), {}, body, { mode: ctx.mode }));
+      delete markup.attrs.id;
+      return { markup };
     },
   };
 }

@@ -97,6 +97,27 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(result.html).not.toContain("Only text");
   });
 
+  test("carousel slides show their content, and two with the same label do not share an id", () => {
+    const SLIDE = "ext:daisyui/daisy-carousel-item";
+    const slide = (id: string, content: string): LayoutNode => ({
+      id,
+      type: SLIDE,
+      props: { label: "Same", content },
+    });
+    const result = renderPage(
+      pageWith("ext:daisyui/daisy-carousel", [
+        slide("sld00001", "Body one"),
+        slide("sld00002", "Body two"),
+      ]),
+      emptyDesign(),
+      { mode: "public" },
+    );
+    expect(result.html).toContain("Body one");
+    expect(result.html).toContain("Body two");
+    expect(result.html.split('class="carousel-item').length - 1).toBe(2);
+    expect(result.html).not.toContain("slide-daisy");
+  });
+
   test("a menu with no item elements still shows its items text", () => {
     const page: Layout = {
       schemaVersion: LAYOUT_SCHEMA_VERSION,
