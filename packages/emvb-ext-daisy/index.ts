@@ -13,7 +13,7 @@ export const daisyExtension = {
     allow: [
       "daisy-badge", "daisy-badge-md", "daisy-badge-neutral",
       "daisy-btn", "daisy-btn-md", "daisy-btn-primary",
-      "daisy-card", "daisy-card-body", "daisy-card-md", "daisy-card-title",
+      "daisy-card", "daisy-card-body", "daisy-card-md", "daisy-card-title", "daisy-bg-base-100",
       "daisy-mx-auto", "daisy-my-4", "daisy-w-fit",
     ],
   },
@@ -67,7 +67,7 @@ export const daisyExtension = {
         id: "crd00001",
         type: "container",
         props: {},
-        extClasses: ["daisy-card", "daisy-card-md", "daisy-mx-auto", "daisy-my-4"],
+        extClasses: ["daisy-card", "daisy-card-md", "daisy-bg-base-100", "daisy-mx-auto", "daisy-my-4"],
         children: [
           {
             id: "crd00002",
