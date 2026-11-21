@@ -133,7 +133,17 @@ const GROUP: Record<DaisyComponentDefinition["category"], ExtensionElement["grou
 
 const titleCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
-function fieldFor(field: DaisyFieldDefinition): Field {
+// Core drops a field whose label is longer than 80 characters, so these labels stay short.
+const IMAGE_URL_LABEL = "Image URL: in Media, open the image and click Copy URL";
+const IMAGE_URLS_LABEL = "Image URLs, one per line: in Media, open each image and click Copy URL";
+
+function fieldFor(field: DaisyFieldDefinition, componentId: string): Field {
+  // A media field is an image URL. The editor has no media picker for extension fields, so the
+  // label says where the URL comes from.
+  if (field.kind === "media") return { key: field.key, kind: "href", label: IMAGE_URL_LABEL };
+  if (componentId === "hover-gallery" && field.key === "images") {
+    return { key: field.key, kind: "textarea", label: IMAGE_URLS_LABEL };
+  }
   const kind =
     field.kind === "textarea" ? "textarea"
     : field.kind === "number" ? "number"
@@ -267,7 +277,7 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
   const extraKey = isRoot ? textKey : definition.container ? CONTENT_FIELD : undefined;
   const properties: Record<string, PropSchema> = {};
   for (const field of definition.fields) properties[field.key] = schemaFor(field);
-  const fields: Field[] = definition.fields.map(fieldFor);
+  const fields: Field[] = definition.fields.map((field) => fieldFor(field, id));
   if (extraKey) {
     // A compound root already has its items field from the catalog, with its sample text as the
     // default. Keep that default, so a new root starts with the same items the settings panel shows.
