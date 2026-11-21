@@ -135,6 +135,15 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     }
   });
 
+  test("the editor stacks a carousel's slides; the public page keeps them in a row", () => {
+    const el = daisyUIExtension.elements.find((e) => e.name === "daisy-carousel");
+    const slides = (el?.schema.properties.slides as { default?: unknown } | undefined)?.default;
+    const editor = JSON.stringify(el?.render({ slides }, { mode: "editor", childCount: 0 }));
+    const publicPage = JSON.stringify(el?.render({ slides }, { mode: "public", childCount: 0 }));
+    expect(editor).toContain("carousel-vertical");
+    expect(publicPage).not.toContain("carousel-vertical");
+  });
+
   test("a new carousel starts with its sample slides, in the panel and on the canvas", () => {
     const el = daisyUIExtension.elements.find((e) => e.name === "daisy-carousel");
     // The carousel's text is its own "slides" textarea, not a second items field.
@@ -144,13 +153,13 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(el?.fields.filter((field) => field.key === "items")).toHaveLength(0);
     const canvas = JSON.stringify(el?.render({ slides }, { mode: "editor", childCount: 0 }));
     expect(canvas).toContain("Welcome to EmVB");
-    expect(canvas).not.toContain("Add slides from the Layers panel");
+    expect(canvas).not.toContain("No slides yet");
   });
 
   test("an empty menu or carousel shows a hint on the canvas only", () => {
     for (const [name, hint] of [
-      ["daisy-menu", "Add menu items"],
-      ["daisy-carousel", "Add slides"],
+      ["daisy-menu", "No items yet"],
+      ["daisy-carousel", "No slides yet"],
     ] as const) {
       const el = daisyUIExtension.elements.find((e) => e.name === name);
       const editor = JSON.stringify(el?.render({ items: "" }, { mode: "editor", childCount: 0 }));

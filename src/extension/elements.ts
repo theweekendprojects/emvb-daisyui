@@ -303,6 +303,11 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         // An empty list shows a hint on the canvas only, so an editor knows where to add items.
         const empty = partSpec !== undefined && !withParts && String(props[textKey] ?? "").trim() === "";
         if (mode === "editor" && empty) markup = { ...markup, children: [emptyHint(id)] };
+        // The editor shows every slide stacked, so an editor can see them all. The public page
+        // keeps the horizontal carousel.
+        if (mode === "editor" && id === "carousel") {
+          markup = { ...markup, attrs: { ...markup.attrs, class: `${markup.attrs.class ?? ""} carousel-vertical`.trim() } };
+        }
       } else {
         // Content lines come first, then the slot where core places the child nodes. With no
         // content and no child nodes the slot is left out, so an empty container keeps its placeholder.
@@ -324,7 +329,10 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
 
 /** The hint an empty menu or carousel shows in the editor: one muted row that says where to add items. */
 function emptyHint(root: string): DaisyVNode {
-  const text = root === "menu" ? "Add menu items from the Layers panel" : "Add slides from the Layers panel";
+  const text =
+    root === "menu"
+      ? "No items yet. Select this menu, then add a Menu item from the Add tab."
+      : "No slides yet. Select this carousel, then add a Slide from the Add tab.";
   const hint: DaisyVNode = { tag: "span", attrs: { class: "opacity-60 text-sm" }, children: [text] };
   return root === "menu"
     ? { tag: "li", attrs: {}, children: [hint] }
