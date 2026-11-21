@@ -5,3 +5,4 @@
 .daisy-w-fit{width:fit-content}
 .daisy-bg-base-100{background-color:var(--color-base-100)}
 .daisy-card{color:var(--color-base-content)}
+.daisy-badge,.daisy-btn{display:flex;width:fit-content;margin-left:auto;margin-right:auto}
