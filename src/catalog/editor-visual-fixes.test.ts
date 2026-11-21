@@ -1,15 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { nodeForRender } from "../runtime/index.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { addCompoundItem } from "../compound/editor.ts";
 
 // Regression checks for defects seen in the real editor canvas. Each one asserts the class that
 // removes the defect, so dropping the class fails the test.
 const render = (component: string, props: Record<string, unknown> = {}) => {
-  const node = daisyUIProvider.createNode(component, "vf000001");
+  const node = daisyRenderer.createNode(component, "vf000001");
   Object.assign(node.props, props);
-  return serialize(daisyUIProvider.render(node) as never);
+  return serialize(daisyRenderer.render(node) as never);
 };
 
 describe("editor canvas fixes", () => {
@@ -30,9 +30,9 @@ describe("editor canvas fixes", () => {
   });
 
   test("aura with a child: the glow hugs the child, its vertical margin reset", () => {
-    const node = daisyUIProvider.createNode("aura", "vf000005");
+    const node = daisyRenderer.createNode("aura", "vf000005");
     const button = { tag: "button", attrs: { class: "btn" }, children: ["Go"] } as const;
-    const html = serialize(daisyUIProvider.render(node, {}, [button as never]) as never);
+    const html = serialize(daisyRenderer.render(node, {}, [button as never]) as never);
     // The serializer escapes & and > in attributes; browsers read them back as [&>*].
     expect(html).toMatch(/<div class="aura [^"]*w-fit opacity-60 \[&amp;&gt;\*\]:my-0!"/);
     expect(html).not.toContain("w-full max-w-md");
@@ -57,54 +57,54 @@ describe("editor canvas fixes", () => {
   });
 
   test("modal: open in the editor canvas, closed on the public page", () => {
-    const node = daisyUIProvider.createNode("modal", "vf000003");
+    const node = daisyRenderer.createNode("modal", "vf000003");
     expect(nodeForRender(node, { mode: "editor" }).props.open).toBe(true);
     expect(nodeForRender(node, { mode: "public" }).props.open).not.toBe(true);
   });
 
   test("container: presets stack on phones and split from medium with the chosen ratio", () => {
-    const node = daisyUIProvider.createNode("container", "vf000004");
+    const node = daisyRenderer.createNode("container", "vf000004");
     expect(render("container")).toMatch(/<div class="container mx-auto my-4"/);
     node.props.layout = "split";
     node.props.ratio = "1:2";
-    const split = serialize(daisyUIProvider.render(node) as never);
+    const split = serialize(daisyRenderer.render(node) as never);
     expect(split).toContain("grid grid-cols-1 gap-6 items-center");
     expect(split).toContain("md:grid-cols-[1fr_2fr]");
     node.props.layout = "sidebar";
     node.props.ratio = "1:1";
-    expect(serialize(daisyUIProvider.render(node) as never)).toContain("md:grid-cols-[16rem_1fr]");
+    expect(serialize(daisyRenderer.render(node) as never)).toContain("md:grid-cols-[16rem_1fr]");
     node.props.layout = "cards";
-    expect(serialize(daisyUIProvider.render(node) as never)).toContain("md:grid-cols-3");
+    expect(serialize(daisyRenderer.render(node) as never)).toContain("md:grid-cols-3");
   });
 
   test("modal on the canvas is a box in the page, not an open dialog that locks scrolling", () => {
-    const node = daisyUIProvider.createNode("modal", "vf000006");
+    const node = daisyRenderer.createNode("modal", "vf000006");
     node.props.open = true;
-    const canvas = serialize(daisyUIProvider.render(node, {}, [], { mode: "editor" }) as never);
+    const canvas = serialize(daisyRenderer.render(node, {}, [], { mode: "editor" }) as never);
     expect(canvas).toMatch(/^<div class="modal-box/);
     expect(canvas).not.toContain("<dialog");
     expect(canvas).not.toContain("modal-open");
     // The public page keeps the overlay and stays closed: transient open state is not published.
-    const page = serialize(daisyUIProvider.render(node, {}, [], { mode: "public" }) as never);
+    const page = serialize(daisyRenderer.render(node, {}, [], { mode: "public" }) as never);
     expect(page).toContain("<dialog");
     expect(page).not.toContain("modal-open");
   });
 
   test("empty columns and container show placeholders only on the canvas", () => {
     for (const component of ["columns", "container"]) {
-      const node = daisyUIProvider.createNode(component, "vf000007");
-      const canvas = serialize(daisyUIProvider.render(node, {}, [], { mode: "editor" }) as never);
+      const node = daisyRenderer.createNode(component, "vf000007");
+      const canvas = serialize(daisyRenderer.render(node, {}, [], { mode: "editor" }) as never);
       expect(canvas, component).toMatch(/Column 1|Add elements inside this container/);
-      const page = serialize(daisyUIProvider.render(node, {}, [], { mode: "public" }) as never);
+      const page = serialize(daisyRenderer.render(node, {}, [], { mode: "public" }) as never);
       expect(page, component).not.toMatch(/Column 1|Add elements inside this container/);
     }
   });
 
   test("buttons keep natural width unless their shape asks for full width", () => {
     expect(render("button")).toMatch(/<button class="btn [^"]*w-auto!/);
-    const node = daisyUIProvider.createNode("button", "vf000008");
+    const node = daisyRenderer.createNode("button", "vf000008");
     node.props.shape = "block";
-    const block = serialize(daisyUIProvider.render(node) as never);
+    const block = serialize(daisyRenderer.render(node) as never);
     expect(block).not.toContain("w-auto!");
     expect(block).toContain("btn-block");
   });
@@ -120,10 +120,10 @@ describe("editor canvas fixes", () => {
   });
 
   test("steps: a line can set its own colour, the others keep the shared tone", () => {
-    const node = daisyUIProvider.createNode("steps", "vf000002");
+    const node = daisyRenderer.createNode("steps", "vf000002");
     node.props.items = "Plan|info\nPay\nShip";
     node.props.current = 2;
-    const html = serialize(daisyUIProvider.render(node) as never);
+    const html = serialize(daisyRenderer.render(node) as never);
     expect(html).toContain('<li class="step step-info"');
     expect(html).toContain('<li class="step step-primary" aria-current="step"');
     expect(html).toContain('<li class="step">Ship</li>');
@@ -139,11 +139,9 @@ describe("editor canvas fixes", () => {
 describe("compound items are named in Layers", () => {
   // Without editorLabel the Layers panel falls back to "Provider component", because compound
   // parts such as carousel-item are not registered components.
-  test("a slide added in the editor and a slide from the collection both carry the Slide name", () => {
-    const carousel = daisyUIProvider.createNode("carousel", "cr000001");
+  test("a slide added in the editor carries the Slide name", () => {
+    const carousel = daisyRenderer.createNode("carousel", "cr000001");
     const withSlide = addCompoundItem(carousel, "sl000001");
     expect(withSlide.children?.[0]?.editorLabel).toBe("Slide");
-    const collection = daisyUIProvider.collections?.find((c) => c.parentComponent === "carousel");
-    expect(collection?.createItem("sl000002", 0).editorLabel).toBe("Slide");
   });
 });

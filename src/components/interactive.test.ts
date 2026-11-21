@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { INTERACTIVE_DAISY_COMPONENTS } from "../catalog/interactive.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import type { DaisyVNode } from "../types.ts";
 
 const render = (
@@ -8,8 +8,8 @@ const render = (
   props: Record<string, string | number | boolean>,
   children: DaisyVNode[] = [],
 ) =>
-  daisyUIProvider.render(
-    { id: `interactive-${component}`, type: "daisy", component, props },
+  daisyRenderer.render(
+    { id: `interactive-${component}`, type: "provider", provider: "daisyui", component, props },
     {},
     children,
   );
@@ -128,14 +128,14 @@ describe("WP7 generated interactive components", () => {
   test("interactive layout JSON round-trips without generated classes", () => {
     const original = {
       id: "tabs-1",
-      type: "daisy" as const,
+      type: "provider", provider: "daisyui" as const,
       component: "tabs",
       props: { label: "Tabs", items: "A|One\nB|Two", active: 2, style: "lift" },
     };
     const restored = JSON.parse(JSON.stringify(original));
     expect(restored).toEqual(original);
     expect(JSON.stringify(restored)).not.toContain("tabs-lift");
-    expect(daisyUIProvider.render(restored).attrs.class).toBe(
+    expect(daisyRenderer.render(restored).attrs.class).toBe(
       "tabs tabs-lift tabs-md tabs-top mx-auto my-4",
     );
   });

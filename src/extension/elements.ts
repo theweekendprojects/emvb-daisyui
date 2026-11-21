@@ -3,12 +3,12 @@
  *
  * The element name is `daisy-<component>`. The prefix keeps every name clear of EmVB's built-in
  * element types (`tabs`, `accordion`, `menu`, `carousel`, ... are built in).
- * Rendering reuses the daisyUI provider's own render, so the markup is the same as before, and the
+ * Rendering reuses the daisyUI renderer, so the markup is the same as before, and the
  * render mode from the core ("editor" or "public") is passed through, so an open modal shows open
  * on the canvas.
  */
 import { COMPOUND_CONFIG } from "../compound/editor.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { safeHref } from "../render/href.ts";
 import type { DaisyComponentDefinition, DaisyFieldDefinition, DaisyVNode } from "../types.ts";
 import { contentChildren, idFor, nodeFor, parseCells, parseItems, type Item } from "./content.ts";
@@ -61,7 +61,7 @@ const CONTENT_FIELD = "content";
 const THEME_FIELD = "theme";
 const DEFAULT_MODE: { mode: RenderMode } = { mode: "public" };
 
-/** The provider's VNode, as the extension output type: no undefined attributes. */
+/** The renderer's VNode, as the extension output type: no undefined attributes. */
 export function toVNode(node: DaisyVNode): VNode {
   const attrs: Record<string, string> = {};
   for (const [key, value] of Object.entries(node.attrs)) {
@@ -91,10 +91,10 @@ function tableRows(
   for (const line of rows) {
     const cells = parseCells(line);
     const cellVNodes = cells.map((cell) =>
-      daisyUIProvider.render(nodeFor("table-cell", { text: cell }), {}, [], { mode }),
+      daisyRenderer.render(nodeFor("table-cell", { text: cell }), {}, [], { mode }),
     );
     nodes.push(nodeFor("table-row", {}, cells.map((cell) => nodeFor("table-cell", { text: cell }))));
-    vnodes.push(daisyUIProvider.render(nodeFor("table-row", {}), {}, cellVNodes, { mode }));
+    vnodes.push(daisyRenderer.render(nodeFor("table-row", {}), {}, cellVNodes, { mode }));
   }
   return { nodes, vnodes };
 }
@@ -117,7 +117,7 @@ export function itemsFor(
     if (root === "menu") props.href = item.body || "#";
     const bodyChildren = root === "menu" ? [] : contentChildren(item.body);
     nodes.push(nodeFor(part, props));
-    vnodes.push(daisyUIProvider.render(nodeFor(part, props), {}, bodyChildren, { mode }));
+    vnodes.push(daisyRenderer.render(nodeFor(part, props), {}, bodyChildren, { mode }));
   });
   return { nodes, vnodes };
 }
@@ -263,7 +263,7 @@ export function partElementFor(root: string): ExtensionElement {
           ? contentChildren(String(props.content ?? ""))
           : []),
       ];
-      const markup = toVNode(daisyUIProvider.render(nodeFor(spec.part, values), {}, body, { mode: ctx.mode }));
+      const markup = toVNode(daisyRenderer.render(nodeFor(spec.part, values), {}, body, { mode: ctx.mode }));
       delete markup.attrs.id;
       return { markup };
     },
@@ -333,7 +333,7 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         // Part elements, when there are any, replace the items text. The slot is where they go.
         const withParts = partSpec !== undefined && (ctx.childCount ?? 0) > 0;
         const items = withParts ? { nodes: [], vnodes: [] } : itemsFor(id, String(props[textKey] ?? ""), mode);
-        // The provider turns a root's items text into rows when it has no children, so clear it here.
+        // The renderer turns a root's items text into rows when it has no children, so clear it here.
         // The text is read by itemsFor and passed as children, so the catalog build must not also
         // read it: that would draw every row twice (a carousel's slides, a menu's rows).
         // Carousels and accordions draw their rows through the children path, so their catalog build
@@ -342,8 +342,8 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         const { [textKey]: _text, ...rowValues } = values;
         const rowsFromChildren = id === "carousel" || id === "accordion";
         const node = nodeFor(id, rowsFromChildren ? rowValues : values, items.nodes, nodeId);
-        const rendered = daisyUIProvider.render(node, {}, items.vnodes, { mode });
-        // The provider does not place child nodes, so the slot becomes the root's children: the item
+        const rendered = daisyRenderer.render(node, {}, items.vnodes, { mode });
+        // The renderer does not place child nodes, so the slot becomes the root's children: the item
         // elements then sit directly inside the list, where the rows would be.
         markup = withParts ? { ...rendered, children: [slot()] } : rendered;
         // An empty list shows a hint on the canvas only, so an editor knows where to add items.
@@ -361,7 +361,7 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         const hasChildNodes = (ctx.childCount ?? 0) > 0;
         const children =
           holdsChildren && (lines.length > 0 || hasChildNodes) ? [...lines, slot()] : lines;
-        markup = daisyUIProvider.render(nodeFor(id, values, [], nodeId), {}, children, { mode });
+        markup = daisyRenderer.render(nodeFor(id, values, [], nodeId), {}, children, { mode });
       }
       const root = toVNode(markup);
       const theme = typeof props[THEME_FIELD] === "string" ? props[THEME_FIELD] : "";

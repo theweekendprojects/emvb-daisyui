@@ -3,8 +3,7 @@ import { afterEach, describe, expect, test } from "bun:test";
 import { Window } from "happy-dom";
 import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
 import { ProviderNode } from "../../vendor/EmVB/packages/emvb/src/core/schema/layout.ts";
-import { daisyUIProvider } from "../provider.ts";
-import { DAISY_RECIPES } from "../recipes/index.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { DAISY_INTERACTIVE_RUNTIME } from "../runtime/browser.ts";
 import { CATALOG_CLASS_NAMES } from "./class-names.ts";
 import {
@@ -24,9 +23,9 @@ const inFuture = (seconds: number, extraMs = 500) =>
   new Date(Date.now() + seconds * 1000 + extraMs).toISOString();
 
 const vnode = (props: Props) => {
-  const node = daisyUIProvider.createNode("countdown", "cd000001");
+  const node = daisyRenderer.createNode("countdown", "cd000001");
   Object.assign(node.props, props);
-  return daisyUIProvider.render(node);
+  return daisyRenderer.render(node);
 };
 
 const windows: Window[] = [];
@@ -88,7 +87,7 @@ describe("fixed number mode", () => {
 
 describe("a new countdown works at once", () => {
   test("it starts with a date about a week out, in the picker's format", () => {
-    const node = daisyUIProvider.createNode("countdown", "cd000009");
+    const node = daisyRenderer.createNode("countdown", "cd000009");
     const target = String(node.props.target);
     expect(target).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
     const days = (Date.parse(`${target}:00Z`) - Date.now()) / 86400000;
@@ -336,71 +335,6 @@ describe("the runtime ticks the markup the server wrote", () => {
   });
 });
 
-describe("recipes", () => {
-  const countdownRecipes = DAISY_RECIPES.filter((recipe) => recipe.id.startsWith("countdown-"));
-  const create = (id: string) => {
-    let n = 0;
-    return must(
-      countdownRecipes.find((recipe) => recipe.id === id),
-      id,
-    ).create(() => `rc${String(++n).padStart(6, "0")}`);
-  };
-  const find = (
-    nodes: ReturnType<typeof create>,
-    component: string,
-  ): ReturnType<typeof create>[number] | undefined => {
-    for (const node of nodes) {
-      if (node.component === component) return node;
-      const inner = node.children ? find(node.children, component) : undefined;
-      if (inner) return inner;
-    }
-    return undefined;
-  };
-
-  test("there are five, and each one counts down to a real date in the future", () => {
-    expect(countdownRecipes.map((recipe) => recipe.id)).toEqual([
-      "countdown-launch",
-      "countdown-sale",
-      "countdown-event",
-      "countdown-flash",
-      "countdown-earlybird",
-    ]);
-    for (const recipe of countdownRecipes) {
-      const counter = must(find(create(recipe.id), "countdown"), recipe.id);
-      const target = parseTarget(counter.props.target, counter.props.zone);
-      expect(target, recipe.id).toBeDefined();
-      const t = must(target, recipe.id);
-      const ms = t.kind === "instant" ? t.ms : Date.parse(`${t.wall}Z`);
-      expect(ms - Date.now(), recipe.id).toBeGreaterThan(DAY * 1000);
-    }
-  });
-
-  test("each recipe is valid layout data and passes the output allowlist", () => {
-    for (const recipe of countdownRecipes) {
-      for (const node of create(recipe.id)) {
-        const parsed = ProviderNode.safeParse(strip(node));
-        expect(parsed.success, `${recipe.id}: ${JSON.stringify(parsed.error?.issues[0])}`).toBe(
-          true,
-        );
-        expect(() =>
-          serialize(daisyUIProvider.render(node, {}, [], { mode: "public" }) as never),
-        ).not.toThrow();
-      }
-    }
-  });
-
-  test("the variants really differ", () => {
-    const layouts = countdownRecipes.map(
-      (recipe) => must(find(create(recipe.id), "countdown"), recipe.id).props.layout,
-    );
-    expect(new Set(layouts)).toEqual(new Set(["boxes", "plain", "clock"]));
-    const showing = countdownRecipes.map(
-      (recipe) => must(find(create(recipe.id), "countdown"), recipe.id).props.units,
-    );
-    expect(new Set(showing)).toEqual(new Set(["dhms", "dhm", "hms", "d"]));
-  });
-});
-
 // A node as the layout stores it: no children typing concerns for the provider-props check.
 function strip(node: {
   id: string;
@@ -424,10 +358,5 @@ describe("class list", () => {
     for (const name of [...VALUE_CLASS_NAMES, "[--digits:2]", "text-7xl"])
       expect(CATALOG_CLASS_NAMES).toContain(name as never);
     expect(valueClass(999)).toBe("[--value:100]");
-  });
-  test("the runtime is requested for countdown", () => {
-    expect(
-      daisyUIProvider.needsRuntime?.(daisyUIProvider.createNode("countdown", "cd000002")),
-    ).toBe(true);
   });
 });

@@ -1,21 +1,22 @@
-import type {
-  ComponentProvider as NeutralComponentProvider,
-  ProviderComponent,
-  ProviderComponentNode,
-  ProviderFieldKind,
-  ProviderFieldValue,
-  ProviderProps,
-  ProviderVNode,
-  ProviderRenderContext,
-} from "@perkyzz/emvb-provider-api";
-
-export type DaisyFieldKind = ProviderFieldKind;
-export type DaisyFieldValue = ProviderFieldValue;
-export type DaisyProps = ProviderProps;
-
-export type DaisyVNode = ProviderVNode;
-
-export interface DaisyComponentNode extends ProviderComponentNode {
+/** Field kinds the daisyUI catalog declares. Local copies of the shapes EmVB's extension output takes. */
+export type DaisyFieldKind =
+  | "text"
+  | "textarea"
+  | "number"
+  | "select"
+  | "boolean"
+  | "href"
+  | "datetime"
+  | "media";
+export type DaisyFieldValue = string | number | boolean;
+export type DaisyProps = Record<string, DaisyFieldValue | undefined>;
+/** A markup tree: a tag, its attributes (undefined values are skipped) and its children. */
+export interface DaisyVNode {
+  tag: string;
+  attrs: Record<string, string | undefined>;
+  children: Array<DaisyVNode | string>;
+}
+export interface DaisyComponentNode {
   id: string;
   type: "provider";
   provider: "daisyui";
@@ -66,7 +67,7 @@ export interface DaisyComponentDefinition {
   ) => DaisyVNode;
 }
 
-export interface GeneratedDaisyComponent extends ProviderComponent<DaisyComponentNode> {
+export interface GeneratedDaisyComponent {
   definition: DaisyComponentDefinition;
   descriptor: {
     type: "provider";
@@ -76,9 +77,9 @@ export interface GeneratedDaisyComponent extends ProviderComponent<DaisyComponen
     group: "content";
     defaultTab: "content";
     category?: string;
-    /** True when the component holds child elements (see ProviderComponentDescriptor). */
+    /** True when the component holds child elements (see the descriptor of the stored provider node). */
     container?: boolean;
-    /** False hides the Add panel tile; existing nodes still render (see ProviderComponentDescriptor). */
+    /** False hides the Add panel tile; existing nodes still render (see the descriptor of the stored provider node). */
     addPanel?: boolean;
     support?: "verified" | "experimental";
     icon?: string;
@@ -100,18 +101,15 @@ export interface GeneratedDaisyComponent extends ProviderComponent<DaisyComponen
   ) => DaisyVNode;
 }
 
-export interface ComponentProvider extends NeutralComponentProvider<DaisyComponentNode> {
-  id: string;
-  label: string;
+export interface DaisyRenderer {
   components: ReadonlyMap<string, GeneratedDaisyComponent>;
   createNode(component: string, id: string): DaisyComponentNode;
   render(
     node: DaisyComponentNode,
     attrs?: Record<string, string>,
     children?: DaisyVNode[],
-    context?: ProviderRenderContext,
+    context?: { mode: "editor" | "public" },
   ): DaisyVNode;
-  cssEntryPoints: readonly string[];
 }
 
 /** Render options: only the editor canvas differs from the public page. */

@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Glob } from "bun";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { DAISY_COMPONENT_CATALOG } from "./index.ts";
 
 // Every option a field offers must put its classes in the rendered markup. Without this a typo in a
@@ -40,11 +40,11 @@ function fieldsOf(id: string): Fields {
 function nodeWith(id: string, fields: Fields, key: string, value: unknown) {
   const props: Record<string, unknown> = Object.fromEntries(fields.map((f) => [f.key, f.default]));
   props[key] = value;
-  return { id: "node0001", type: "provider", provider: daisyUIProvider.id, component: id, props };
+  return { id: "node0001", type: "provider", provider: "daisyui", component: id, props };
 }
 
 const renderClasses = (node: ReturnType<typeof nodeWith>) =>
-  classesIn(daisyUIProvider.render(node as never));
+  classesIn(daisyRenderer.render(node as never));
 
 // daisyUI's own CSS, from the installed package: the reference for which class names exist. A
 // rendered class that matches the component's prefix (`btn-`, `badge-`) must be one of these.
@@ -96,7 +96,7 @@ describe("options handled in the component's build reach the markup", () => {
 
   test("a half rating has two inputs per star with the half classes", () => {
     const fields = fieldsOf("rating");
-    const tree = daisyUIProvider.render(nodeWith("rating", fields, "half", true) as never) as {
+    const tree = daisyRenderer.render(nodeWith("rating", fields, "half", true) as never) as {
       children: { attrs: Record<string, string> }[];
     };
     const inputs = tree.children.filter((c) => c.attrs["type"] === "radio");
@@ -119,10 +119,10 @@ describe("options handled in the component's build reach the markup", () => {
     );
     props["image"] = "/media/cover.jpg";
     props["imageFull"] = true;
-    const tree = daisyUIProvider.render({
+    const tree = daisyRenderer.render({
       id: "node0001",
       type: "provider",
-      provider: daisyUIProvider.id,
+      provider: "daisyui",
       component: "card",
       props,
     } as never) as { children: { tag: string }[]; attrs: Record<string, string> };

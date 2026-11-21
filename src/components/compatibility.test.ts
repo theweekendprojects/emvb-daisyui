@@ -19,11 +19,11 @@ describe("WP12 upgrade and compatibility", () => {
       nodes: [
         {
           id: "root1",
-          type: "daisy",
+          type: "provider", provider: "daisyui",
           component: "card",
           props: {},
           children: [
-            { id: "btn11", type: "daisy", component: "button", props: { text: "Continue" } },
+            { id: "btn11", type: "provider", provider: "daisyui", component: "button", props: { text: "Continue" } },
           ],
         },
       ],

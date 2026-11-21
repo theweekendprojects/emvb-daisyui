@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import { BASIC_DAISY_COMPONENTS } from "../catalog/index.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 
 const render = (component: string, props: Record<string, string | number | boolean>) =>
-  daisyUIProvider.render({ id: "test", type: "daisy", component, props });
+  daisyRenderer.render({ id: "test", type: "provider", provider: "daisyui", component, props });
 
 describe("WP4 basic daisyUI components", () => {
   test("catalog contains six generated components", () =>

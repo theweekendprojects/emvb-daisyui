@@ -28,11 +28,6 @@
       "import": "./dist/themes/index.js"
     },
     "./styles.css": "./dist/styles.css",
-    "./recipes": {
-      "bun": "./src/recipes/index.ts",
-      "types": "./dist/recipes.d.ts",
-      "import": "./dist/recipes/index.js"
-    },
     "./validation": {
       "bun": "./src/validation/index.ts",
       "types": "./dist/validation.d.ts",
@@ -65,9 +60,6 @@
     "conformance:report": "bun src/conformance/report-cli.ts",
     "conformance:official": "bun src/conformance/compile.ts",
     "gen:classes": "bun scripts/gen-extension-classes.ts"
-  },
-  "dependencies": {
-    "@perkyzz/emvb-provider-api": "file:./vendor/EmVB/packages/emvb-provider-api"
   },
   "devDependencies": {
     "daisyui": "5.7.50",

@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { OFFICIAL_DAISYUI_COMPONENTS } from "../conformance/official-inventory.ts";
 import { catalogSupportReport } from "../conformance/report.ts";
 
 describe("WP25 categorized palette metadata", () => {
   test("all implemented components have official category, icon, keywords and order", () => {
-    for (const generated of daisyUIProvider.components.values()) {
+    for (const generated of daisyRenderer.components.values()) {
       expect(generated.descriptor.category, generated.definition.id).toBeTruthy();
       expect(generated.descriptor.icon, generated.definition.id).toBeTruthy();
       expect(generated.descriptor.keywords?.length, generated.definition.id).toBeGreaterThan(2);
@@ -14,7 +14,7 @@ describe("WP25 categorized palette metadata", () => {
   });
   test("uses the documented daisyUI palette families", () => {
     const categories = new Set(
-      [...daisyUIProvider.components.values()].map((item) => item.descriptor.category),
+      [...daisyRenderer.components.values()].map((item) => item.descriptor.category),
     );
     for (const category of [
       "Actions",
@@ -31,7 +31,7 @@ describe("WP25 categorized palette metadata", () => {
 
 describe("WP26 component icons", () => {
   test("every implemented component has an allowlisted icon identifier", () => {
-    for (const generated of daisyUIProvider.components.values())
+    for (const generated of daisyRenderer.components.values())
       expect(generated.descriptor.icon).toMatch(/^[a-z][a-z0-9-]*$/);
   });
 });

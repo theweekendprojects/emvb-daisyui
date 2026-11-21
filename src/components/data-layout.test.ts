@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { DATA_DISPLAY_DAISY_COMPONENTS } from "../catalog/data-display.ts";
 import { LAYOUT_MARKETING_DAISY_COMPONENTS } from "../catalog/layout-marketing.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import type { DaisyVNode } from "../types.ts";
 const render = (
   component: string,
   props: Record<string, string | number | boolean>,
   children: DaisyVNode[] = [],
 ) =>
-  daisyUIProvider.render({ id: `x-${component}`, type: "daisy", component, props }, {}, children);
+  daisyRenderer.render({ id: `x-${component}`, type: "provider", provider: "daisyui", component, props }, {}, children);
 const walk = (node: DaisyVNode): DaisyVNode[] => [
   node,
   ...node.children.flatMap((child) => (typeof child === "string" ? [] : walk(child))),
@@ -147,7 +147,7 @@ describe("WP9 layout and marketing", () => {
   test("semantic JSON does not persist generated classes", () => {
     const original = {
       id: "hero1",
-      type: "daisy" as const,
+      type: "provider" as const, provider: "daisyui" as const,
       component: "hero",
       props: {
         title: "Hello",
@@ -159,7 +159,7 @@ describe("WP9 layout and marketing", () => {
       },
     };
     expect(JSON.stringify(original)).not.toContain("min-h-[32rem]");
-    expect(daisyUIProvider.render(original).attrs.class).toContain("min-h-[32rem]");
+    expect(daisyRenderer.render(original).attrs.class).toContain("min-h-[32rem]");
   });
   test("invalid option values cannot inject classes", () =>
     expect(

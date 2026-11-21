@@ -1,6 +1,6 @@
 import { element } from "../test-support.ts";
 import { describe, expect, test } from "bun:test";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { catalogSupportReport } from "../conformance/report.ts";
 
 const added = [
@@ -21,22 +21,22 @@ const added = [
 describe("WP28 missing primitive components", () => {
   test("registers and renders each new official component", () => {
     for (const id of added) {
-      const node = daisyUIProvider.createNode(id, `wp28-${id}`);
-      const vnode = daisyUIProvider.render(node);
+      const node = daisyRenderer.createNode(id, `wp28-${id}`);
+      const vnode = daisyRenderer.render(node);
       expect(vnode.attrs.class ?? vnode.children.length, id).toBeTruthy();
     }
   });
   test("loading uses official style and size modifiers", () => {
-    const node = daisyUIProvider.createNode("loading", "loading");
+    const node = daisyRenderer.createNode("loading", "loading");
     node.props.style = "dots";
     node.props.size = "lg";
-    expect(daisyUIProvider.render(node).attrs.class).toContain("loading-dots");
-    expect(daisyUIProvider.render(node).attrs.class).toContain("loading-lg");
+    expect(daisyRenderer.render(node).attrs.class).toContain("loading-dots");
+    expect(daisyRenderer.render(node).attrs.class).toContain("loading-lg");
   });
   test("radial progress uses div role and clamped official CSS variable", () => {
-    const node = daisyUIProvider.createNode("radial-progress", "radial");
+    const node = daisyRenderer.createNode("radial-progress", "radial");
     node.props.value = 140;
-    const vnode = daisyUIProvider.render(node);
+    const vnode = daisyRenderer.render(node);
     expect(vnode.tag).toBe("div");
     expect(vnode.attrs.role).toBe("progressbar");
     expect(vnode.attrs["aria-valuenow"]).toBe("100");
@@ -44,14 +44,14 @@ describe("WP28 missing primitive components", () => {
     expect(vnode.attrs.style).toBeUndefined();
   });
   test("validator produces adjacent validator hint", () => {
-    const vnode = daisyUIProvider.render(daisyUIProvider.createNode("validator", "validator"));
+    const vnode = daisyRenderer.render(daisyRenderer.createNode("validator", "validator"));
     expect(element(vnode.children[0]).attrs.class).toContain("validator");
     expect(element(vnode.children[1]).attrs.class).toBe("validator-hint");
   });
   test("link rejects executable URLs", () => {
-    const node = daisyUIProvider.createNode("link", "link");
+    const node = daisyRenderer.createNode("link", "link");
     node.props.href = "javascript:alert(1)";
-    expect(daisyUIProvider.render(node).attrs.href).toBe("#");
+    expect(daisyRenderer.render(node).attrs.href).toBe("#");
   });
   test("official inventory closes thirteen gaps", () => {
     const report = catalogSupportReport(new Date("2026-01-01T00:00:00Z"));

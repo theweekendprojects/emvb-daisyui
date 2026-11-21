@@ -189,7 +189,7 @@ export const TIMELINE: DaisyComponentDefinition = {
             },
             {
               tag: "div",
-              // daisyUI's box paints base-100, which is white in the light theme this provider
+              // daisyUI's box paints base-100, which is white in the light theme this renderer
               // ships; the text inherits from the page, so the box is transparent like a card.
               attrs: {
                 class:

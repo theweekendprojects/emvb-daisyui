@@ -1,5 +1,5 @@
 import type { DaisyComponentNode, DaisyVNode } from "../types.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 
 export const VERIFIED_PRIMITIVE_IDS = [
   "button",
@@ -49,7 +49,7 @@ export function auditVerifiedPrimitive(node: DaisyComponentNode): PrimitiveAudit
 export function renderVerifiedPrimitive(node: DaisyComponentNode): DaisyVNode {
   if (!(VERIFIED_PRIMITIVE_IDS as readonly string[]).includes(node.component))
     throw new Error(`${node.component} is not a verified primitive.`);
-  return daisyUIProvider.render(node);
+  return daisyRenderer.render(node);
 }
 
 /** Stable structural signatures derived from official daisyUI v5 examples. */

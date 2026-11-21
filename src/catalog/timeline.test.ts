@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { serialize } from "../../vendor/EmVB/packages/emvb/src/core/render/vnode.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 
 // The timeline's box paints daisyUI's base colour (white in the light theme), so its text vanished
 // on a dark page. The box must not paint a background of its own.
 describe("timeline lines join the items, as in daisyUI's examples", () => {
   const build = (items: string) => {
-    const node = daisyUIProvider.createNode("timeline", "tl000002");
+    const node = daisyRenderer.createNode("timeline", "tl000002");
     node.props.items = items;
-    return serialize(daisyUIProvider.render(node) as never);
+    return serialize(daisyRenderer.render(node) as never);
   };
   const lis = (html: string) =>
     html
@@ -34,9 +34,9 @@ describe("timeline lines join the items, as in daisyUI's examples", () => {
 
 describe("timeline boxes stay readable on a dark page", () => {
   test("each milestone box is transparent and carries the date, title and description", () => {
-    const node = daisyUIProvider.createNode("timeline", "tl000001");
+    const node = daisyRenderer.createNode("timeline", "tl000001");
     node.props.items = "2024|Started|Initial release\n2025|Expanded|New components";
-    const html = serialize(daisyUIProvider.render(node) as never);
+    const html = serialize(daisyRenderer.render(node) as never);
     const boxes = html.match(/<div class="timeline-end timeline-box[^"]*"/g) ?? [];
     expect(boxes).toHaveLength(2);
     for (const box of boxes) expect(box).toContain("bg-transparent");
@@ -47,9 +47,9 @@ describe("timeline boxes stay readable on a dark page", () => {
 
 describe("timeline direction", () => {
   const render = (direction?: string) => {
-    const node = daisyUIProvider.createNode("timeline", "tl000003");
+    const node = daisyRenderer.createNode("timeline", "tl000003");
     if (direction) node.props.direction = direction;
-    return serialize(daisyUIProvider.render(node) as never);
+    return serialize(daisyRenderer.render(node) as never);
   };
   test("defaults to horizontal and falls back to vertical below the small breakpoint", () => {
     expect(render()).toMatch(

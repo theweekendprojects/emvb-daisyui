@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { DAISYUI_CONFORMANCE, isVerifiedDaisyComponent } from "../conformance/index.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import packageJson from "../../package.json";
 
 describe("official daisyUI conformance boundary", () => {
@@ -13,7 +13,7 @@ describe("official daisyUI conformance boundary", () => {
 
   test("every verified component exists and has the expected official root selector", () => {
     for (const [index, id] of DAISYUI_CONFORMANCE.verifiedComponents.entries()) {
-      const generated = daisyUIProvider.components.get(id);
+      const generated = daisyRenderer.components.get(id);
       expect(generated, `${id} is registered`).toBeDefined();
       expect(generated?.definition.rootClass.split(/\s+/) ?? []).toContain(
         (DAISYUI_CONFORMANCE.requiredSelectors[index] ?? "").slice(1),
@@ -23,9 +23,9 @@ describe("official daisyUI conformance boundary", () => {
   });
 
   test("does not silently call the rest of the catalog verified", () => {
-    expect([...daisyUIProvider.components.keys()].filter(isVerifiedDaisyComponent)).toHaveLength(
+    expect([...daisyRenderer.components.keys()].filter(isVerifiedDaisyComponent)).toHaveLength(
       10,
     );
-    expect(daisyUIProvider.components.size).toBeGreaterThan(10);
+    expect(daisyRenderer.components.size).toBeGreaterThan(10);
   });
 });

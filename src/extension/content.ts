@@ -75,7 +75,7 @@ export function idFor(props: Record<string, unknown>): string {
   return `daisy-${hash.toString(16).padStart(8, "0")}`;
 }
 
-/** A component node with the given props, ready for the daisyUI provider's render. */
+/** A component node with the given props, ready for the daisyUI renderer. */
 export function nodeFor(
   component: string,
   props: Record<string, string | number | boolean>,

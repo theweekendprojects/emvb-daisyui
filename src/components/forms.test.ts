@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { FORM_DAISY_COMPONENTS } from "../catalog/forms.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import type { DaisyComponentNode, DaisyVNode } from "../types.ts";
 
 const node = (
   component: string,
   props: Record<string, string | number | boolean>,
-): DaisyComponentNode => ({ id: `test-${component}`, type: "daisy", component, props });
+): DaisyComponentNode => ({ id: `test-${component}`, type: "provider", provider: "daisyui", component, props });
 const render = (component: string, props: Record<string, string | number | boolean>): DaisyVNode =>
-  daisyUIProvider.render(node(component, props));
+  daisyRenderer.render(node(component, props));
 
 function walk(vnode: DaisyVNode): DaisyVNode[] {
   return [
@@ -166,7 +166,7 @@ describe("WP5 generated form components", () => {
     const restored = JSON.parse(JSON.stringify(original)) as DaisyComponentNode;
     expect(restored).toEqual(original);
     expect(JSON.stringify(restored)).not.toContain("input-success");
-    expect(daisyUIProvider.render(restored).attrs.class).toBe(
+    expect(daisyRenderer.render(restored).attrs.class).toBe(
       "input input-lg input-success input-ghost mx-auto my-4",
     );
   });

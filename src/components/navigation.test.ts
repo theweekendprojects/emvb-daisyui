@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { NAVIGATION_DAISY_COMPONENTS } from "../catalog/navigation.ts";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import type { DaisyComponentNode, DaisyVNode } from "../types.ts";
 
 const render = (
@@ -8,7 +8,7 @@ const render = (
   props: Record<string, string | number | boolean>,
   children: DaisyVNode[] = [],
 ) =>
-  daisyUIProvider.render({ id: `nav-${component}`, type: "daisy", component, props }, {}, children);
+  daisyRenderer.render({ id: `nav-${component}`, type: "provider", provider: "daisyui", component, props }, {}, children);
 const walk = (node: DaisyVNode): DaisyVNode[] => [
   node,
   ...node.children.flatMap((child) => (typeof child === "string" ? [] : walk(child))),
@@ -162,7 +162,7 @@ describe("WP6 generated navigation components", () => {
   test("semantic layout JSON round-trips without storing generated classes", () => {
     const original: DaisyComponentNode = {
       id: "nav1",
-      type: "daisy",
+      type: "provider", provider: "daisyui",
       component: "navbar",
       props: {
         ariaLabel: "Primary",
@@ -176,7 +176,7 @@ describe("WP6 generated navigation components", () => {
     const restored = JSON.parse(JSON.stringify(original)) as DaisyComponentNode;
     expect(restored).toEqual(original);
     expect(JSON.stringify(restored)).not.toContain("navbar-start");
-    expect(daisyUIProvider.render(restored).attrs.class).toBe(
+    expect(daisyRenderer.render(restored).attrs.class).toBe(
       "navbar sticky top-0 z-50 mx-auto my-4",
     );
   });

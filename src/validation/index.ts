@@ -1,4 +1,4 @@
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import type { DaisyComponentNode, DaisyFieldDefinition } from "../types.ts";
 import { isCompoundPart } from "../compound/index.ts";
 import { validateCompoundTree } from "../compound/editor.ts";
@@ -67,7 +67,7 @@ export function validateDaisyTree(nodes: readonly DaisyComponentNode[]): DaisyVa
         message: `Duplicate node id ${node.id}.`,
       });
     ids.add(node.id);
-    const generated = daisyUIProvider.components.get(node.component);
+    const generated = daisyRenderer.components.get(node.component);
     if (!generated) {
       if (isCompoundPart(node.component)) {
         node.children?.forEach((child, index) => walk(child, `${path}.children[${index}]`));

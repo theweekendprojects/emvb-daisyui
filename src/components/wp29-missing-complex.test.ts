@@ -1,7 +1,7 @@
 import type { DaisyVNode } from "../types.ts";
 import { element } from "../test-support.ts";
 import { describe, expect, test } from "bun:test";
-import { daisyUIProvider } from "../provider.ts";
+import { daisyRenderer } from "../renderer.ts";
 import { catalogSupportReport } from "../conformance/report.ts";
 const added = [
   "aura",
@@ -19,30 +19,30 @@ const walk = (node: DaisyVNode): DaisyVNode[] => [
 ];
 describe("WP29 missing complex components", () => {
   test("registers every remaining official component", () => {
-    for (const id of added) expect(daisyUIProvider.components.has(id), id).toBe(true);
+    for (const id of added) expect(daisyRenderer.components.has(id), id).toBe(true);
   });
   test("aura uses official style and size classes", () => {
-    const node = daisyUIProvider.createNode("aura", "aura");
+    const node = daisyRenderer.createNode("aura", "aura");
     node.props.style = "rainbow";
     node.props.size = "lg";
-    const classes = daisyUIProvider.render(node).attrs.class;
+    const classes = daisyRenderer.render(node).attrs.class;
     expect(classes).toContain("aura-rainbow");
     expect(classes).toContain("aura-lg");
   });
   test("calendar uses the official native date fallback without external runtime", () => {
-    const vnode = daisyUIProvider.render(daisyUIProvider.createNode("calendar", "calendar"));
+    const vnode = daisyRenderer.render(daisyRenderer.createNode("calendar", "calendar"));
     expect(vnode.tag).toBe("input");
     expect(vnode.attrs.type).toBe("date");
   });
   test("FAB has focusable role button and bounded actions", () => {
-    const node = daisyUIProvider.createNode("fab", "fab");
+    const node = daisyRenderer.createNode("fab", "fab");
     node.props.actions = "A\nB\nC\nD\nE\nF\nG";
-    const vnode = daisyUIProvider.render(node);
+    const vnode = daisyRenderer.render(node);
     expect(element(vnode.children[0]).attrs.role).toBe("button");
     expect(vnode.children).toHaveLength(7);
   });
   test("hover 3D emits exactly eight official hover zones, after any content", () => {
-    const vnode = daisyUIProvider.render(daisyUIProvider.createNode("hover-3d", "hover"));
+    const vnode = daisyRenderer.render(daisyRenderer.createNode("hover-3d", "hover"));
     // An empty card shows a placeholder figure first; the zones are always the last eight.
     const zones = vnode.children.slice(-8);
     expect(zones).toHaveLength(8);
@@ -52,17 +52,17 @@ describe("WP29 missing complex components", () => {
     ).toHaveLength(8);
   });
   test("hover gallery sanitizes and caps images at ten", () => {
-    const node = daisyUIProvider.createNode("hover-gallery", "gallery");
+    const node = daisyRenderer.createNode("hover-gallery", "gallery");
     node.props.images = [
       "javascript:bad",
       ...Array.from({ length: 11 }, (_, i) => `/img-${i}.jpg`),
     ].join("\n");
-    const vnode = daisyUIProvider.render(node);
+    const vnode = daisyRenderer.render(node);
     expect(vnode.children).toHaveLength(10);
     expect(element(vnode.children[0]).attrs.src).toBe("");
   });
   test("megamenu popover targets resolve to unique IDs", () => {
-    const vnode = daisyUIProvider.render(daisyUIProvider.createNode("megamenu", "mega"));
+    const vnode = daisyRenderer.render(daisyRenderer.createNode("megamenu", "mega"));
     const all = walk(vnode);
     const ids = all.map((x) => x.attrs?.id).filter(Boolean);
     const targets = all.map((x) => x.attrs?.popovertarget).filter(Boolean);
@@ -70,18 +70,18 @@ describe("WP29 missing complex components", () => {
     for (const target of targets) expect(ids).toContain(target);
   });
   test("OTP span count matches maxlength and numeric pattern", () => {
-    const node = daisyUIProvider.createNode("otp", "otp");
+    const node = daisyRenderer.createNode("otp", "otp");
     node.props.length = "4";
-    const vnode = daisyUIProvider.render(node);
+    const vnode = daisyRenderer.render(node);
     expect(vnode.children).toHaveLength(5);
     const input = element(vnode.children[4]);
     expect(input.attrs.maxlength).toBe("4");
     expect(input.attrs.pattern).toBe("[0-9]{4}");
   });
   test("text rotate caps content at six lines", () => {
-    const node = daisyUIProvider.createNode("text-rotate", "rotate");
+    const node = daisyRenderer.createNode("text-rotate", "rotate");
     node.props.items = "1\n2\n3\n4\n5\n6\n7";
-    const vnode = daisyUIProvider.render(node);
+    const vnode = daisyRenderer.render(node);
     expect(element(vnode.children[0]).children).toHaveLength(6);
   });
   test("official inventory is fully implemented but remains truthfully experimental", () => {

@@ -1,11 +1,11 @@
 import { must } from "../test-support.ts";
 import { describe, expect, test } from "bun:test";
-import { createDaisyUIProvider } from "../render/provider.ts";
+import { createDaisyRenderer } from "../render/provider.ts";
 import { DAISY_COMPONENT_CATALOG } from "./index.ts";
 
 // Defaults must not point at image files the site does not host. An empty picture shows a daisyUI
 // placeholder instead, and a picture that is set still renders as before.
-const provider = createDaisyUIProvider(DAISY_COMPONENT_CATALOG);
+const provider = createDaisyRenderer(DAISY_COMPONENT_CATALOG);
 const render = (component: string, props: Record<string, string> = {}) => {
   const node = provider.createNode(component, "img00001");
   return JSON.stringify(provider.render({ ...node, props: { ...node.props, ...props } } as never));
