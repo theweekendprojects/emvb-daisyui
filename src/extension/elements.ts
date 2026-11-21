@@ -285,6 +285,9 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         // The provider does not place child nodes, so the slot becomes the root's children: the item
         // elements then sit directly inside the list, where the rows would be.
         markup = withParts ? { ...rendered, children: [slot()] } : rendered;
+        // An empty list shows a hint on the canvas only, so an editor knows where to add items.
+        const empty = partSpec !== undefined && !withParts && String(props[ITEMS_FIELD] ?? "").trim() === "";
+        if (mode === "editor" && empty) markup = { ...markup, children: [emptyHint(id)] };
       } else {
         // Content lines come first, then the slot where core places the child nodes. With no
         // content and no child nodes the slot is left out, so an empty container keeps its placeholder.
@@ -302,6 +305,15 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
       return { markup: root };
     },
   };
+}
+
+/** The hint an empty menu or carousel shows in the editor: one muted row that says where to add items. */
+function emptyHint(root: string): DaisyVNode {
+  const text = root === "menu" ? "Add menu items from the Layers panel" : "Add slides from the Layers panel";
+  const hint: DaisyVNode = { tag: "span", attrs: { class: "opacity-60 text-sm" }, children: [text] };
+  return root === "menu"
+    ? { tag: "li", attrs: {}, children: [hint] }
+    : { tag: "div", attrs: { class: "carousel-item w-full" }, children: [hint] };
 }
 
 /** Elements for a list of definitions, in catalog order. */

@@ -118,6 +118,19 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(result.html).not.toContain("slide-daisy");
   });
 
+  test("an empty menu or carousel shows a hint on the canvas only", () => {
+    for (const [name, hint] of [
+      ["daisy-menu", "Add menu items"],
+      ["daisy-carousel", "Add slides"],
+    ] as const) {
+      const el = daisyUIExtension.elements.find((e) => e.name === name);
+      const editor = JSON.stringify(el?.render({ items: "" }, { mode: "editor", childCount: 0 }));
+      const publicPage = JSON.stringify(el?.render({ items: "" }, { mode: "public", childCount: 0 }));
+      expect(editor).toContain(hint);
+      expect(publicPage).not.toContain(hint);
+    }
+  });
+
   test("a menu with no item elements still shows its items text", () => {
     const page: Layout = {
       schemaVersion: LAYOUT_SCHEMA_VERSION,
