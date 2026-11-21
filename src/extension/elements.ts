@@ -9,6 +9,7 @@
  */
 import { COMPOUND_CONFIG } from "../compound/editor.ts";
 import { daisyUIProvider } from "../provider.ts";
+import { safeHref } from "../render/href.ts";
 import type { DaisyComponentDefinition, DaisyFieldDefinition, DaisyVNode } from "../types.ts";
 import { contentChildren, idFor, nodeFor, parseCells, parseItems, type Item } from "./content.ts";
 
@@ -237,7 +238,8 @@ export function partElementFor(root: string): ExtensionElement {
       for (const field of spec.fields) {
         if (!NOT_NODE_PROPS.has(field.key)) values[field.key] = String(props[field.key] ?? field.def);
       }
-      const imageUrl = String(props.image ?? "").trim();
+      // An unsafe or empty URL drops the picture, so no javascript: value reaches src.
+      const imageUrl = safeHref(props.image) === "#" ? "" : String(props.image).trim();
       const figure: DaisyVNode[] = imageUrl
         ? [
             {

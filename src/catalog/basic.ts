@@ -1,3 +1,4 @@
+import { safeHref } from "../render/href.ts";
 import type { DaisyComponentDefinition, DaisyVNode } from "../types.ts";
 
 const tones = [
@@ -280,7 +281,9 @@ export const CARD: DaisyComponentDefinition = {
           ? " items-center text-center"
           : "";
     // The picture is decorative here: the card's title names it.
-    const figure: DaisyVNode[] = node.props.image
+    // An unsafe or empty URL drops the picture, so no javascript: value reaches src.
+    const imageUrl = safeHref(node.props.image) === "#" ? "" : String(node.props.image);
+    const figure: DaisyVNode[] = imageUrl
       ? [
           {
             tag: "figure",
@@ -290,7 +293,7 @@ export const CARD: DaisyComponentDefinition = {
                 tag: "img",
                 // A photo keeps a fixed banner height in the card, so a large file cannot fill the page.
                 attrs: {
-                  src: String(node.props.image),
+                  src: imageUrl,
                   alt: "",
                   loading: "lazy",
                   class: "w-full h-48 object-cover",
