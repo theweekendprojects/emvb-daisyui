@@ -228,21 +228,29 @@ export function partElementFor(root: string): ExtensionElement {
 export function elementFor(definition: DaisyComponentDefinition): ExtensionElement {
   const id = definition.id;
   const isRoot = Object.hasOwn(COMPOUND_CONFIG, id);
-  const extraKey = isRoot ? ITEMS_FIELD : definition.container ? CONTENT_FIELD : undefined;
+  // A compound root reads its text from its own textarea (items for menus, slides for carousels).
+  const textKey = isRoot ? (definition.fields.find((f) => f.kind === "textarea")?.key ?? ITEMS_FIELD) : ITEMS_FIELD;
+  const extraKey = isRoot ? textKey : definition.container ? CONTENT_FIELD : undefined;
   const properties: Record<string, PropSchema> = {};
   for (const field of definition.fields) properties[field.key] = schemaFor(field);
   const fields: Field[] = definition.fields.map(fieldFor);
   if (extraKey) {
-    properties[extraKey] = { type: "string", maxLength: MAX_LONG_FIELD, default: "" };
-    fields.push({
-      key: extraKey,
-      kind: "textarea",
-      label: isRoot
-        ? PART_FOR_ROOT[id]
-          ? "Items, used when there are no item elements (Label|text per line)"
-          : "Items (Label|text per line)"
-        : "Content (one block per line)",
-    });
+    // A compound root already has its items field from the catalog, with its sample text as the
+    // default. Keep that default, so a new root starts with the same items the settings panel shows.
+    const own = definition.fields.find((field) => field.key === extraKey);
+    const ownLabel = fields.find((field) => field.key === extraKey)?.label;
+    const label = isRoot
+      ? `${ownLabel ?? "Items (Label|text per line)"}${PART_FOR_ROOT[id] ? " (used when there are no item elements)" : ""}`
+      : "Content (one block per line)";
+    properties[extraKey] = {
+      type: "string",
+      maxLength: MAX_LONG_FIELD,
+      default: own ? String(own.default ?? "") : "",
+    };
+    const entry: Field = { key: extraKey, kind: "textarea", label };
+    const at = fields.findIndex((field) => field.key === extraKey);
+    if (at >= 0) fields[at] = entry;
+    else fields.push(entry);
   }
   properties[THEME_FIELD] = { type: "enum", values: [...THEMES], default: "" };
   fields.push({
@@ -278,15 +286,15 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
       if (isRoot) {
         // Part elements, when there are any, replace the items text. The slot is where they go.
         const withParts = partSpec !== undefined && (ctx.childCount ?? 0) > 0;
-        const items = withParts ? { nodes: [], vnodes: [] } : itemsFor(id, String(props[ITEMS_FIELD] ?? ""), mode);
+        const items = withParts ? { nodes: [], vnodes: [] } : itemsFor(id, String(props[textKey] ?? ""), mode);
         // The provider turns a root's items text into rows when it has no children, so clear it here.
-        const node = nodeFor(id, withParts ? { ...values, items: "" } : values, items.nodes, nodeId);
+        const node = nodeFor(id, withParts ? { ...values, [textKey]: "" } : values, items.nodes, nodeId);
         const rendered = daisyUIProvider.render(node, {}, items.vnodes, { mode });
         // The provider does not place child nodes, so the slot becomes the root's children: the item
         // elements then sit directly inside the list, where the rows would be.
         markup = withParts ? { ...rendered, children: [slot()] } : rendered;
         // An empty list shows a hint on the canvas only, so an editor knows where to add items.
-        const empty = partSpec !== undefined && !withParts && String(props[ITEMS_FIELD] ?? "").trim() === "";
+        const empty = partSpec !== undefined && !withParts && String(props[textKey] ?? "").trim() === "";
         if (mode === "editor" && empty) markup = { ...markup, children: [emptyHint(id)] };
       } else {
         // Content lines come first, then the slot where core places the child nodes. With no

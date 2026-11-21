@@ -11,6 +11,7 @@ import { normalizeExtension } from "../../vendor/EmVB/packages/emvb/src/core/ext
 import { clearExtensions, rememberExtensions } from "../../vendor/EmVB/packages/emvb/src/core/extensions/registry.ts";
 import {
   classAllowlist,
+  fillSlot,
   safeMarkup,
 } from "../../vendor/EmVB/packages/emvb/src/core/extensions/markup.ts";
 import { EXTENSION_PLACEHOLDER_TEXT } from "../../vendor/EmVB/packages/emvb/src/core/extensions/placeholder.ts";
@@ -111,8 +112,10 @@ describe("daisyUI markup passes core's markup check unchanged", () => {
         if (prop.default !== undefined) defaults[key] = prop.default;
       }
       const { markup } = element.render(defaults);
-      const checked = safeMarkup(markup as never, allowed);
-      expect(checked).toEqual(markup as never);
+      // The render fills the slot marker before the check, so the check does the same here.
+      const filled = fillSlot(markup as never, []).root;
+      const checked = safeMarkup(filled, allowed);
+      expect(checked).toEqual(filled);
     }
   });
 });

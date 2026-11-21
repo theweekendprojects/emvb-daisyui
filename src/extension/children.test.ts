@@ -118,6 +118,18 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(result.html).not.toContain("slide-daisy");
   });
 
+  test("a new carousel starts with its sample slides, in the panel and on the canvas", () => {
+    const el = daisyUIExtension.elements.find((e) => e.name === "daisy-carousel");
+    // The carousel's text is its own "slides" textarea, not a second items field.
+    const slides = (el?.schema.properties.slides as { default?: unknown } | undefined)?.default;
+    expect(String(slides)).toContain("First slide");
+    expect(el?.fields.filter((field) => field.key === "slides")).toHaveLength(1);
+    expect(el?.fields.filter((field) => field.key === "items")).toHaveLength(0);
+    const canvas = JSON.stringify(el?.render({ slides }, { mode: "editor", childCount: 0 }));
+    expect(canvas).toContain("Welcome to EmVB");
+    expect(canvas).not.toContain("Add slides from the Layers panel");
+  });
+
   test("an empty menu or carousel shows a hint on the canvas only", () => {
     for (const [name, hint] of [
       ["daisy-menu", "Add menu items"],
