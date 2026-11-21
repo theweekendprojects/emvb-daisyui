@@ -144,6 +144,13 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(publicPage).not.toContain("carousel-vertical");
   });
 
+  test("every part field label fits core's 80-character limit, or core drops the field", () => {
+    for (const name of ["daisy-menu-item", "daisy-carousel-item"]) {
+      const el = daisyUIExtension.elements.find((e) => e.name === name);
+      for (const field of el?.fields ?? []) expect(field.label.length, `${name}: ${field.label}`).toBeLessThanOrEqual(80);
+    }
+  });
+
   test("a carousel slide shows its image with alt text, and no image when none is set", () => {
     const SLIDE = "ext:daisyui/daisy-carousel-item";
     const MEDIA = "/_emdash/api/media/file/01M7M99R9C1N4B9MFWTDPBGDAQ.jpg";

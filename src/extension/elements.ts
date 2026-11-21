@@ -188,8 +188,8 @@ const PART_FOR_ROOT: Record<
       { key: "label", label: "Label", kind: "text", def: "Slide" },
       {
         key: "image",
-        label:
-          "Image URL: open the image in Media, click it, then Copy URL and paste it here (leave empty for no image)",
+        // Core drops a field whose label is longer than 80 characters, so the steps stay short.
+        label: "Image URL: in Media, open the image and click Copy URL",
         kind: "href",
         def: "",
       },
