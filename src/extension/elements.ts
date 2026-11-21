@@ -288,7 +288,14 @@ export function elementFor(definition: DaisyComponentDefinition): ExtensionEleme
         const withParts = partSpec !== undefined && (ctx.childCount ?? 0) > 0;
         const items = withParts ? { nodes: [], vnodes: [] } : itemsFor(id, String(props[textKey] ?? ""), mode);
         // The provider turns a root's items text into rows when it has no children, so clear it here.
-        const node = nodeFor(id, withParts ? { ...values, [textKey]: "" } : values, items.nodes, nodeId);
+        // The text is read by itemsFor and passed as children, so the catalog build must not also
+        // read it: that would draw every row twice (a carousel's slides, a menu's rows).
+        // Carousels and accordions draw their rows through the children path, so their catalog build
+        // must not also read the text: that would draw every row twice. Menus and tabs draw theirs
+        // from the text itself, so for them the text stays on the node.
+        const { [textKey]: _text, ...rowValues } = values;
+        const rowsFromChildren = id === "carousel" || id === "accordion";
+        const node = nodeFor(id, rowsFromChildren ? rowValues : values, items.nodes, nodeId);
         const rendered = daisyUIProvider.render(node, {}, items.vnodes, { mode });
         // The provider does not place child nodes, so the slot becomes the root's children: the item
         // elements then sit directly inside the list, where the rows would be.

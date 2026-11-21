@@ -118,6 +118,23 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(result.html).not.toContain("slide-daisy");
   });
 
+  test("each compound root draws every row of its sample exactly once", () => {
+    const samples: Array<[string, string, string[]]> = [
+      ["daisy-menu", "items", ["Dashboard", "Settings"]],
+      ["daisy-tabs", "items", ["Overview content", "Details content"]],
+      ["daisy-accordion", "items", ["A visual editor for EmDash.", "Yes, through daisyUI themes."]],
+      ["daisy-carousel", "slides", ["Welcome to EmVB", "Build with daisyUI"]],
+    ];
+    for (const [name, key, bodies] of samples) {
+      const el = daisyUIExtension.elements.find((e) => e.name === name);
+      const sample = (el?.schema.properties[key] as { default?: unknown } | undefined)?.default;
+      const html = JSON.stringify(el?.render({ [key]: sample }, { mode: "public", childCount: 0 }));
+      for (const body of bodies) {
+        expect(html.split(body).length - 1, `${name}: ${body}`).toBe(1);
+      }
+    }
+  });
+
   test("a new carousel starts with its sample slides, in the panel and on the canvas", () => {
     const el = daisyUIExtension.elements.find((e) => e.name === "daisy-carousel");
     // The carousel's text is its own "slides" textarea, not a second items field.
