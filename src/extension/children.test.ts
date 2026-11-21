@@ -144,6 +144,37 @@ describe("daisyUI containers take child nodes (core container, extensionApi 1.x)
     expect(publicPage).not.toContain("carousel-vertical");
   });
 
+  test("a carousel slide shows its image with alt text, and no image when none is set", () => {
+    const SLIDE = "ext:daisyui/daisy-carousel-item";
+    const MEDIA = "/_emdash/api/media/file/01M7M99R9C1N4B9MFWTDPBGDAQ.jpg";
+    const withImage = renderPage(
+      pageWith("ext:daisyui/daisy-carousel", [
+        { id: "sld00001", type: SLIDE, props: { label: "Team", image: MEDIA, alt: "The team", content: "Hello" } },
+      ]),
+      emptyDesign(),
+      { mode: "public" },
+    );
+    expect(withImage.html).toContain(`<img src="${MEDIA}" alt="The team"`);
+    const without = renderPage(
+      pageWith("ext:daisyui/daisy-carousel", [{ id: "sld00002", type: SLIDE, props: { label: "Text only" } }]),
+      emptyDesign(),
+      { mode: "public" },
+    );
+    expect(without.html).not.toContain("<img");
+  });
+
+  test("an image URL that is not http, https or a site path is dropped", () => {
+    const SLIDE = "ext:daisyui/daisy-carousel-item";
+    const result = renderPage(
+      pageWith("ext:daisyui/daisy-carousel", [
+        { id: "sld00003", type: SLIDE, props: { label: "Bad", image: "javascript:alert(1)", alt: "x" } },
+      ]),
+      emptyDesign(),
+      { mode: "public" },
+    );
+    expect(result.html).not.toContain("javascript:");
+  });
+
   test("a new carousel starts with its sample slides, in the panel and on the canvas", () => {
     const el = daisyUIExtension.elements.find((e) => e.name === "daisy-carousel");
     // The carousel's text is its own "slides" textarea, not a second items field.

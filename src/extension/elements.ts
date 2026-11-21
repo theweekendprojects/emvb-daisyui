@@ -186,6 +186,19 @@ const PART_FOR_ROOT: Record<
     label: "Slide",
     fields: [
       { key: "label", label: "Label", kind: "text", def: "Slide" },
+      {
+        key: "image",
+        label:
+          "Image URL: open the image in Media, click it, then Copy URL and paste it here (leave empty for no image)",
+        kind: "href",
+        def: "",
+      },
+      {
+        key: "alt",
+        label: "Image description (alt text, read by screen readers)",
+        kind: "text",
+        def: "",
+      },
       { key: "content", label: "Content (one block per line)", kind: "textarea", def: "" },
     ],
   },
@@ -209,14 +222,35 @@ export function partElementFor(root: string): ExtensionElement {
     fields: spec.fields.map((field) => ({ key: field.key, kind: field.kind, label: field.label })),
     render: (props, ctx = DEFAULT_MODE) => {
       const values: Record<string, string> = {};
+      // The image is drawn as the item's first child, so it stays out of the node's own props.
+      const NOT_NODE_PROPS = new Set(["content", "image", "alt"]);
       for (const field of spec.fields) {
-        if (field.kind !== "textarea") values[field.key] = String(props[field.key] ?? field.def);
+        if (!NOT_NODE_PROPS.has(field.key)) values[field.key] = String(props[field.key] ?? field.def);
       }
+      const imageUrl = String(props.image ?? "").trim();
+      const figure: DaisyVNode[] = imageUrl
+        ? [
+            {
+              tag: "figure",
+              attrs: {},
+              children: [
+                {
+                  tag: "img",
+                  attrs: { src: imageUrl, alt: String(props.alt ?? ""), class: "w-full" },
+                  children: [],
+                },
+              ],
+            },
+          ]
+        : [];
       // Content lines are the item's body. Nothing links to a part's id, so none is written: two
       // parts with the same label would otherwise share one.
-      const body = spec.fields.some((f) => f.kind === "textarea")
-        ? contentChildren(String(props.content ?? ""))
-        : [];
+      const body = [
+        ...figure,
+        ...(spec.fields.some((f) => f.kind === "textarea")
+          ? contentChildren(String(props.content ?? ""))
+          : []),
+      ];
       const markup = toVNode(daisyUIProvider.render(nodeFor(spec.part, values), {}, body, { mode: ctx.mode }));
       delete markup.attrs.id;
       return { markup };
