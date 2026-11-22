@@ -1,0 +1,11 @@
+{
+  "name": "emvb-ext-daisy-test-build",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "daisyui": "5.7.50",
+    "tailwindcss": "4.3.5"
+  }
+}
