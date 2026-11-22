@@ -4,6 +4,4 @@
 .daisy-mx-auto{margin-left:auto;margin-right:auto}
 .daisy-my-4{margin-top:1rem;margin-bottom:1rem}
 .daisy-w-fit{width:fit-content}
-.daisy-bg-base-100{background-color:var(--color-base-100)}
-.daisy-card{color:var(--color-base-content)}
 .daisy-badge,.daisy-btn{display:flex;width:fit-content;margin-left:auto;margin-right:auto}
