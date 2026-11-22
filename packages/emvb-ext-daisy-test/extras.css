@@ -22,3 +22,23 @@
   align-items: center;
   gap: 0.5em;
 }
+
+/*
+ * Tabs. EmVB 1.4 puts each tab (a radio) in its own wrapper, so the native radio dot shows as a row
+ * of "Option A" controls. Hide the dot; the checked tab shows as the selected tab. The label is still
+ * the click target, so clicking a tab still selects it.
+ */
+.daisy-tabs .daisy-tab {
+  display: inline-flex;
+  cursor: pointer;
+}
+.daisy-tabs .daisy-tab input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.daisy-tabs .daisy-tab:has(input:checked) {
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+}
