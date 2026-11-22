@@ -1,0 +1,24 @@
+/*
+ * TEST ONLY. EmVB 1.4 puts the daisy class on the wrapper div, not on the <input>. daisyUI's
+ * checkbox, radio and toggle sizing and borders therefore apply to the wrapper, and the box
+ * collides with the label text. Reset the wrapper so the label flows beside the control. The
+ * control itself keeps the browser's native look (daisyUI's input styling cannot reach it in 1.4).
+ */
+.daisy-checkbox,
+.daisy-radio,
+.daisy-toggle {
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  display: block !important;
+}
+.daisy-checkbox label,
+.daisy-radio label,
+.daisy-toggle label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}

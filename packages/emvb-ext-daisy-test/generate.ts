@@ -16,7 +16,7 @@
  *
  * Run from the repo root: bun run packages/emvb-ext-daisy-test/generate.ts
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DAISY_COMPONENT_CATALOG } from "../../src/catalog/index.ts";
@@ -75,7 +75,7 @@ function map(x: VNode | string): ENode[] {
   if (t === "input") {
     const ty = String(x.attrs.type ?? "text");
     const type = ty === "checkbox" ? "checkbox" : ty === "radio" ? "radio" : "text-input";
-    return [w({ id: nid(), type, props: { field: "f", label: "" } })];
+    return [w({ id: nid(), type, props: { field: "f", label: type === "checkbox" ? "Option" : "" } })];
   }
   if (t === "textarea") return [w({ id: nid(), type: "textarea", props: { field: "f", label: "" } })];
   if (t === "select") return [w({ id: nid(), type: "select", props: { field: "f", label: "" } })];
@@ -120,6 +120,8 @@ const letters = ["a", "b", "c"];
 if (chunks.length > letters.length) throw new Error("more than 3 extensions; add a letter");
 
 const allow = JSON.stringify([...allClasses].sort(), null, 2);
+// Reset for the wrapper-class problem (see extras.css). Applied to every test extension.
+const testExtras = readFileSync(join(here, "extras.css"), "utf8");
 const pkgRoot = join(here, "..");
 chunks.forEach((chunk, i) => {
   const L = letters[i];
@@ -128,7 +130,7 @@ chunks.forEach((chunk, i) => {
   mkdirSync(dir, { recursive: true });
   const used = new Set<string>();
   chunk.forEach((id) => rawById.get(id)!.forEach((c) => used.add(c)));
-  const css = buildDaisyCss({ name: L, classes: [...used].map(pre) });
+  const css = buildDaisyCss({ name: L, classes: [...used].map(pre), extras: testExtras });
   const elements = chunk
     .map(
       (id) => `    {
