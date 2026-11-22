@@ -1,0 +1,12 @@
+{
+  "name": "emvb-ext-daisy-test-a",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "files": [
+    "index.ts",
+    "ext.ts",
+    "daisy-all.css"
+  ]
+}
