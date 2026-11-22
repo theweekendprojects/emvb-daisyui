@@ -1,8 +1,9 @@
 {
-  "name": "emvb-ext-daisy-test-build",
+  "name": "emvb-ext-css",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Builds the stylesheet for EmVB daisyUI extensions: Tailwind + daisyUI, prefixed, flattened.",
   "devDependencies": {
     "@tailwindcss/cli": "4.3.5",
     "daisyui": "5.7.50",

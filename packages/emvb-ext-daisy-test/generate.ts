@@ -10,21 +10,18 @@
  * generic mapper from the harness (/tmp/phase0/gen-all.test.ts). Tags with no 1.4 built-in fall
  * back to a container.
  *
- * CSS: Tailwind 4.3.5 + daisyUI 5.7.50 (pinned in this folder's package.json; run `bun install`
- * here first). One build per package, limited to the classes that package's elements use, so each
- * stylesheet stays under the 256 KB EmVB cap. Theme: light by default, dark via `--prefersdark`, so
- * visitors whose OS prefers dark get the dark palette when no data-theme is set, and an explicit
- * data-theme still wins. Tailwind output is flattened (no @layer), because EmVB's base CSS is
- * unlayered and would beat @layer rules.
+ * CSS: built by the shared builder in packages/emvb-ext-css (Tailwind + daisyUI, pinned there),
+ * limited to the classes each package's elements use, so each stylesheet stays under the 256 KB
+ * EmVB cap. Theme rules and the keyframe fix live in that builder. See docs/theming.md.
  *
  * Run from the repo root: bun run packages/emvb-ext-daisy-test/generate.ts
  */
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { spawnSync } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DAISY_COMPONENT_CATALOG } from "../../src/catalog/index.ts";
 import { daisyRenderer } from "../../src/renderer.ts";
+import { buildDaisyCss } from "../emvb-ext-css/build.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const SHIPPED = new Set(["button", "badge", "card"]);
@@ -98,51 +95,6 @@ const collectRaw = (v: VNode | string, out: Set<string>): void => {
 };
 const label = (id: string) => id.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
 
-/** Remove `@layer x, y;` statements and unwrap `@layer x { ... }` blocks. Keeps the inner rules. */
-function flattenLayers(css: string): string {
-  let out = css.replace(/@layer\s+[\w\s,-]+;/g, "");
-  const header = /@layer\s+[\w.-]+\s*\{/;
-  for (let m = header.exec(out); m; m = header.exec(out)) {
-    const open = m.index + m[0].length - 1;
-    let depth = 0;
-    let end = -1;
-    for (let i = open; i < out.length; i++) {
-      if (out[i] === "{") depth++;
-      else if (out[i] === "}" && --depth === 0) {
-        end = i;
-        break;
-      }
-    }
-    if (end < 0) throw new Error("unbalanced @layer block");
-    out = out.slice(0, m.index) + out.slice(open + 1, end) + out.slice(end + 1);
-  }
-  if (out.includes("@layer")) throw new Error("@layer left after flattening");
-  return out;
-}
-
-/** Tailwind + daisyUI build limited to the given prefixed classes, then flattened. */
-function buildCss(name: string, prefixedClasses: string[]): string {
-  const inputCss = `@import "tailwindcss" source(none);
-@plugin "daisyui" {
-  prefix: daisy-;
-  themes: light --default, dark --prefersdark;
-  logs: false;
-}
-@source inline("${[...prefixedClasses].sort().join(" ")}");
-`;
-  const cssIn = join(here, `build-${name}-input.css`);
-  const cssOut = join(here, `build-${name}-output.css`);
-  writeFileSync(cssIn, inputCss);
-  try {
-    const tw = spawnSync(join(here, "node_modules", ".bin", "tailwindcss"), ["-i", cssIn, "-o", cssOut], { cwd: here, encoding: "utf8" });
-    if (tw.status !== 0) throw new Error("tailwind failed: " + (tw.stderr || tw.stdout));
-    return flattenLayers(readFileSync(cssOut, "utf8"));
-  } finally {
-    rmSync(cssIn, { force: true });
-    rmSync(cssOut, { force: true });
-  }
-}
-
 // 1. Component trees for the non-shipped components, and the raw classes each one uses.
 const trees = new Map<string, ENode>();
 const rawById = new Map<string, Set<string>>();
@@ -176,7 +128,7 @@ chunks.forEach((chunk, i) => {
   mkdirSync(dir, { recursive: true });
   const used = new Set<string>();
   chunk.forEach((id) => rawById.get(id)!.forEach((c) => used.add(c)));
-  const css = buildCss(L, [...used].map(pre));
+  const css = buildDaisyCss({ name: L, classes: [...used].map(pre) });
   const elements = chunk
     .map(
       (id) => `    {

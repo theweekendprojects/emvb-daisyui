@@ -8,9 +8,9 @@ export const testB = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:16]",
-      "daisy-[--value:18]",
-      "daisy-[--value:28]",
+      "daisy-[--value:17]",
+      "daisy-[--value:29]",
+      "daisy-[--value:32]",
       "daisy-[--value:6]",
       "daisy-[--value:70]",
       "daisy-alert",
@@ -426,10 +426,10 @@ export const testB = {
                       "id": "t0000068",
                       "type": "label",
                       "props": {
-                        "text": "18"
+                        "text": "17"
                       },
                       "extClasses": [
-                        "daisy-[--value:18]",
+                        "daisy-[--value:17]",
                         "daisy-[--digits:2]"
                       ]
                     }
@@ -479,10 +479,10 @@ export const testB = {
                       "id": "t000006c",
                       "type": "label",
                       "props": {
-                        "text": "28"
+                        "text": "29"
                       },
                       "extClasses": [
-                        "daisy-[--value:28]",
+                        "daisy-[--value:29]",
                         "daisy-[--digits:2]"
                       ]
                     }
@@ -532,10 +532,10 @@ export const testB = {
                       "id": "t000006g",
                       "type": "label",
                       "props": {
-                        "text": "16"
+                        "text": "32"
                       },
                       "extClasses": [
-                        "daisy-[--value:16]",
+                        "daisy-[--value:32]",
                         "daisy-[--digits:2]"
                       ]
                     }

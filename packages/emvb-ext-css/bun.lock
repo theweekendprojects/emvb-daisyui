@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "emvb-ext-daisy-test-build",
+      "name": "emvb-ext-css",
       "devDependencies": {
         "@tailwindcss/cli": "4.3.5",
         "daisyui": "5.7.50",

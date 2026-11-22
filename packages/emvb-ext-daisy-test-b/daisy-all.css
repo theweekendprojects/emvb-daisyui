@@ -3294,10 +3294,10 @@
   }
 
 @keyframes rotator {
-  89.daisy-9999%, 100% {
+  89.9999%, 100% {
     --daisy-first-item-position: 0 0%;
   }
-  90%, 99.daisy-9999% {
+  90%, 99.9999% {
     --daisy-first-item-position: 0 calc(var(--daisy-items) * 100%);
   }
   100% {
