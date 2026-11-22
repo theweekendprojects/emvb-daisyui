@@ -8,9 +8,8 @@ export const testC = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:17]",
-      "daisy-[--value:29]",
-      "daisy-[--value:32]",
+      "daisy-[--value:12]",
+      "daisy-[--value:59]",
       "daisy-[--value:6]",
       "daisy-[--value:70]",
       "daisy-alert",
@@ -74,6 +73,7 @@ export const testC = {
       "daisy-divider-neutral",
       "daisy-dock",
       "daisy-dock-active",
+      "daisy-dock-label",
       "daisy-dock-md",
       "daisy-drawer",
       "daisy-drawer-button",
@@ -228,6 +228,8 @@ export const testC = {
       "daisy-status",
       "daisy-status-md",
       "daisy-status-success",
+      "daisy-step",
+      "daisy-step-primary",
       "daisy-steps",
       "daisy-steps-horizontal",
       "daisy-swap",
@@ -301,69 +303,71 @@ export const testC = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000009n",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000009o",
-      "type": "label",
-      "props": {
-        "text": ""
-      }
-    },
-    {
-      "id": "t000009p",
-      "type": "label",
-      "props": {
-        "text": ""
-      }
-    },
-    {
-      "id": "t000009q",
-      "type": "label",
-      "props": {
-        "text": ""
-      }
-    },
-    {
-      "id": "t000009r",
-      "type": "label",
-      "props": {
-        "text": ""
-      }
-    },
-    {
-      "id": "t000009s",
-      "type": "label",
-      "props": {
-        "text": ""
-      }
-    },
-    {
-      "id": "t000009t",
-      "type": "label",
-      "props": {
-        "text": ""
-      }
-    },
-    {
-      "id": "t000009u",
-      "type": "text-input",
-      "props": {
-        "field": "f",
-        "label": ""
-      }
-    }
-  ],
-  "extClasses": [
-    "daisy-otp",
-    "daisy-otp-md",
-    "daisy-otp-primary",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "label",
+          "attrs": {
+            "class": "daisy-otp daisy-otp-md daisy-otp-primary daisy-mx-auto daisy-my-4",
+            "aria-label": "Verification code"
+          },
+          "children": [
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "input",
+              "attrs": {
+                "type": "text",
+                "autocomplete": "one-time-code",
+                "inputmode": "numeric",
+                "maxlength": "6",
+                "pattern": "[0-9]{6}",
+                "required": "required",
+                "aria-label": "Verification code"
+              },
+              "children": []
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-text-rotate",
@@ -373,45 +377,45 @@ export const testC = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000009v",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000009w",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000009x",
-          "type": "label",
-          "props": {
-            "text": "DESIGN"
-          }
+        markup: {
+          "tag": "span",
+          "attrs": {
+            "class": "daisy-text-rotate daisy-mx-auto daisy-my-4",
+            "aria-label": "Rotating text"
+          },
+          "children": [
+            {
+              "tag": "span",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": [
+                {
+                  "tag": "span",
+                  "attrs": {},
+                  "children": [
+                    "DESIGN"
+                  ]
+                },
+                {
+                  "tag": "span",
+                  "attrs": {},
+                  "children": [
+                    "DEVELOP"
+                  ]
+                },
+                {
+                  "tag": "span",
+                  "attrs": {},
+                  "children": [
+                    "DEPLOY"
+                  ]
+                }
+              ]
+            }
+          ]
         },
-        {
-          "id": "t000009y",
-          "type": "label",
-          "props": {
-            "text": "DEVELOP"
-          }
-        },
-        {
-          "id": "t000009z",
-          "type": "label",
-          "props": {
-            "text": "DEPLOY"
-          }
-        }
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-text-rotate",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+      }),
     },
   ],
 };

@@ -1,4 +1,0 @@
-/* Tailwind utilities used by the daisy elements. daisyUI's prefix does not cover them, so they are written here. */
-.daisy-mx-auto{margin-left:auto;margin-right:auto}
-.daisy-my-4{margin-top:1rem;margin-bottom:1rem}
-.daisy-w-fit{width:fit-content}

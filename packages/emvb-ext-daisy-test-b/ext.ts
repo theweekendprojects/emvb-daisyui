@@ -8,9 +8,8 @@ export const testB = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:17]",
-      "daisy-[--value:29]",
-      "daisy-[--value:32]",
+      "daisy-[--value:12]",
+      "daisy-[--value:59]",
       "daisy-[--value:6]",
       "daisy-[--value:70]",
       "daisy-alert",
@@ -74,6 +73,7 @@ export const testB = {
       "daisy-divider-neutral",
       "daisy-dock",
       "daisy-dock-active",
+      "daisy-dock-label",
       "daisy-dock-md",
       "daisy-drawer",
       "daisy-drawer-button",
@@ -228,6 +228,8 @@ export const testB = {
       "daisy-status",
       "daisy-status-md",
       "daisy-status-success",
+      "daisy-step",
+      "daisy-step-primary",
       "daisy-steps",
       "daisy-steps-horizontal",
       "daisy-swap",
@@ -301,20 +303,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000005x",
-  "type": "label",
-  "props": {
-    "text": ""
-  },
-  "extClasses": [
-    "daisy-status",
-    "daisy-status-success",
-    "daisy-status-md",
-    "daisy-w-fit",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "span",
+          "attrs": {
+            "class": "daisy-status daisy-status-success daisy-status-md daisy-w-fit daisy-mx-auto daisy-my-4",
+            "role": "status",
+            "aria-label": "Online"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-tooltip",
@@ -324,19 +322,19 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000005y",
-  "type": "label",
-  "props": {
-    "text": "Hover me"
-  },
-  "extClasses": [
-    "daisy-tooltip",
-    "daisy-tooltip-top",
-    "daisy-tooltip-center",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "span",
+          "attrs": {
+            "class": "daisy-tooltip daisy-tooltip-top daisy-tooltip-center daisy-mx-auto daisy-my-4",
+            "data-tip": "Helpful information",
+            "tabindex": "0",
+            "aria-label": "Helpful information"
+          },
+          "children": [
+            "Hover me"
+          ]
+        },
+      }),
     },
     {
       name: "t-countdown",
@@ -346,248 +344,174 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000005z",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000060",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t0000061",
-          "type": "container",
-          "props": {},
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-w-full",
+            "role": "timer",
+            "aria-label": "Time remaining",
+            "data-daisy-countdown-local": "2026-11-29T09:00:00"
+          },
           "children": [
             {
-              "id": "t0000062",
-              "type": "container",
-              "props": {},
+              "tag": "div",
+              "attrs": {
+                "data-daisy-live": ""
+              },
               "children": [
                 {
-                  "id": "t0000063",
-                  "type": "container",
-                  "props": {},
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-flex daisy-flex-wrap daisy-items-start daisy-gap-4 daisy-text-center daisy-justify-center"
+                  },
                   "children": [
                     {
-                      "id": "t0000064",
-                      "type": "label",
-                      "props": {
-                        "text": "6"
+                      "tag": "div",
+                      "attrs": {
+                        "class": "daisy-flex daisy-flex-col daisy-items-center daisy-gap-1 daisy-p-3 daisy-bg-neutral daisy-rounded-box daisy-text-neutral-content"
                       },
-                      "extClasses": [
-                        "daisy-[--value:6]"
+                      "children": [
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-countdown daisy-font-mono daisy-text-3xl daisy-mx-auto daisy-my-4"
+                          },
+                          "children": [
+                            {
+                              "tag": "span",
+                              "attrs": {
+                                "class": "daisy-[--value:6]",
+                                "data-daisy-unit": "d"
+                              },
+                              "children": [
+                                "6"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-text-xs daisy-opacity-80"
+                          },
+                          "children": [
+                            "days"
+                          ]
+                        }
                       ]
-                    }
-                  ],
-                  "extClasses": [
-                    "daisy-countdown",
-                    "daisy-font-mono",
-                    "daisy-text-3xl",
-                    "daisy-mx-auto",
-                    "daisy-my-4"
-                  ]
-                },
-                {
-                  "id": "t0000065",
-                  "type": "label",
-                  "props": {
-                    "text": "days"
-                  },
-                  "extClasses": [
-                    "daisy-text-xs",
-                    "daisy-opacity-80"
-                  ]
-                }
-              ],
-              "extClasses": [
-                "daisy-flex",
-                "daisy-flex-col",
-                "daisy-items-center",
-                "daisy-gap-1",
-                "daisy-p-3",
-                "daisy-bg-neutral",
-                "daisy-rounded-box",
-                "daisy-text-neutral-content"
-              ]
-            },
-            {
-              "id": "t0000066",
-              "type": "container",
-              "props": {},
-              "children": [
-                {
-                  "id": "t0000067",
-                  "type": "container",
-                  "props": {},
-                  "children": [
+                    },
                     {
-                      "id": "t0000068",
-                      "type": "label",
-                      "props": {
-                        "text": "17"
+                      "tag": "div",
+                      "attrs": {
+                        "class": "daisy-flex daisy-flex-col daisy-items-center daisy-gap-1 daisy-p-3 daisy-bg-neutral daisy-rounded-box daisy-text-neutral-content"
                       },
-                      "extClasses": [
-                        "daisy-[--value:17]",
-                        "daisy-[--digits:2]"
+                      "children": [
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-countdown daisy-font-mono daisy-text-3xl daisy-mx-auto daisy-my-4"
+                          },
+                          "children": [
+                            {
+                              "tag": "span",
+                              "attrs": {
+                                "class": "daisy-[--value:12] daisy-[--digits:2]",
+                                "data-daisy-unit": "h"
+                              },
+                              "children": [
+                                "12"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-text-xs daisy-opacity-80"
+                          },
+                          "children": [
+                            "hours"
+                          ]
+                        }
                       ]
-                    }
-                  ],
-                  "extClasses": [
-                    "daisy-countdown",
-                    "daisy-font-mono",
-                    "daisy-text-3xl",
-                    "daisy-mx-auto",
-                    "daisy-my-4"
-                  ]
-                },
-                {
-                  "id": "t0000069",
-                  "type": "label",
-                  "props": {
-                    "text": "hours"
-                  },
-                  "extClasses": [
-                    "daisy-text-xs",
-                    "daisy-opacity-80"
-                  ]
-                }
-              ],
-              "extClasses": [
-                "daisy-flex",
-                "daisy-flex-col",
-                "daisy-items-center",
-                "daisy-gap-1",
-                "daisy-p-3",
-                "daisy-bg-neutral",
-                "daisy-rounded-box",
-                "daisy-text-neutral-content"
-              ]
-            },
-            {
-              "id": "t000006a",
-              "type": "container",
-              "props": {},
-              "children": [
-                {
-                  "id": "t000006b",
-                  "type": "container",
-                  "props": {},
-                  "children": [
+                    },
                     {
-                      "id": "t000006c",
-                      "type": "label",
-                      "props": {
-                        "text": "29"
+                      "tag": "div",
+                      "attrs": {
+                        "class": "daisy-flex daisy-flex-col daisy-items-center daisy-gap-1 daisy-p-3 daisy-bg-neutral daisy-rounded-box daisy-text-neutral-content"
                       },
-                      "extClasses": [
-                        "daisy-[--value:29]",
-                        "daisy-[--digits:2]"
+                      "children": [
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-countdown daisy-font-mono daisy-text-3xl daisy-mx-auto daisy-my-4"
+                          },
+                          "children": [
+                            {
+                              "tag": "span",
+                              "attrs": {
+                                "class": "daisy-[--value:59] daisy-[--digits:2]",
+                                "data-daisy-unit": "m"
+                              },
+                              "children": [
+                                "59"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-text-xs daisy-opacity-80"
+                          },
+                          "children": [
+                            "min"
+                          ]
+                        }
                       ]
-                    }
-                  ],
-                  "extClasses": [
-                    "daisy-countdown",
-                    "daisy-font-mono",
-                    "daisy-text-3xl",
-                    "daisy-mx-auto",
-                    "daisy-my-4"
-                  ]
-                },
-                {
-                  "id": "t000006d",
-                  "type": "label",
-                  "props": {
-                    "text": "min"
-                  },
-                  "extClasses": [
-                    "daisy-text-xs",
-                    "daisy-opacity-80"
-                  ]
-                }
-              ],
-              "extClasses": [
-                "daisy-flex",
-                "daisy-flex-col",
-                "daisy-items-center",
-                "daisy-gap-1",
-                "daisy-p-3",
-                "daisy-bg-neutral",
-                "daisy-rounded-box",
-                "daisy-text-neutral-content"
-              ]
-            },
-            {
-              "id": "t000006e",
-              "type": "container",
-              "props": {},
-              "children": [
-                {
-                  "id": "t000006f",
-                  "type": "container",
-                  "props": {},
-                  "children": [
+                    },
                     {
-                      "id": "t000006g",
-                      "type": "label",
-                      "props": {
-                        "text": "32"
+                      "tag": "div",
+                      "attrs": {
+                        "class": "daisy-flex daisy-flex-col daisy-items-center daisy-gap-1 daisy-p-3 daisy-bg-neutral daisy-rounded-box daisy-text-neutral-content"
                       },
-                      "extClasses": [
-                        "daisy-[--value:32]",
-                        "daisy-[--digits:2]"
+                      "children": [
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-countdown daisy-font-mono daisy-text-3xl daisy-mx-auto daisy-my-4"
+                          },
+                          "children": [
+                            {
+                              "tag": "span",
+                              "attrs": {
+                                "class": "daisy-[--value:6] daisy-[--digits:2]",
+                                "data-daisy-unit": "s"
+                              },
+                              "children": [
+                                "6"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "attrs": {
+                            "class": "daisy-text-xs daisy-opacity-80"
+                          },
+                          "children": [
+                            "sec"
+                          ]
+                        }
                       ]
                     }
-                  ],
-                  "extClasses": [
-                    "daisy-countdown",
-                    "daisy-font-mono",
-                    "daisy-text-3xl",
-                    "daisy-mx-auto",
-                    "daisy-my-4"
-                  ]
-                },
-                {
-                  "id": "t000006h",
-                  "type": "label",
-                  "props": {
-                    "text": "sec"
-                  },
-                  "extClasses": [
-                    "daisy-text-xs",
-                    "daisy-opacity-80"
                   ]
                 }
-              ],
-              "extClasses": [
-                "daisy-flex",
-                "daisy-flex-col",
-                "daisy-items-center",
-                "daisy-gap-1",
-                "daisy-p-3",
-                "daisy-bg-neutral",
-                "daisy-rounded-box",
-                "daisy-text-neutral-content"
               ]
             }
-          ],
-          "extClasses": [
-            "daisy-flex",
-            "daisy-flex-wrap",
-            "daisy-items-start",
-            "daisy-gap-4",
-            "daisy-text-center",
-            "daisy-justify-center"
           ]
-        }
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-w-full"
-  ]
-}),
+        },
+      }),
     },
     {
       name: "t-hero",
@@ -597,73 +521,59 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000006i",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000006j",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000006k",
-          "type": "container",
-          "props": {},
+        markup: {
+          "tag": "section",
+          "attrs": {
+            "class": "daisy-hero daisy-min-h-96 daisy-text-center daisy-mx-auto daisy-my-4"
+          },
           "children": [
             {
-              "id": "t000006l",
-              "type": "heading",
-              "props": {
-                "text": "Build beautiful pages",
-                "level": 1
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-hero-content"
               },
-              "extClasses": [
-                "daisy-text-5xl",
-                "daisy-font-bold"
-              ]
-            },
-            {
-              "id": "t000006m",
-              "type": "text",
-              "props": {
-                "text": "Compose EmDash pages visually with daisyUI."
-              },
-              "extClasses": [
-                "daisy-py-6"
-              ]
-            },
-            {
-              "id": "t000006n",
-              "type": "link",
-              "props": {
-                "text": "Get started",
-                "href": "#start"
-              },
-              "extClasses": [
-                "daisy-btn",
-                "daisy-btn-primary"
+              "children": [
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-max-w-xl"
+                  },
+                  "children": [
+                    {
+                      "tag": "h1",
+                      "attrs": {
+                        "class": "daisy-text-5xl daisy-font-bold"
+                      },
+                      "children": [
+                        "Build beautiful pages"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "class": "daisy-py-6"
+                      },
+                      "children": [
+                        "Compose EmDash pages visually with daisyUI."
+                      ]
+                    },
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "class": "daisy-btn daisy-btn-primary",
+                        "href": "#start"
+                      },
+                      "children": [
+                        "Get started"
+                      ]
+                    }
+                  ]
+                }
               ]
             }
-          ],
-          "extClasses": [
-            "daisy-max-w-xl"
           ]
-        }
-      ],
-      "extClasses": [
-        "daisy-hero-content"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-hero",
-    "daisy-min-h-96",
-    "daisy-text-center",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        },
+      }),
     },
     {
       name: "t-stack",
@@ -673,105 +583,67 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000006o",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000006p",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000006q",
-          "type": "container",
-          "props": {},
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-stack daisy-w-72 daisy-mx-auto daisy-my-4",
+            "aria-label": "Stacked content"
+          },
           "children": [
             {
-              "id": "t000006r",
-              "type": "text",
-              "props": {
-                "text": "Layer 1"
-              }
-            }
-          ],
-          "extClasses": [
-            "daisy-card-body"
-          ]
-        }
-      ],
-      "extClasses": [
-        "daisy-card",
-        "daisy-bg-base-200",
-        "daisy-shadow-sm"
-      ]
-    },
-    {
-      "id": "t000006s",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000006t",
-          "type": "container",
-          "props": {},
-          "children": [
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-card daisy-bg-base-200 daisy-shadow-sm"
+              },
+              "children": [
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-card-body"
+                  },
+                  "children": [
+                    "Layer 1"
+                  ]
+                }
+              ]
+            },
             {
-              "id": "t000006u",
-              "type": "text",
-              "props": {
-                "text": "Layer 2"
-              }
-            }
-          ],
-          "extClasses": [
-            "daisy-card-body"
-          ]
-        }
-      ],
-      "extClasses": [
-        "daisy-card",
-        "daisy-bg-base-200",
-        "daisy-shadow-sm"
-      ]
-    },
-    {
-      "id": "t000006v",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000006w",
-          "type": "container",
-          "props": {},
-          "children": [
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-card daisy-bg-base-200 daisy-shadow-sm"
+              },
+              "children": [
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-card-body"
+                  },
+                  "children": [
+                    "Layer 2"
+                  ]
+                }
+              ]
+            },
             {
-              "id": "t000006x",
-              "type": "text",
-              "props": {
-                "text": "Layer 3"
-              }
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-card daisy-bg-base-200 daisy-shadow-sm"
+              },
+              "children": [
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-card-body"
+                  },
+                  "children": [
+                    "Layer 3"
+                  ]
+                }
+              ]
             }
-          ],
-          "extClasses": [
-            "daisy-card-body"
           ]
-        }
-      ],
-      "extClasses": [
-        "daisy-card",
-        "daisy-bg-base-200",
-        "daisy-shadow-sm"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-stack",
-    "daisy-w-72",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        },
+      }),
     },
     {
       name: "t-divider",
@@ -781,26 +653,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000006y",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000006z",
-      "type": "text",
-      "props": {
-        "text": "OR"
-      }
-    }
-  ],
-  "extClasses": [
-    "daisy-divider",
-    "daisy-divider-horizontal",
-    "daisy-divider-neutral",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-divider daisy-divider-horizontal daisy-divider-neutral daisy-mx-auto daisy-my-4"
+          },
+          "children": [
+            "OR"
+          ]
+        },
+      }),
     },
     {
       name: "t-join",
@@ -810,54 +672,47 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000070",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000071",
-      "type": "button",
-      "props": {
-        "text": "Button"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-join-item",
-        "daisy-w-auto!"
-      ]
-    },
-    {
-      "id": "t0000072",
-      "type": "button",
-      "props": {
-        "text": "Button"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-join-item",
-        "daisy-w-auto!"
-      ]
-    },
-    {
-      "id": "t0000073",
-      "type": "button",
-      "props": {
-        "text": "Button"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-join-item",
-        "daisy-w-auto!"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-join",
-    "daisy-join-horizontal",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-join daisy-join-horizontal daisy-mx-auto daisy-my-4",
+            "role": "group",
+            "aria-label": "Joined controls"
+          },
+          "children": [
+            {
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-join-item daisy-w-auto!"
+              },
+              "children": [
+                "Button"
+              ]
+            },
+            {
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-join-item daisy-w-auto!"
+              },
+              "children": [
+                "Button"
+              ]
+            },
+            {
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-join-item daisy-w-auto!"
+              },
+              "children": [
+                "Button"
+              ]
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-indicator",
@@ -867,44 +722,31 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000074",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000075",
-      "type": "label",
-      "props": {
-        "text": "New"
-      },
-      "extClasses": [
-        "daisy-indicator-item",
-        "daisy-badge",
-        "daisy-indicator-top",
-        "daisy-indicator-end",
-        "daisy-badge-primary"
-      ]
-    },
-    {
-      "id": "t0000076",
-      "type": "container",
-      "props": {},
-      "children": [],
-      "extClasses": [
-        "daisy-w-32",
-        "daisy-h-20",
-        "daisy-rounded-box",
-        "daisy-bg-base-200"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-indicator",
-    "daisy-w-fit",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-indicator daisy-w-fit daisy-mx-auto daisy-my-4"
+          },
+          "children": [
+            {
+              "tag": "span",
+              "attrs": {
+                "class": "daisy-indicator-item daisy-badge daisy-indicator-top daisy-indicator-end daisy-badge-primary"
+              },
+              "children": [
+                "New"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-w-32 daisy-h-20 daisy-rounded-box daisy-bg-base-200"
+              },
+              "children": []
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-mask",
@@ -914,22 +756,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000077",
-  "type": "container",
-  "props": {},
-  "children": [],
-  "extClasses": [
-    "daisy-mask",
-    "daisy-mask-squircle",
-    "daisy-w-48",
-    "daisy-aspect-square",
-    "daisy-mx-auto",
-    "daisy-my-4",
-    "daisy-bg-linear-to-br",
-    "daisy-from-primary",
-    "daisy-to-secondary"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-mask daisy-mask-squircle daisy-w-48 daisy-aspect-square daisy-mx-auto daisy-my-4 daisy-bg-linear-to-br daisy-from-primary daisy-to-secondary",
+            "role": "img",
+            "aria-label": "Masked image"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-browser-mockup",
@@ -939,67 +775,41 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000078",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000079",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000007a",
-          "type": "container",
-          "props": {},
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-mockup-browser daisy-border daisy-border-base-300 daisy-mx-auto daisy-my-4"
+          },
           "children": [
             {
-              "id": "t000007b",
-              "type": "text",
-              "props": {
-                "text": "https://emdash.dev"
-              }
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-mockup-browser-toolbar"
+              },
+              "children": [
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-input"
+                  },
+                  "children": [
+                    "https://emdash.dev"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-grid daisy-place-content-center daisy-border-t daisy-border-base-300 daisy-h-64"
+              },
+              "children": [
+                "Your page preview"
+              ]
             }
-          ],
-          "extClasses": [
-            "daisy-input"
           ]
-        }
-      ],
-      "extClasses": [
-        "daisy-mockup-browser-toolbar"
-      ]
-    },
-    {
-      "id": "t000007c",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000007d",
-          "type": "text",
-          "props": {
-            "text": "Your page preview"
-          }
-        }
-      ],
-      "extClasses": [
-        "daisy-grid",
-        "daisy-place-content-center",
-        "daisy-border-t",
-        "daisy-border-base-300",
-        "daisy-h-64"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-mockup-browser",
-    "daisy-border",
-    "daisy-border-base-300",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        },
+      }),
     },
     {
       name: "t-phone-mockup",
@@ -1009,56 +819,39 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007e",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000007f",
-      "type": "container",
-      "props": {},
-      "children": [],
-      "extClasses": [
-        "daisy-mockup-phone-camera"
-      ]
-    },
-    {
-      "id": "t000007g",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000007h",
-          "type": "container",
-          "props": {},
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-mockup-phone daisy-mx-auto daisy-my-4"
+          },
           "children": [
             {
-              "id": "t000007i",
-              "type": "text",
-              "props": {
-                "text": "Mobile preview"
-              }
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-mockup-phone-camera"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-mockup-phone-display"
+              },
+              "children": [
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "daisy-grid daisy-place-content-center daisy-bg-base-200 daisy-h-full"
+                  },
+                  "children": [
+                    "Mobile preview"
+                  ]
+                }
+              ]
             }
-          ],
-          "extClasses": [
-            "daisy-grid",
-            "daisy-place-content-center",
-            "daisy-bg-base-200",
-            "daisy-h-full"
           ]
-        }
-      ],
-      "extClasses": [
-        "daisy-mockup-phone-display"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-mockup-phone",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        },
+      }),
     },
     {
       name: "t-code-mockup",
@@ -1068,40 +861,30 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007j",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000007k",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000007l",
-          "type": "container",
-          "props": {},
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-mockup-code daisy-bg-neutral daisy-text-neutral-content daisy-mx-auto daisy-my-4"
+          },
           "children": [
             {
-              "id": "t000007m",
-              "type": "text",
-              "props": {
-                "text": "npm install @perkyzz/emvb-daisyui"
-              }
+              "tag": "pre",
+              "attrs": {
+                "data-prefix": "$"
+              },
+              "children": [
+                {
+                  "tag": "code",
+                  "attrs": {},
+                  "children": [
+                    "npm install @perkyzz/emvb-daisyui"
+                  ]
+                }
+              ]
             }
           ]
-        }
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-mockup-code",
-    "daisy-bg-neutral",
-    "daisy-text-neutral-content",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        },
+      }),
     },
     {
       name: "t-container",
@@ -1111,16 +894,14 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007n",
-  "type": "container",
-  "props": {},
-  "children": [],
-  "extClasses": [
-    "daisy-container",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-container daisy-mx-auto daisy-my-4"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-loading",
@@ -1130,19 +911,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007o",
-  "type": "label",
-  "props": {
-    "text": ""
-  },
-  "extClasses": [
-    "daisy-loading",
-    "daisy-loading-spinner",
-    "daisy-loading-md",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "span",
+          "attrs": {
+            "aria-label": "Loading",
+            "role": "status",
+            "class": "daisy-loading daisy-loading-spinner daisy-loading-md daisy-mx-auto daisy-my-4"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-skeleton",
@@ -1152,19 +930,15 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007p",
-  "type": "container",
-  "props": {},
-  "children": [],
-  "extClasses": [
-    "daisy-skeleton",
-    "daisy-h-16",
-    "daisy-w-full",
-    "daisy-bg-base-content/15",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "aria-label": "Loading content",
+            "class": "daisy-skeleton daisy-h-16 daisy-w-full daisy-bg-base-content/15 daisy-mx-auto daisy-my-4"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-radial-progress",
@@ -1174,28 +948,20 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007q",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000007r",
-      "type": "text",
-      "props": {
-        "text": "70%"
-      }
-    }
-  ],
-  "extClasses": [
-    "daisy-radial-progress",
-    "daisy-text-primary",
-    "daisy-w-fit",
-    "daisy-mx-auto",
-    "daisy-my-4",
-    "daisy-[--value:70]",
-    "daisy-size-24!"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-radial-progress daisy-text-primary daisy-w-fit daisy-mx-auto daisy-my-4 daisy-[--value:70] daisy-size-24!",
+            "role": "progressbar",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100",
+            "aria-valuenow": "70"
+          },
+          "children": [
+            "70%"
+          ]
+        },
+      }),
     },
     {
       name: "t-toast",
@@ -1205,36 +971,26 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007s",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000007t",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000007u",
-          "type": "text",
-          "props": {
-            "text": "Notification"
-          }
-        }
-      ],
-      "extClasses": [
-        "daisy-alert"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-toast",
-    "daisy-toast-end",
-    "daisy-toast-bottom",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-toast daisy-toast-end daisy-toast-bottom daisy-mx-auto daisy-my-4",
+            "role": "status",
+            "aria-live": "polite"
+          },
+          "children": [
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-alert"
+              },
+              "children": [
+                "Notification"
+              ]
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-label",
@@ -1244,17 +1000,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007v",
-  "type": "label",
-  "props": {
-    "text": "Label"
-  },
-  "extClasses": [
-    "daisy-label",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "label",
+          "attrs": {
+            "class": "daisy-label daisy-mx-auto daisy-my-4"
+          },
+          "children": [
+            "Label"
+          ]
+        },
+      }),
     },
     {
       name: "t-fieldset",
@@ -1264,27 +1019,24 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007w",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000007x",
-      "type": "label",
-      "props": {
-        "text": "Details"
-      },
-      "extClasses": [
-        "daisy-fieldset-legend"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-fieldset",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "fieldset",
+          "attrs": {
+            "class": "daisy-fieldset daisy-mx-auto daisy-my-4"
+          },
+          "children": [
+            {
+              "tag": "legend",
+              "attrs": {
+                "class": "daisy-fieldset-legend"
+              },
+              "children": [
+                "Details"
+              ]
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-kbd",
@@ -1294,26 +1046,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000007y",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000007z",
-      "type": "text",
-      "props": {
-        "text": "Ctrl"
-      }
-    }
-  ],
-  "extClasses": [
-    "daisy-kbd",
-    "daisy-kbd-md",
-    "daisy-w-fit",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "kbd",
+          "attrs": {
+            "class": "daisy-kbd daisy-kbd-md daisy-w-fit daisy-mx-auto daisy-my-4"
+          },
+          "children": [
+            "Ctrl"
+          ]
+        },
+      }),
     },
     {
       name: "t-link",
@@ -1323,19 +1065,17 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000080",
-  "type": "link",
-  "props": {
-    "text": "Link",
-    "href": "#"
-  },
-  "extClasses": [
-    "daisy-link",
-    "daisy-link-primary",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "a",
+          "attrs": {
+            "class": "daisy-link daisy-link-primary daisy-mx-auto daisy-my-4",
+            "href": "#"
+          },
+          "children": [
+            "Link"
+          ]
+        },
+      }),
     },
     {
       name: "t-window-mockup",
@@ -1345,16 +1085,16 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000081",
-  "type": "container",
-  "props": {},
-  "children": [],
-  "extClasses": [
-    "daisy-mockup-window",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-mockup-window daisy-mx-auto daisy-my-4",
+            "role": "region",
+            "aria-label": "Application window"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-theme-controller",
@@ -1364,18 +1104,17 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000082",
-  "type": "checkbox",
-  "props": {
-    "field": "f",
-    "label": ""
-  },
-  "extClasses": [
-    "daisy-theme-controller",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "input",
+          "attrs": {
+            "type": "checkbox",
+            "class": "daisy-theme-controller daisy-mx-auto daisy-my-4",
+            "value": "light",
+            "aria-label": "Change theme"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-validator",
@@ -1385,37 +1124,34 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000083",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000084",
-      "type": "text-input",
-      "props": {
-        "field": "f",
-        "label": ""
-      },
-      "extClasses": [
-        "daisy-input",
-        "daisy-validator"
-      ]
-    },
-    {
-      "id": "t0000085",
-      "type": "text",
-      "props": {
-        "text": "Enter a valid value"
-      },
-      "extClasses": [
-        "daisy-validator-hint"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-fieldset"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-fieldset"
+          },
+          "children": [
+            {
+              "tag": "input",
+              "attrs": {
+                "class": "daisy-input daisy-validator",
+                "type": "email",
+                "placeholder": "mail@site.com",
+                "required": "required"
+              },
+              "children": []
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "class": "daisy-validator-hint"
+              },
+              "children": [
+                "Enter a valid value"
+              ]
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-diff",
@@ -1425,64 +1161,41 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000086",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000087",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t0000088",
-          "type": "text",
-          "props": {
-            "text": "Before"
-          }
-        }
-      ],
-      "extClasses": [
-        "daisy-diff-item-1",
-        "daisy-text-start",
-        "daisy-p-4"
-      ]
-    },
-    {
-      "id": "t0000089",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000008a",
-          "type": "text",
-          "props": {
-            "text": "After"
-          }
-        }
-      ],
-      "extClasses": [
-        "daisy-diff-item-2",
-        "daisy-text-end",
-        "daisy-p-4"
-      ]
-    },
-    {
-      "id": "t000008b",
-      "type": "container",
-      "props": {},
-      "children": [],
-      "extClasses": [
-        "daisy-diff-resizer"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-diff",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-diff daisy-mx-auto daisy-my-4",
+            "tabindex": "0"
+          },
+          "children": [
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-diff-item-1 daisy-text-start daisy-p-4"
+              },
+              "children": [
+                "Before"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-diff-item-2 daisy-text-end daisy-p-4"
+              },
+              "children": [
+                "After"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-diff-resizer"
+              },
+              "children": []
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-filter",
@@ -1492,62 +1205,46 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000008c",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000008d",
-      "type": "form",
-      "props": {
-        "formId": ""
-      },
-      "children": [
-        {
-          "id": "t000008e",
-          "type": "radio",
-          "props": {
-            "field": "f",
-            "label": ""
+        markup: {
+          "tag": "form",
+          "attrs": {
+            "class": "daisy-filter daisy-mx-auto daisy-my-4"
           },
-          "extClasses": [
-            "daisy-btn",
-            "daisy-btn-square"
+          "children": [
+            {
+              "tag": "input",
+              "attrs": {
+                "class": "daisy-btn daisy-btn-square",
+                "type": "radio",
+                "name": "filter",
+                "aria-label": "All",
+                "checked": "checked"
+              },
+              "children": []
+            },
+            {
+              "tag": "input",
+              "attrs": {
+                "class": "daisy-btn daisy-btn-square",
+                "type": "radio",
+                "name": "filter",
+                "aria-label": "Active"
+              },
+              "children": []
+            },
+            {
+              "tag": "input",
+              "attrs": {
+                "class": "daisy-btn daisy-btn-square",
+                "type": "radio",
+                "name": "filter",
+                "aria-label": "Archived"
+              },
+              "children": []
+            }
           ]
         },
-        {
-          "id": "t000008f",
-          "type": "radio",
-          "props": {
-            "field": "f",
-            "label": ""
-          },
-          "extClasses": [
-            "daisy-btn",
-            "daisy-btn-square"
-          ]
-        },
-        {
-          "id": "t000008g",
-          "type": "radio",
-          "props": {
-            "field": "f",
-            "label": ""
-          },
-          "extClasses": [
-            "daisy-btn",
-            "daisy-btn-square"
-          ]
-        }
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-filter",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+      }),
     },
     {
       name: "t-aura",
@@ -1557,31 +1254,22 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000008h",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000008i",
-      "type": "container",
-      "props": {},
-      "children": [],
-      "extClasses": [
-        "daisy-min-h-24",
-        "daisy-w-full"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-aura",
-    "daisy-aura-md",
-    "daisy-mx-auto",
-    "daisy-my-4",
-    "daisy-w-full",
-    "daisy-max-w-md",
-    "daisy-opacity-60"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-aura daisy-aura-md daisy-mx-auto daisy-my-4 daisy-w-full daisy-max-w-md daisy-opacity-60"
+          },
+          "children": [
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "daisy-min-h-24 daisy-w-full"
+              },
+              "children": []
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-calendar",
@@ -1591,18 +1279,17 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000008j",
-  "type": "text-input",
-  "props": {
-    "field": "f",
-    "label": ""
-  },
-  "extClasses": [
-    "daisy-input",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "input",
+          "attrs": {
+            "type": "date",
+            "class": "daisy-input daisy-mx-auto daisy-my-4",
+            "name": "date",
+            "aria-label": "Choose date"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-fab",
@@ -1612,73 +1299,60 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000008k",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000008l",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t000008m",
-          "type": "text",
-          "props": {
-            "text": "+"
-          }
-        }
-      ],
-      "extClasses": [
-        "daisy-btn",
-        "daisy-btn-lg",
-        "daisy-btn-circle",
-        "daisy-btn-primary"
-      ]
-    },
-    {
-      "id": "t000008n",
-      "type": "button",
-      "props": {
-        "text": "C"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-btn-lg",
-        "daisy-btn-circle"
-      ]
-    },
-    {
-      "id": "t000008o",
-      "type": "button",
-      "props": {
-        "text": "U"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-btn-lg",
-        "daisy-btn-circle"
-      ]
-    },
-    {
-      "id": "t000008p",
-      "type": "button",
-      "props": {
-        "text": "S"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-btn-lg",
-        "daisy-btn-circle"
-      ]
-    }
-  ],
-  "extClasses": [
-    "daisy-fab",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-fab daisy-mx-auto daisy-my-4"
+          },
+          "children": [
+            {
+              "tag": "div",
+              "attrs": {
+                "tabindex": "0",
+                "role": "button",
+                "class": "daisy-btn daisy-btn-lg daisy-btn-circle daisy-btn-primary",
+                "aria-label": "Open actions"
+              },
+              "children": [
+                "+"
+              ]
+            },
+            {
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-btn-lg daisy-btn-circle",
+                "aria-label": "Create"
+              },
+              "children": [
+                "C"
+              ]
+            },
+            {
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-btn-lg daisy-btn-circle",
+                "aria-label": "Upload"
+              },
+              "children": [
+                "U"
+              ]
+            },
+            {
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-btn-lg daisy-btn-circle",
+                "aria-label": "Share"
+              },
+              "children": [
+                "S"
+              ]
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-hover-3d",
@@ -1688,77 +1362,79 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t000008q",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t000008r",
-      "type": "container",
-      "props": {},
-      "children": [],
-      "extClasses": [
-        "daisy-w-64",
-        "daisy-h-48",
-        "daisy-rounded-2xl",
-        "daisy-bg-base-200"
-      ]
-    },
-    {
-      "id": "t000008s",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008t",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008u",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008v",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008w",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008x",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008y",
-      "type": "container",
-      "props": {},
-      "children": []
-    },
-    {
-      "id": "t000008z",
-      "type": "container",
-      "props": {},
-      "children": []
-    }
-  ],
-  "extClasses": [
-    "daisy-hover-3d",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "div",
+          "attrs": {
+            "class": "daisy-hover-3d daisy-mx-auto daisy-my-4",
+            "aria-label": "3D card"
+          },
+          "children": [
+            {
+              "tag": "figure",
+              "attrs": {
+                "class": "daisy-w-64 daisy-h-48 daisy-rounded-2xl daisy-bg-base-200"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "aria-hidden": "true"
+              },
+              "children": []
+            }
+          ]
+        },
+      }),
     },
     {
       name: "t-hover-gallery",
@@ -1768,16 +1444,14 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000090",
-  "type": "container",
-  "props": {},
-  "children": [],
-  "extClasses": [
-    "daisy-hover-gallery",
-    "daisy-mx-auto",
-    "daisy-my-4"
-  ]
-}),
+        markup: {
+          "tag": "figure",
+          "attrs": {
+            "class": "daisy-hover-gallery daisy-mx-auto daisy-my-4"
+          },
+          "children": []
+        },
+      }),
     },
     {
       name: "t-megamenu",
@@ -1787,185 +1461,188 @@ export const testB = {
       fields: [],
       defaults: () => ({}),
       render: () => ({
-  "id": "t0000091",
-  "type": "container",
-  "props": {},
-  "children": [
-    {
-      "id": "t0000092",
-      "type": "button",
-      "props": {
-        "text": "Menu"
-      },
-      "extClasses": [
-        "daisy-btn",
-        "daisy-sm:hidden"
-      ]
-    },
-    {
-      "id": "t0000093",
-      "type": "container",
-      "props": {},
-      "children": [
-        {
-          "id": "t0000094",
-          "type": "label",
-          "props": {
-            "text": ""
+        markup: {
+          "tag": "nav",
+          "attrs": {
+            "aria-label": "Main navigation"
           },
-          "extClasses": [
-            "daisy-megamenu-active"
-          ]
-        },
-        {
-          "id": "t0000095",
-          "type": "button",
-          "props": {
-            "text": "Products"
-          }
-        },
-        {
-          "id": "t0000096",
-          "type": "container",
-          "props": {},
           "children": [
             {
-              "id": "t0000097",
-              "type": "container",
-              "props": {},
+              "tag": "button",
+              "attrs": {
+                "type": "button",
+                "class": "daisy-btn daisy-sm:hidden",
+                "popovertarget": "probe0001-menu"
+              },
+              "children": [
+                "Menu"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "id": "probe0001-menu",
+                "class": "daisy-megamenu daisy-megamenu-md daisy-mx-auto daisy-my-4 daisy-max-sm:megamenu-vertical",
+                "popover": ""
+              },
               "children": [
                 {
-                  "id": "t0000098",
-                  "type": "container",
-                  "props": {},
+                  "tag": "span",
+                  "attrs": {
+                    "class": "daisy-megamenu-active",
+                    "aria-hidden": "true"
+                  },
+                  "children": []
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "type": "button",
+                    "popovertarget": "probe0001-mega-1"
+                  },
+                  "children": [
+                    "Products"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "id": "probe0001-mega-1",
+                    "popover": ""
+                  },
                   "children": [
                     {
-                      "id": "t0000099",
-                      "type": "link",
-                      "props": {
-                        "text": "Overview",
-                        "href": "#"
-                      }
+                      "tag": "ul",
+                      "attrs": {
+                        "class": "daisy-menu"
+                      },
+                      "children": [
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            {
+                              "tag": "a",
+                              "attrs": {
+                                "href": "#"
+                              },
+                              "children": [
+                                "Overview"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            {
+                              "tag": "a",
+                              "attrs": {
+                                "href": "#"
+                              },
+                              "children": [
+                                "Features"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            {
+                              "tag": "a",
+                              "attrs": {
+                                "href": "#"
+                              },
+                              "children": [
+                                "Pricing"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
                 {
-                  "id": "t000009a",
-                  "type": "container",
-                  "props": {},
+                  "tag": "button",
+                  "attrs": {
+                    "type": "button",
+                    "popovertarget": "probe0001-mega-2"
+                  },
                   "children": [
-                    {
-                      "id": "t000009b",
-                      "type": "link",
-                      "props": {
-                        "text": "Features",
-                        "href": "#"
-                      }
-                    }
+                    "Company"
                   ]
                 },
                 {
-                  "id": "t000009c",
-                  "type": "container",
-                  "props": {},
+                  "tag": "div",
+                  "attrs": {
+                    "id": "probe0001-mega-2",
+                    "popover": ""
+                  },
                   "children": [
                     {
-                      "id": "t000009d",
-                      "type": "link",
-                      "props": {
-                        "text": "Pricing",
-                        "href": "#"
-                      }
+                      "tag": "ul",
+                      "attrs": {
+                        "class": "daisy-menu"
+                      },
+                      "children": [
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            {
+                              "tag": "a",
+                              "attrs": {
+                                "href": "#"
+                              },
+                              "children": [
+                                "About"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            {
+                              "tag": "a",
+                              "attrs": {
+                                "href": "#"
+                              },
+                              "children": [
+                                "Careers"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            {
+                              "tag": "a",
+                              "attrs": {
+                                "href": "#"
+                              },
+                              "children": [
+                                "Contact"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
-              ],
-              "extClasses": [
-                "daisy-menu"
               ]
             }
           ]
         },
-        {
-          "id": "t000009e",
-          "type": "button",
-          "props": {
-            "text": "Company"
-          }
-        },
-        {
-          "id": "t000009f",
-          "type": "container",
-          "props": {},
-          "children": [
-            {
-              "id": "t000009g",
-              "type": "container",
-              "props": {},
-              "children": [
-                {
-                  "id": "t000009h",
-                  "type": "container",
-                  "props": {},
-                  "children": [
-                    {
-                      "id": "t000009i",
-                      "type": "link",
-                      "props": {
-                        "text": "About",
-                        "href": "#"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "id": "t000009j",
-                  "type": "container",
-                  "props": {},
-                  "children": [
-                    {
-                      "id": "t000009k",
-                      "type": "link",
-                      "props": {
-                        "text": "Careers",
-                        "href": "#"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "id": "t000009l",
-                  "type": "container",
-                  "props": {},
-                  "children": [
-                    {
-                      "id": "t000009m",
-                      "type": "link",
-                      "props": {
-                        "text": "Contact",
-                        "href": "#"
-                      }
-                    }
-                  ]
-                }
-              ],
-              "extClasses": [
-                "daisy-menu"
-              ]
-            }
-          ]
-        }
-      ],
-      "extClasses": [
-        "daisy-megamenu",
-        "daisy-megamenu-md",
-        "daisy-mx-auto",
-        "daisy-my-4",
-        "daisy-max-sm:megamenu-vertical"
-      ]
-    }
-  ]
-}),
+      }),
     },
   ],
 };

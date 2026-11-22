@@ -45,6 +45,27 @@ export function flattenLayers(css: string): string {
   return out;
 }
 
+/** Escape a class name the way Tailwind escapes it inside a CSS selector (for example w-1/2 -> w-1\\/2). */
+function escapeSelector(name: string): string {
+  return name.replace(/[\/.:%\[\]()#,!]/g, "\\$&");
+}
+
+/**
+ * Tailwind utilities (mx-auto, my-4, w-fit) come out with their plain names. The extension's
+ * classes all carry the prefix, so each plain selector is renamed to its daisy- form. This is one
+ * systematic pass over the generated CSS, not a per-component rule.
+ */
+export function prefixUtilitySelectors(css: string, rawNames: readonly string[]): string {
+  let out = css;
+  // Longest names first, so a short name never matches inside a longer one.
+  for (const raw of [...new Set(rawNames)].sort((a, b) => b.length - a.length)) {
+    const escaped = escapeSelector(raw);
+    const pattern = new RegExp(`\\.${escaped.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\w-])`, "g");
+    out = out.replace(pattern, `.daisy-${escaped}`);
+  }
+  return out;
+}
+
 export type BuildOptions = {
   /** Unique name for the temporary input/output files (letters, digits, dashes). */
   name: string;
@@ -56,13 +77,16 @@ export type BuildOptions = {
 
 /** Build one extension stylesheet. Returns the CSS text. */
 export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): string {
+  // Prefixed names generate daisyUI components; plain names generate Tailwind utilities.
+  const prefixed = [...new Set(classes)].filter((c) => c.startsWith("daisy-"));
+  const raw = prefixed.map((c) => c.slice("daisy-".length));
   const input = `@import "tailwindcss" source(none);
 @plugin "daisyui" {
   prefix: daisy-;
   themes: ${DAISY_THEMES};
   logs: false;
 }
-@source inline("${[...new Set(classes)].sort().join(" ")}");
+@source inline("${[...prefixed, ...raw].sort().join(" ")}");
 `;
   const cssIn = join(here, `build-${name}-input.css`);
   const cssOut = join(here, `build-${name}-output.css`);
@@ -72,7 +96,8 @@ export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): str
     if (tw.status !== 0) throw new Error("tailwind failed: " + (tw.stderr || tw.stdout));
     // The prefix rewrite also rewrites decimal keyframe stops: 89.9999% becomes 89.daisy-9999%.
     // Undo it, so text-rotate and any other keyframe with decimal stops animates correctly.
-    const unmangled = readFileSync(cssOut, "utf8").replace(/(\d)\.daisy-(\d+)%/g, "$1.$2%");
+    const named = prefixUtilitySelectors(readFileSync(cssOut, "utf8"), raw);
+    const unmangled = named.replace(/(\d)\.daisy-(\d+)%/g, "$1.$2%");
     const flat = flattenLayers(unmangled);
     return extras ? `${flat}\n${extras.trim()}\n` : flat;
   } finally {
