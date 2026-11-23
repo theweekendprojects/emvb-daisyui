@@ -15,7 +15,7 @@ describe("default images are placeholders, not missing files", () => {
   test("avatar with no picture shows initials on a placeholder, not a file request", () => {
     const out = render("avatar", { src: "", alt: "User avatar" });
     expect(out).not.toContain(".png");
-    expect(out).toContain("placeholder");
+    expect(out).toContain("avatar-placeholder");
     expect(out).toContain("UA");
   });
 

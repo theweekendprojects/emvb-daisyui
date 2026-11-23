@@ -8,11 +8,11 @@ export const testA = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:2]",
-      "daisy-[--value:30]",
-      "daisy-[--value:46]",
+      "daisy-[--value:0]",
+      "daisy-[--value:16]",
+      "daisy-[--value:17]",
+      "daisy-[--value:6]",
       "daisy-[--value:70]",
-      "daisy-[--value:7]",
       "daisy-alert",
       "daisy-alert-horizontal",
       "daisy-alert-info",
@@ -21,6 +21,7 @@ export const testA = {
       "daisy-aura",
       "daisy-aura-md",
       "daisy-avatar",
+      "daisy-avatar-placeholder",
       "daisy-badge",
       "daisy-badge-primary",
       "daisy-bg-base-100",
@@ -190,7 +191,6 @@ export const testA = {
       "daisy-p-6",
       "daisy-place-content-center",
       "daisy-place-items-center",
-      "daisy-placeholder",
       "daisy-progress",
       "daisy-progress-primary",
       "daisy-px-1",
@@ -2178,7 +2178,7 @@ export const testA = {
         markup: {
           "tag": "div",
           "attrs": {
-            "class": "daisy-avatar daisy-mx-auto daisy-my-4 daisy-placeholder"
+            "class": "daisy-avatar daisy-mx-auto daisy-my-4 daisy-avatar-placeholder"
           },
           "children": [
             {

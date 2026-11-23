@@ -251,7 +251,8 @@ export const AVATAR: DaisyComponentDefinition = {
     if (!String(node.props.src ?? "").trim()) {
       return {
         tag: "div",
-        attrs: { class: [...wrapper, "placeholder"].join(" ") },
+        // daisyUI 5 names the empty-image avatar `avatar-placeholder` (the old `placeholder` is not styled).
+        attrs: { class: [...wrapper, "avatar-placeholder"].join(" ") },
         children: [
           {
             tag: "div",

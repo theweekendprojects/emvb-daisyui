@@ -3321,17 +3321,17 @@
   .daisy-\[--digits\:2\] {
     --digits: 2;
   }
-  .daisy-\[--value\:1\] {
-    --value: 1;
+  .daisy-\[--value\:0\] {
+    --value: 0;
   }
   .daisy-\[--value\:6\] {
     --value: 6;
   }
-  .daisy-\[--value\:11\] {
-    --value: 11;
+  .daisy-\[--value\:16\] {
+    --value: 16;
   }
-  .daisy-\[--value\:48\] {
-    --value: 48;
+  .daisy-\[--value\:17\] {
+    --value: 17;
   }
   .daisy-\[--value\:70\] {
     --value: 70;
