@@ -21,6 +21,7 @@ import { fileURLToPath } from "node:url";
 import { DAISY_COMPONENT_CATALOG } from "../../src/catalog/index.ts";
 import { daisyRenderer } from "../../src/renderer.ts";
 import { buildDaisyCss } from "../emvb-ext-css/build.ts";
+import { prefixClassToken } from "./class-token.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const SHIPPED = new Set(["button", "badge", "card"]);
@@ -79,7 +80,7 @@ function toMarkup(node: RawVNode | string, classes: Set<string>): Markup | strin
       const tokens = value
         .split(/\s+/)
         .filter(Boolean)
-        .map((t) => PREFIX + t);
+        .map(prefixClassToken);
       tokens.forEach((t) => classes.add(t));
       if (tokens.length) attrs.class = tokens.join(" ");
     } else {

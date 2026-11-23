@@ -7,12 +7,12 @@ export const testB = {
   classes: {
     prefix: "daisy-",
     allow: [
-      "daisy-[--digits:2]",
-      "daisy-[--value:11]",
-      "daisy-[--value:39]",
-      "daisy-[--value:58]",
-      "daisy-[--value:6]",
-      "daisy-[--value:70]",
+      "daisy-[--daisy-digits:2]",
+      "daisy-[--daisy-value:11]",
+      "daisy-[--daisy-value:38]",
+      "daisy-[--daisy-value:52]",
+      "daisy-[--daisy-value:6]",
+      "daisy-[--daisy-value:70]",
       "daisy-alert",
       "daisy-alert-horizontal",
       "daisy-alert-info",
@@ -384,7 +384,7 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:6]",
+                                "class": "daisy-[--daisy-value:6]",
                                 "data-daisy-unit": "d"
                               },
                               "children": [
@@ -419,7 +419,7 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:11] daisy-[--digits:2]",
+                                "class": "daisy-[--daisy-value:11] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "h"
                               },
                               "children": [
@@ -454,11 +454,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:58] daisy-[--digits:2]",
+                                "class": "daisy-[--daisy-value:52] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "m"
                               },
                               "children": [
-                                "58"
+                                "52"
                               ]
                             }
                           ]
@@ -489,11 +489,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:39] daisy-[--digits:2]",
+                                "class": "daisy-[--daisy-value:38] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "s"
                               },
                               "children": [
-                                "39"
+                                "38"
                               ]
                             }
                           ]
@@ -978,7 +978,7 @@ export const testB = {
         markup: {
           "tag": "div",
           "attrs": {
-            "class": "daisy-radial-progress daisy-text-primary daisy-w-fit daisy-mx-auto daisy-my-4 daisy-[--value:70] daisy-size-24!",
+            "class": "daisy-radial-progress daisy-text-primary daisy-w-fit daisy-mx-auto daisy-my-4 daisy-[--daisy-value:70] daisy-size-24!",
             "role": "progressbar",
             "aria-valuemin": "0",
             "aria-valuemax": "100",

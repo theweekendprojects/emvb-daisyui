@@ -7,12 +7,12 @@ export const testA = {
   classes: {
     prefix: "daisy-",
     allow: [
-      "daisy-[--digits:2]",
-      "daisy-[--value:11]",
-      "daisy-[--value:39]",
-      "daisy-[--value:58]",
-      "daisy-[--value:6]",
-      "daisy-[--value:70]",
+      "daisy-[--daisy-digits:2]",
+      "daisy-[--daisy-value:11]",
+      "daisy-[--daisy-value:38]",
+      "daisy-[--daisy-value:52]",
+      "daisy-[--daisy-value:6]",
+      "daisy-[--daisy-value:70]",
       "daisy-alert",
       "daisy-alert-horizontal",
       "daisy-alert-info",

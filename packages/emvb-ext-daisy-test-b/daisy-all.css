@@ -3318,23 +3318,23 @@
       --daisy-badge-fg: var(--color-primary-content);
     }
   
-  .daisy-\[--digits\:2\] {
-    --digits: 2;
+  .daisy-\[--daisy-digits\:2\] {
+    --daisy-digits: 2;
   }
-  .daisy-\[--value\:6\] {
-    --value: 6;
+  .daisy-\[--daisy-value\:6\] {
+    --daisy-value: 6;
   }
-  .daisy-\[--value\:11\] {
-    --value: 11;
+  .daisy-\[--daisy-value\:11\] {
+    --daisy-value: 11;
   }
-  .daisy-\[--value\:39\] {
-    --value: 39;
+  .daisy-\[--daisy-value\:38\] {
+    --daisy-value: 38;
   }
-  .daisy-\[--value\:58\] {
-    --value: 58;
+  .daisy-\[--daisy-value\:52\] {
+    --daisy-value: 52;
   }
-  .daisy-\[--value\:70\] {
-    --value: 70;
+  .daisy-\[--daisy-value\:70\] {
+    --daisy-value: 70;
   }
   
     .daisy-aura:has( > .daisy-card,  > .daisy-alert) {
