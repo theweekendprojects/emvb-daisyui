@@ -8,9 +8,9 @@ export const testB = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:0]",
-      "daisy-[--value:16]",
-      "daisy-[--value:17]",
+      "daisy-[--value:11]",
+      "daisy-[--value:39]",
+      "daisy-[--value:58]",
       "daisy-[--value:6]",
       "daisy-[--value:70]",
       "daisy-alert",
@@ -419,11 +419,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:17] daisy-[--digits:2]",
+                                "class": "daisy-[--value:11] daisy-[--digits:2]",
                                 "data-daisy-unit": "h"
                               },
                               "children": [
-                                "17"
+                                "11"
                               ]
                             }
                           ]
@@ -454,11 +454,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:16] daisy-[--digits:2]",
+                                "class": "daisy-[--value:58] daisy-[--digits:2]",
                                 "data-daisy-unit": "m"
                               },
                               "children": [
-                                "16"
+                                "58"
                               ]
                             }
                           ]
@@ -489,11 +489,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--value:0] daisy-[--digits:2]",
+                                "class": "daisy-[--value:39] daisy-[--digits:2]",
                                 "data-daisy-unit": "s"
                               },
                               "children": [
-                                "0"
+                                "39"
                               ]
                             }
                           ]

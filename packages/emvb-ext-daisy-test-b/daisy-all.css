@@ -3321,17 +3321,17 @@
   .daisy-\[--digits\:2\] {
     --digits: 2;
   }
-  .daisy-\[--value\:0\] {
-    --value: 0;
-  }
   .daisy-\[--value\:6\] {
     --value: 6;
   }
-  .daisy-\[--value\:16\] {
-    --value: 16;
+  .daisy-\[--value\:11\] {
+    --value: 11;
   }
-  .daisy-\[--value\:17\] {
-    --value: 17;
+  .daisy-\[--value\:39\] {
+    --value: 39;
+  }
+  .daisy-\[--value\:58\] {
+    --value: 58;
   }
   .daisy-\[--value\:70\] {
     --value: 70;
@@ -3365,6 +3365,56 @@
       --daisy-size: calc(var(--size-selector, 0.25rem) * 2);
     }
   
+  @media (width < 40rem) {
+    
+      .daisy-max-sm\:megamenu-vertical {
+        position: relative;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 0;
+        opacity: 0%;
+        background-color: var(--color-base-100);
+        border-inline-width: 0;
+        position-area: block-end;
+        max-block-size: calc(100% - 0.25rem);
+        --daisy-mm-backdrop: transparent;
+        translate: 0 -0.5rem;
+        scale: 0.98;
+        transition: opacity 200ms ease-out, translate 200ms ease-out, scale 200ms ease-out, display 200ms ease-out allow-discrete, overlay 200ms ease-out allow-discrete;
+      }
+      .daisy-max-sm\:megamenu-vertical:not([popover]:popover-open) {
+        position: revert;
+        display: none;
+      }
+      .daisy-max-sm\:megamenu-vertical:popover-open {
+        --daisy-mm-mt: 0;
+        --daisy-mm-display: block;
+      }
+      .daisy-max-sm\:megamenu-vertical [popovertarget] {
+        pointer-events: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-base-content);
+      }
+      @supports (color: color-mix(in lab, red, red)) {
+        .daisy-max-sm\:megamenu-vertical [popovertarget] {
+          color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+        }
+      }
+      .daisy-max-sm\:megamenu-vertical [popovertarget]:after {
+        content: none;
+      }
+      .daisy-max-sm\:megamenu-vertical [popover] {
+        position: relative;
+        display: block;
+        overflow: visible;
+        background-color: transparent;
+        opacity: 100%;
+        border: none;
+      }
+    
+  }
   @media (width >= 40rem) {
     .daisy-sm\:hidden {
       display: none;

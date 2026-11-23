@@ -50,6 +50,18 @@ function escapeSelector(name: string): string {
   return name.replace(/[\/.:%\[\]()#,!]/g, "\\$&");
 }
 
+/** The breakpoint variants a prefixed class may start with (`sm:`, `max-sm:`), as EmVB's class rule allows. */
+const VARIANT = /^((?:max-)?(?:sm|md|lg|xl|2xl)):(.+)$/;
+/**
+ * With a prefix, Tailwind builds a daisyUI component's responsive form variant first
+ * (`max-sm:daisy-timeline-vertical`), not prefix first (`daisy-max-sm:timeline-vertical`), and
+ * generates nothing for the prefix-first form. So a class written prefix first is asked for in
+ * the variant-first form, and its selector is renamed back after the build.
+ */
+export function variantFirst(prefixedClass: string): string {
+  const m = VARIANT.exec(prefixedClass.slice("daisy-".length));
+  return m ? `${m[1]}:daisy-${m[2]}` : prefixedClass;
+}
 /**
  * Tailwind utilities (mx-auto, my-4, w-fit) come out with their plain names. The extension's
  * classes all carry the prefix, so each plain selector is renamed to its daisy- form. This is one
@@ -66,6 +78,16 @@ export function prefixUtilitySelectors(css: string, rawNames: readonly string[])
   return out;
 }
 
+/** Rename each variant-first selector Tailwind built back to the prefix-first name the allowlist uses. */
+export function unvariantSelectors(css: string, prefixedClasses: readonly string[]): string {
+  let out = css;
+  for (const c of prefixedClasses) {
+    const asked = variantFirst(c);
+    if (asked === c) continue;
+    out = out.split(escapeSelector(asked)).join(escapeSelector(c));
+  }
+  return out;
+}
 export type BuildOptions = {
   /** Unique name for the temporary input/output files (letters, digits, dashes). */
   name: string;
@@ -86,7 +108,7 @@ export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): str
   themes: ${DAISY_THEMES};
   logs: false;
 }
-@source inline("${[...prefixed, ...raw].sort().join(" ")}");
+@source inline("${[...prefixed.map(variantFirst), ...raw].sort().join(" ")}");
 `;
   const cssIn = join(here, `build-${name}-input.css`);
   const cssOut = join(here, `build-${name}-output.css`);
@@ -96,7 +118,8 @@ export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): str
     if (tw.status !== 0) throw new Error("tailwind failed: " + (tw.stderr || tw.stdout));
     // The prefix rewrite also rewrites decimal keyframe stops: 89.9999% becomes 89.daisy-9999%.
     // Undo it, so text-rotate and any other keyframe with decimal stops animates correctly.
-    const named = prefixUtilitySelectors(readFileSync(cssOut, "utf8"), raw);
+    const built = readFileSync(cssOut, "utf8");
+    const named = prefixUtilitySelectors(unvariantSelectors(built, prefixed), raw);
     const unmangled = named.replace(/(\d)\.daisy-(\d+)%/g, "$1.$2%");
     const flat = flattenLayers(unmangled);
     return extras ? `${flat}\n${extras.trim()}\n` : flat;
