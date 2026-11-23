@@ -8,11 +8,11 @@ export const testA = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:11]",
-      "daisy-[--value:1]",
-      "daisy-[--value:48]",
-      "daisy-[--value:6]",
+      "daisy-[--value:2]",
+      "daisy-[--value:30]",
+      "daisy-[--value:46]",
       "daisy-[--value:70]",
+      "daisy-[--value:7]",
       "daisy-alert",
       "daisy-alert-horizontal",
       "daisy-alert-info",
@@ -1226,7 +1226,8 @@ export const testA = {
       name: "t-tabs",
       label: "Tabs",
       group: "content",
-      
+      container: true,
+      accepts: ["tab"],
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1299,6 +1300,11 @@ export const testA = {
               "children": [
                 "Reviews content"
               ]
+            },
+            {
+              "tag": "emvb-slot",
+              "attrs": {},
+              "children": []
             }
           ]
         },
@@ -2338,6 +2344,22 @@ export const testA = {
         },
       }),
     },
+  {
+    name: "tab",
+    label: "Tab",
+    group: "content",
+    part: true,
+    schema: { type: "object", properties: { text: { type: "string", maxLength: 80, default: "Tab" } } },
+    fields: [{ key: "text", kind: "text", label: "Label" }],
+    defaults: () => ({ text: "Tab" }),
+    render: (props: Record<string, unknown>) => ({
+      markup: {
+        tag: "input",
+        attrs: { type: "radio", name: "tabs", class: "daisy-tab", "aria-label": String(props.text ?? "Tab") },
+        children: [],
+      },
+    }),
+  },
   ],
 };
 export default testA;
