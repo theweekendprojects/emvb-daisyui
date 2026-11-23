@@ -8,8 +8,9 @@ export const testC = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:12]",
-      "daisy-[--value:59]",
+      "daisy-[--value:11]",
+      "daisy-[--value:1]",
+      "daisy-[--value:48]",
       "daisy-[--value:6]",
       "daisy-[--value:70]",
       "daisy-alert",
@@ -299,6 +300,7 @@ export const testC = {
       name: "t-otp",
       label: "Otp",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -373,6 +375,7 @@ export const testC = {
       name: "t-text-rotate",
       label: "Text rotate",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
