@@ -28,6 +28,17 @@ const PER_EXTENSION = 32; // EmVB 1.4 MAX_ELEMENTS per extension
 const MAX_NODES = 200; // markup.ts MAX_NODES
 const MAX_DEPTH = 12; // markup.ts MAX_DEPTH
 const PREFIX = "daisy-";
+/**
+ * Components that hold user content, and where it goes: the class of the element that takes the
+ * children (`""` for the markup root). Their elements are containers, with an emvb-slot marker there.
+ */
+const CONTAINER_SLOTS: Readonly<Record<string, string>> = {
+  hero: "hero-content",
+  modal: "modal-box",
+  collapse: "collapse-content",
+  drawer: "drawer-content",
+  "browser-mockup": "",
+};
 
 type RawVNode = { tag: string; attrs: Record<string, string | undefined>; children: (RawVNode | string)[] };
 type Markup = { tag: string; attrs: Record<string, string>; children: (Markup | string)[] };
@@ -52,6 +63,25 @@ function toMarkup(node: RawVNode | string, classes: Set<string>): Markup | strin
   return { tag: node.tag, attrs, children: node.children.map((c) => toMarkup(c, classes)) };
 }
 
+/** Put the slot marker last inside the element with this class (or at the root for ""). */
+function insertSlot(tree: Markup, className: string): boolean {
+  const marker: Markup = { tag: "emvb-slot", attrs: {}, children: [] };
+  if (className === "") {
+    tree.children.push(marker);
+    return true;
+  }
+  const want = PREFIX + className;
+  const visit = (node: Markup | string): boolean => {
+    if (typeof node === "string") return false;
+    if ((node.attrs.class ?? "").split(" ").includes(want)) {
+      node.children.push(marker);
+      return true;
+    }
+    return node.children.some(visit);
+  };
+  return visit(tree);
+}
+
 /** Node count and depth of a markup tree, to stay inside markup.ts's limits. */
 function measure(node: Markup | string, depth = 0): { nodes: number; depth: number } {
   if (typeof node === "string") return { nodes: 0, depth };
@@ -74,6 +104,10 @@ for (const def of DAISY_COMPONENT_CATALOG) {
   const raw = daisyRenderer.render(daisyRenderer.createNode(def.id, "probe0001"), {}, [], { mode: "public" }) as RawVNode;
   const classes = new Set<string>();
   const tree = toMarkup(raw, classes) as Markup;
+  if (def.id in CONTAINER_SLOTS) {
+    const slot = CONTAINER_SLOTS[def.id] as string;
+    if (!insertSlot(tree, slot)) throw new Error(`${def.id}: no element with class ${PREFIX}${slot} for the slot`);
+  }
   const { nodes, depth } = measure(tree);
   if (nodes > MAX_NODES) throw new Error(`${def.id}: ${nodes} nodes exceeds ${MAX_NODES}`);
   if (depth > MAX_DEPTH) throw new Error(`${def.id}: depth ${depth} exceeds ${MAX_DEPTH}`);
@@ -106,6 +140,7 @@ for (const [i, chunk] of chunks.entries()) {
       name: "t-${id}",
       label: ${JSON.stringify(label(id))},
       group: "content",
+      ${id in CONTAINER_SLOTS ? "container: true," : ""}
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),

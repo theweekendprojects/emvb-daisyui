@@ -8,8 +8,9 @@ export const testA = {
     prefix: "daisy-",
     allow: [
       "daisy-[--digits:2]",
-      "daisy-[--value:12]",
-      "daisy-[--value:59]",
+      "daisy-[--value:11]",
+      "daisy-[--value:1]",
+      "daisy-[--value:48]",
       "daisy-[--value:6]",
       "daisy-[--value:70]",
       "daisy-alert",
@@ -299,6 +300,7 @@ export const testA = {
       name: "t-alert",
       label: "Alert",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -319,6 +321,7 @@ export const testA = {
       name: "t-progress",
       label: "Progress",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -341,6 +344,7 @@ export const testA = {
       name: "t-stats",
       label: "Stats",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -395,6 +399,7 @@ export const testA = {
       name: "t-input",
       label: "Input",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -416,6 +421,7 @@ export const testA = {
       name: "t-textarea",
       label: "Textarea",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -439,6 +445,7 @@ export const testA = {
       name: "t-select",
       label: "Select",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -487,6 +494,7 @@ export const testA = {
       name: "t-checkbox",
       label: "Checkbox",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -522,6 +530,7 @@ export const testA = {
       name: "t-radio",
       label: "Radio",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -557,6 +566,7 @@ export const testA = {
       name: "t-toggle",
       label: "Toggle",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -592,6 +602,7 @@ export const testA = {
       name: "t-file-input",
       label: "File input",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -613,6 +624,7 @@ export const testA = {
       name: "t-range",
       label: "Range",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -637,6 +649,7 @@ export const testA = {
       name: "t-rating",
       label: "Rating",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -713,6 +726,7 @@ export const testA = {
       name: "t-navbar",
       label: "Navbar",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -818,6 +832,7 @@ export const testA = {
       name: "t-menu",
       label: "Menu",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -867,6 +882,7 @@ export const testA = {
       name: "t-breadcrumbs",
       label: "Breadcrumbs",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -931,6 +947,7 @@ export const testA = {
       name: "t-pagination",
       label: "Pagination",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1001,6 +1018,7 @@ export const testA = {
       name: "t-steps",
       label: "Steps",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1057,6 +1075,7 @@ export const testA = {
       name: "t-dock",
       label: "Dock",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1129,6 +1148,7 @@ export const testA = {
       name: "t-footer",
       label: "Footer",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1206,6 +1226,7 @@ export const testA = {
       name: "t-tabs",
       label: "Tabs",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1287,6 +1308,7 @@ export const testA = {
       name: "t-accordion",
       label: "Accordion",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1359,6 +1381,7 @@ export const testA = {
       name: "t-dropdown",
       label: "Dropdown",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1449,6 +1472,7 @@ export const testA = {
       name: "t-modal",
       label: "Modal",
       group: "content",
+      container: true,
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1502,6 +1526,11 @@ export const testA = {
                       ]
                     }
                   ]
+                },
+                {
+                  "tag": "emvb-slot",
+                  "attrs": {},
+                  "children": []
                 }
               ]
             },
@@ -1531,6 +1560,7 @@ export const testA = {
       name: "t-drawer",
       label: "Drawer",
       group: "content",
+      container: true,
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1566,6 +1596,11 @@ export const testA = {
                   "children": [
                     "Open drawer"
                   ]
+                },
+                {
+                  "tag": "emvb-slot",
+                  "attrs": {},
+                  "children": []
                 }
               ]
             },
@@ -1603,6 +1638,7 @@ export const testA = {
       name: "t-carousel",
       label: "Carousel",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1778,6 +1814,7 @@ export const testA = {
       name: "t-collapse",
       label: "Collapse",
       group: "content",
+      container: true,
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1803,7 +1840,12 @@ export const testA = {
                 "class": "daisy-collapse-content daisy-text-sm"
               },
               "children": [
-                "Additional details appear here."
+                "Additional details appear here.",
+                {
+                  "tag": "emvb-slot",
+                  "attrs": {},
+                  "children": []
+                }
               ]
             }
           ]
@@ -1814,6 +1856,7 @@ export const testA = {
       name: "t-swap",
       label: "Swap",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1858,6 +1901,7 @@ export const testA = {
       name: "t-table",
       label: "Table",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -1996,6 +2040,7 @@ export const testA = {
       name: "t-timeline",
       label: "Timeline",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -2119,6 +2164,7 @@ export const testA = {
       name: "t-avatar",
       label: "Avatar",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -2152,6 +2198,7 @@ export const testA = {
       name: "t-chat-bubble",
       label: "Chat bubble",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
@@ -2197,6 +2244,7 @@ export const testA = {
       name: "t-list",
       label: "List",
       group: "content",
+      
       schema: { type: "object", properties: {} },
       fields: [],
       defaults: () => ({}),
