@@ -8,10 +8,107 @@ export const testB = {
     prefix: "daisy-",
     allow: [
       "daisy-[--daisy-digits:2]",
+      "daisy-[--daisy-value:0]",
+      "daisy-[--daisy-value:100]",
+      "daisy-[--daisy-value:10]",
+      "daisy-[--daisy-value:11]",
+      "daisy-[--daisy-value:12]",
+      "daisy-[--daisy-value:13]",
+      "daisy-[--daisy-value:14]",
+      "daisy-[--daisy-value:15]",
+      "daisy-[--daisy-value:16]",
+      "daisy-[--daisy-value:17]",
+      "daisy-[--daisy-value:18]",
+      "daisy-[--daisy-value:19]",
+      "daisy-[--daisy-value:1]",
+      "daisy-[--daisy-value:20]",
+      "daisy-[--daisy-value:21]",
+      "daisy-[--daisy-value:22]",
       "daisy-[--daisy-value:23]",
+      "daisy-[--daisy-value:24]",
+      "daisy-[--daisy-value:25]",
+      "daisy-[--daisy-value:26]",
+      "daisy-[--daisy-value:27]",
+      "daisy-[--daisy-value:28]",
+      "daisy-[--daisy-value:29]",
+      "daisy-[--daisy-value:2]",
+      "daisy-[--daisy-value:30]",
+      "daisy-[--daisy-value:31]",
+      "daisy-[--daisy-value:32]",
+      "daisy-[--daisy-value:33]",
+      "daisy-[--daisy-value:34]",
+      "daisy-[--daisy-value:35]",
+      "daisy-[--daisy-value:36]",
+      "daisy-[--daisy-value:37]",
+      "daisy-[--daisy-value:38]",
+      "daisy-[--daisy-value:39]",
+      "daisy-[--daisy-value:3]",
       "daisy-[--daisy-value:40]",
+      "daisy-[--daisy-value:41]",
+      "daisy-[--daisy-value:42]",
+      "daisy-[--daisy-value:43]",
+      "daisy-[--daisy-value:44]",
+      "daisy-[--daisy-value:45]",
+      "daisy-[--daisy-value:46]",
+      "daisy-[--daisy-value:47]",
+      "daisy-[--daisy-value:48]",
+      "daisy-[--daisy-value:49]",
+      "daisy-[--daisy-value:4]",
+      "daisy-[--daisy-value:50]",
+      "daisy-[--daisy-value:51]",
+      "daisy-[--daisy-value:52]",
+      "daisy-[--daisy-value:53]",
+      "daisy-[--daisy-value:54]",
+      "daisy-[--daisy-value:55]",
+      "daisy-[--daisy-value:56]",
+      "daisy-[--daisy-value:57]",
+      "daisy-[--daisy-value:58]",
+      "daisy-[--daisy-value:59]",
+      "daisy-[--daisy-value:5]",
+      "daisy-[--daisy-value:60]",
+      "daisy-[--daisy-value:61]",
+      "daisy-[--daisy-value:62]",
+      "daisy-[--daisy-value:63]",
+      "daisy-[--daisy-value:64]",
+      "daisy-[--daisy-value:65]",
+      "daisy-[--daisy-value:66]",
+      "daisy-[--daisy-value:67]",
+      "daisy-[--daisy-value:68]",
+      "daisy-[--daisy-value:69]",
       "daisy-[--daisy-value:6]",
       "daisy-[--daisy-value:70]",
+      "daisy-[--daisy-value:71]",
+      "daisy-[--daisy-value:72]",
+      "daisy-[--daisy-value:73]",
+      "daisy-[--daisy-value:74]",
+      "daisy-[--daisy-value:75]",
+      "daisy-[--daisy-value:76]",
+      "daisy-[--daisy-value:77]",
+      "daisy-[--daisy-value:78]",
+      "daisy-[--daisy-value:79]",
+      "daisy-[--daisy-value:7]",
+      "daisy-[--daisy-value:80]",
+      "daisy-[--daisy-value:81]",
+      "daisy-[--daisy-value:82]",
+      "daisy-[--daisy-value:83]",
+      "daisy-[--daisy-value:84]",
+      "daisy-[--daisy-value:85]",
+      "daisy-[--daisy-value:86]",
+      "daisy-[--daisy-value:87]",
+      "daisy-[--daisy-value:88]",
+      "daisy-[--daisy-value:89]",
+      "daisy-[--daisy-value:8]",
+      "daisy-[--daisy-value:90]",
+      "daisy-[--daisy-value:91]",
+      "daisy-[--daisy-value:92]",
+      "daisy-[--daisy-value:93]",
+      "daisy-[--daisy-value:94]",
+      "daisy-[--daisy-value:95]",
+      "daisy-[--daisy-value:96]",
+      "daisy-[--daisy-value:97]",
+      "daisy-[--daisy-value:98]",
+      "daisy-[--daisy-value:99]",
+      "daisy-[--daisy-value:9]",
       "daisy-alert",
       "daisy-alert-horizontal",
       "daisy-alert-info",
@@ -418,11 +515,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:23] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:22] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "h"
                               },
                               "children": [
-                                "23"
+                                "22"
                               ]
                             }
                           ]
@@ -453,11 +550,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:6] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:9] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "m"
                               },
                               "children": [
-                                "6"
+                                "9"
                               ]
                             }
                           ]
@@ -488,11 +585,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:40] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:47] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "s"
                               },
                               "children": [
-                                "40"
+                                "47"
                               ]
                             }
                           ]

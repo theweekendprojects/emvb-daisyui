@@ -2639,14 +2639,208 @@
       --daisy-badge-fg: var(--color-primary-content);
     }.daisy-\[--daisy-digits\:2\]{
     --daisy-digits: 2;
+  }.daisy-\[--daisy-value\:0\]{
+    --daisy-value: 0;
+  }.daisy-\[--daisy-value\:1\]{
+    --daisy-value: 1;
+  }.daisy-\[--daisy-value\:2\]{
+    --daisy-value: 2;
+  }.daisy-\[--daisy-value\:3\]{
+    --daisy-value: 3;
+  }.daisy-\[--daisy-value\:4\]{
+    --daisy-value: 4;
+  }.daisy-\[--daisy-value\:5\]{
+    --daisy-value: 5;
   }.daisy-\[--daisy-value\:6\]{
     --daisy-value: 6;
+  }.daisy-\[--daisy-value\:7\]{
+    --daisy-value: 7;
+  }.daisy-\[--daisy-value\:8\]{
+    --daisy-value: 8;
+  }.daisy-\[--daisy-value\:9\]{
+    --daisy-value: 9;
+  }.daisy-\[--daisy-value\:10\]{
+    --daisy-value: 10;
+  }.daisy-\[--daisy-value\:11\]{
+    --daisy-value: 11;
+  }.daisy-\[--daisy-value\:12\]{
+    --daisy-value: 12;
+  }.daisy-\[--daisy-value\:13\]{
+    --daisy-value: 13;
+  }.daisy-\[--daisy-value\:14\]{
+    --daisy-value: 14;
+  }.daisy-\[--daisy-value\:15\]{
+    --daisy-value: 15;
+  }.daisy-\[--daisy-value\:16\]{
+    --daisy-value: 16;
+  }.daisy-\[--daisy-value\:17\]{
+    --daisy-value: 17;
+  }.daisy-\[--daisy-value\:18\]{
+    --daisy-value: 18;
+  }.daisy-\[--daisy-value\:19\]{
+    --daisy-value: 19;
+  }.daisy-\[--daisy-value\:20\]{
+    --daisy-value: 20;
+  }.daisy-\[--daisy-value\:21\]{
+    --daisy-value: 21;
+  }.daisy-\[--daisy-value\:22\]{
+    --daisy-value: 22;
   }.daisy-\[--daisy-value\:23\]{
     --daisy-value: 23;
+  }.daisy-\[--daisy-value\:24\]{
+    --daisy-value: 24;
+  }.daisy-\[--daisy-value\:25\]{
+    --daisy-value: 25;
+  }.daisy-\[--daisy-value\:26\]{
+    --daisy-value: 26;
+  }.daisy-\[--daisy-value\:27\]{
+    --daisy-value: 27;
+  }.daisy-\[--daisy-value\:28\]{
+    --daisy-value: 28;
+  }.daisy-\[--daisy-value\:29\]{
+    --daisy-value: 29;
+  }.daisy-\[--daisy-value\:30\]{
+    --daisy-value: 30;
+  }.daisy-\[--daisy-value\:31\]{
+    --daisy-value: 31;
+  }.daisy-\[--daisy-value\:32\]{
+    --daisy-value: 32;
+  }.daisy-\[--daisy-value\:33\]{
+    --daisy-value: 33;
+  }.daisy-\[--daisy-value\:34\]{
+    --daisy-value: 34;
+  }.daisy-\[--daisy-value\:35\]{
+    --daisy-value: 35;
+  }.daisy-\[--daisy-value\:36\]{
+    --daisy-value: 36;
+  }.daisy-\[--daisy-value\:37\]{
+    --daisy-value: 37;
+  }.daisy-\[--daisy-value\:38\]{
+    --daisy-value: 38;
+  }.daisy-\[--daisy-value\:39\]{
+    --daisy-value: 39;
   }.daisy-\[--daisy-value\:40\]{
     --daisy-value: 40;
+  }.daisy-\[--daisy-value\:41\]{
+    --daisy-value: 41;
+  }.daisy-\[--daisy-value\:42\]{
+    --daisy-value: 42;
+  }.daisy-\[--daisy-value\:43\]{
+    --daisy-value: 43;
+  }.daisy-\[--daisy-value\:44\]{
+    --daisy-value: 44;
+  }.daisy-\[--daisy-value\:45\]{
+    --daisy-value: 45;
+  }.daisy-\[--daisy-value\:46\]{
+    --daisy-value: 46;
+  }.daisy-\[--daisy-value\:47\]{
+    --daisy-value: 47;
+  }.daisy-\[--daisy-value\:48\]{
+    --daisy-value: 48;
+  }.daisy-\[--daisy-value\:49\]{
+    --daisy-value: 49;
+  }.daisy-\[--daisy-value\:50\]{
+    --daisy-value: 50;
+  }.daisy-\[--daisy-value\:51\]{
+    --daisy-value: 51;
+  }.daisy-\[--daisy-value\:52\]{
+    --daisy-value: 52;
+  }.daisy-\[--daisy-value\:53\]{
+    --daisy-value: 53;
+  }.daisy-\[--daisy-value\:54\]{
+    --daisy-value: 54;
+  }.daisy-\[--daisy-value\:55\]{
+    --daisy-value: 55;
+  }.daisy-\[--daisy-value\:56\]{
+    --daisy-value: 56;
+  }.daisy-\[--daisy-value\:57\]{
+    --daisy-value: 57;
+  }.daisy-\[--daisy-value\:58\]{
+    --daisy-value: 58;
+  }.daisy-\[--daisy-value\:59\]{
+    --daisy-value: 59;
+  }.daisy-\[--daisy-value\:60\]{
+    --daisy-value: 60;
+  }.daisy-\[--daisy-value\:61\]{
+    --daisy-value: 61;
+  }.daisy-\[--daisy-value\:62\]{
+    --daisy-value: 62;
+  }.daisy-\[--daisy-value\:63\]{
+    --daisy-value: 63;
+  }.daisy-\[--daisy-value\:64\]{
+    --daisy-value: 64;
+  }.daisy-\[--daisy-value\:65\]{
+    --daisy-value: 65;
+  }.daisy-\[--daisy-value\:66\]{
+    --daisy-value: 66;
+  }.daisy-\[--daisy-value\:67\]{
+    --daisy-value: 67;
+  }.daisy-\[--daisy-value\:68\]{
+    --daisy-value: 68;
+  }.daisy-\[--daisy-value\:69\]{
+    --daisy-value: 69;
   }.daisy-\[--daisy-value\:70\]{
     --daisy-value: 70;
+  }.daisy-\[--daisy-value\:71\]{
+    --daisy-value: 71;
+  }.daisy-\[--daisy-value\:72\]{
+    --daisy-value: 72;
+  }.daisy-\[--daisy-value\:73\]{
+    --daisy-value: 73;
+  }.daisy-\[--daisy-value\:74\]{
+    --daisy-value: 74;
+  }.daisy-\[--daisy-value\:75\]{
+    --daisy-value: 75;
+  }.daisy-\[--daisy-value\:76\]{
+    --daisy-value: 76;
+  }.daisy-\[--daisy-value\:77\]{
+    --daisy-value: 77;
+  }.daisy-\[--daisy-value\:78\]{
+    --daisy-value: 78;
+  }.daisy-\[--daisy-value\:79\]{
+    --daisy-value: 79;
+  }.daisy-\[--daisy-value\:80\]{
+    --daisy-value: 80;
+  }.daisy-\[--daisy-value\:81\]{
+    --daisy-value: 81;
+  }.daisy-\[--daisy-value\:82\]{
+    --daisy-value: 82;
+  }.daisy-\[--daisy-value\:83\]{
+    --daisy-value: 83;
+  }.daisy-\[--daisy-value\:84\]{
+    --daisy-value: 84;
+  }.daisy-\[--daisy-value\:85\]{
+    --daisy-value: 85;
+  }.daisy-\[--daisy-value\:86\]{
+    --daisy-value: 86;
+  }.daisy-\[--daisy-value\:87\]{
+    --daisy-value: 87;
+  }.daisy-\[--daisy-value\:88\]{
+    --daisy-value: 88;
+  }.daisy-\[--daisy-value\:89\]{
+    --daisy-value: 89;
+  }.daisy-\[--daisy-value\:90\]{
+    --daisy-value: 90;
+  }.daisy-\[--daisy-value\:91\]{
+    --daisy-value: 91;
+  }.daisy-\[--daisy-value\:92\]{
+    --daisy-value: 92;
+  }.daisy-\[--daisy-value\:93\]{
+    --daisy-value: 93;
+  }.daisy-\[--daisy-value\:94\]{
+    --daisy-value: 94;
+  }.daisy-\[--daisy-value\:95\]{
+    --daisy-value: 95;
+  }.daisy-\[--daisy-value\:96\]{
+    --daisy-value: 96;
+  }.daisy-\[--daisy-value\:97\]{
+    --daisy-value: 97;
+  }.daisy-\[--daisy-value\:98\]{
+    --daisy-value: 98;
+  }.daisy-\[--daisy-value\:99\]{
+    --daisy-value: 99;
+  }.daisy-\[--daisy-value\:100\]{
+    --daisy-value: 100;
   }.daisy-aura:has( > .daisy-card,  > .daisy-alert){
       --daisy-aura-radius: var(--radius-box);
     }.daisy-aura-md{

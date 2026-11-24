@@ -19,6 +19,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DAISY_COMPONENT_CATALOG } from "../../src/catalog/index.ts";
+import { DIGITS_2_CLASS, VALUE_CLASS_NAMES } from "../../src/catalog/value-class.ts";
 import { daisyRenderer } from "../../src/renderer.ts";
 import { buildDaisyCss } from "../emvb-ext-css/build.ts";
 import { prefixClassToken } from "./class-token.ts";
@@ -29,6 +30,8 @@ const PER_EXTENSION = 32; // EmVB 1.4 MAX_ELEMENTS per extension
 const MAX_NODES = 200; // markup.ts MAX_NODES
 const MAX_DEPTH = 12; // markup.ts MAX_DEPTH
 const PREFIX = "daisy-";
+/** Components whose value classes are chosen per render (live values). */
+const LIVE_VALUE = new Set(["countdown", "radial-progress"]);
 /**
  * Components that hold user content, and where it goes: the class of the element that takes the
  * children (`""` for the markup root). Their elements are containers, with an emvb-slot marker there.
@@ -150,6 +153,10 @@ if (chunks.length > letters.length) throw new Error("more than 3 extensions; add
 
 const everyClass = new Set<string>();
 markups.forEach((m) => m.classes.forEach((c) => everyClass.add(c)));
+// The serializer checks each rendered class against this allowlist, so a live value must be in it too.
+if ([...markups.keys()].some((id) => LIVE_VALUE.has(id))) {
+  for (const c of [...VALUE_CLASS_NAMES, DIGITS_2_CLASS]) everyClass.add(prefixClassToken(c));
+}
 const allow = JSON.stringify([...everyClass].sort(), null, 2);
 const pkgRoot = join(here, "..");
 
@@ -160,6 +167,11 @@ for (const [i, chunk] of chunks.entries()) {
   mkdirSync(dir, { recursive: true });
   const used = new Set<string>();
   chunk.forEach((id) => markups.get(id)!.classes.forEach((c) => used.add(c)));
+  // Countdown and radial-progress read their value at render time, and the value changes every
+  // second. Allow every value class so any live number has CSS (until extVars lands in EmVB 1.5).
+  if (chunk.some((id) => LIVE_VALUE.has(id))) {
+    for (const c of [...VALUE_CLASS_NAMES, DIGITS_2_CLASS]) used.add(prefixClassToken(c));
+  }
   const css = buildDaisyCss({ name: L, classes: [...used] });
   const parts = L === "a" ? [TAB_PART] : [];
   const elements = chunk
