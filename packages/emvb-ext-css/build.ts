@@ -15,6 +15,7 @@
  */
 import { readFileSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { scopeGlobalSelectors } from "./scope.ts";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -121,7 +122,8 @@ export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): str
     const built = readFileSync(cssOut, "utf8");
     const named = prefixUtilitySelectors(unvariantSelectors(built, prefixed), raw);
     const unmangled = named.replace(/(\d)\.daisy-(\d+)%/g, "$1.$2%");
-    const flat = flattenLayers(unmangled);
+    // Global base rules (preflight, `h1`, `button`, `*`) would restyle the whole page; scope them.
+    const flat = scopeGlobalSelectors(flattenLayers(unmangled));
     return extras ? `${flat}\n${extras.trim()}\n` : flat;
   } finally {
     rmSync(cssIn, { force: true });
