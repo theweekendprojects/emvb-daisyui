@@ -8,9 +8,8 @@ export const testC = {
     prefix: "daisy-",
     allow: [
       "daisy-[--daisy-digits:2]",
-      "daisy-[--daisy-value:11]",
-      "daisy-[--daisy-value:38]",
-      "daisy-[--daisy-value:52]",
+      "daisy-[--daisy-value:23]",
+      "daisy-[--daisy-value:40]",
       "daisy-[--daisy-value:6]",
       "daisy-[--daisy-value:70]",
       "daisy-alert",

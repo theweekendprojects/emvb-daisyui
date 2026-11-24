@@ -8,9 +8,8 @@ export const testB = {
     prefix: "daisy-",
     allow: [
       "daisy-[--daisy-digits:2]",
-      "daisy-[--daisy-value:11]",
-      "daisy-[--daisy-value:38]",
-      "daisy-[--daisy-value:52]",
+      "daisy-[--daisy-value:23]",
+      "daisy-[--daisy-value:40]",
       "daisy-[--daisy-value:6]",
       "daisy-[--daisy-value:70]",
       "daisy-alert",
@@ -354,7 +353,7 @@ export const testB = {
             "class": "daisy-w-full",
             "role": "timer",
             "aria-label": "Time remaining",
-            "data-daisy-countdown-local": "2026-11-30T09:00:00"
+            "data-daisy-countdown-local": "2026-12-01T09:00:00"
           },
           "children": [
             {
@@ -419,11 +418,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:11] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:23] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "h"
                               },
                               "children": [
-                                "11"
+                                "23"
                               ]
                             }
                           ]
@@ -454,11 +453,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:52] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:6] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "m"
                               },
                               "children": [
-                                "52"
+                                "6"
                               ]
                             }
                           ]
@@ -489,11 +488,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:38] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:40] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "s"
                               },
                               "children": [
-                                "38"
+                                "40"
                               ]
                             }
                           ]
