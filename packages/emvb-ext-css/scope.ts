@@ -49,9 +49,26 @@ function splitTopLevel(list: string): string[] {
 function scopeItem(item: string, scope: string): string {
   const t = item.trim();
   if (t === "") return item;
-  // The base rules for the document (preflight's `html` and `body`) apply to the extension's own
-  // wrapper instead: its font, line height and margin, without touching the page around it.
-  if (/^(?:html|body)\b/.test(t) && !/[.#[:]/.test(t.replace(/^(?:html|body)/, ""))) return scope;
+  // A leading plain `html` or `body`, or a run of them (`html > body > main`), is the wrapper
+  // itself, so the document's base rules (preflight) reach the extension's own elements only. The
+  // combinator after the last root is kept: `body > main` becomes `scope > main`. A qualified root
+  // (`html.dark`) is not mapped.
+  const ROOT = /^(?:html|body)(?=\s|>|$)\s*/;
+  const ROOT_CHILD = /^>\s*(?=(?:html|body)(?=\s|>|$))/;
+  let tail = t;
+  let mapped = false;
+  for (let root = ROOT.exec(tail); root; root = ROOT.exec(tail)) {
+    tail = tail.slice(root[0].length);
+    mapped = true;
+    const link = ROOT_CHILD.exec(tail);
+    if (link) tail = tail.slice(link[0].length);
+  }
+  if (mapped) {
+    // A class in the selector makes it the extension's own, as for any other selector: left alone.
+    if (/\.[A-Za-z_-]/.test(tail)) return t;
+    if (tail === "") return scope;
+    return /^[+~]/.test(tail) ? `${scope} ${t}` : `${scope} ${tail}`;
+  }
   if (t.startsWith(":root") || t.startsWith(":host") || t.startsWith("&")) return t;
   // The page's own root: daisyUI declares its theme variables here (`:where(:root)`, `[data-theme=light]`).
   if (/^(?::where\(:root\)|html\[|\[data-theme\b)/.test(t)) return t;
@@ -59,7 +76,6 @@ function scopeItem(item: string, scope: string): string {
   if (t.includes(".")) return t;
   return `${scope} ${t}`;
 }
-
 /** Rewrite a selector list; the original spacing between items is kept as `, `. */
 export function scopeSelectorList(list: string, scope: string = EXTENSION_SCOPE): string {
   return splitTopLevel(list).map((item) => scopeItem(item, scope)).join(", ");

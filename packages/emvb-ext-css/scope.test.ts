@@ -56,4 +56,16 @@ describe("scopeGlobalSelectors", () => {
   test("list items are trimmed and joined with ', '", () => {
     expect(scopeSelectorList("h1, .daisy-a , h2")).toBe(`${S} h1, .daisy-a, ${S} h2`);
   });
+  test("a leading html or body is the wrapper, so body button reaches the kit's own buttons", () => {
+    expect(scopeGlobalSelectors("body button{x:1}")).toBe(`${S} button{x:1}`);
+    expect(scopeGlobalSelectors("html body button{x:1}")).toBe(`${S} button{x:1}`);
+    expect(scopeGlobalSelectors("html > body > main{x:1}")).toBe(`${S} > main{x:1}`);
+    expect(scopeGlobalSelectors("body > main{x:1}")).toBe(`${S} > main{x:1}`);
+  });
+  test("a root that is not a plain root is not mapped, and a class keeps its selector", () => {
+    expect(scopeGlobalSelectors("body + p{x:1}")).toBe(`${S} body + p{x:1}`);
+    expect(scopeGlobalSelectors("bodyx{x:1}")).toBe(`${S} bodyx{x:1}`);
+    expect(scopeGlobalSelectors("html.dark body{x:1}")).toBe("html.dark body{x:1}");
+    expect(scopeGlobalSelectors("body .btn{x:1}")).toBe("body .btn{x:1}");
+  });
 });

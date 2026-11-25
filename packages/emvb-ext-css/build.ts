@@ -98,6 +98,37 @@ export type BuildOptions = {
   extras?: string;
 };
 
+/** Escape a string for use inside a RegExp. */
+const escapeRe = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Give every custom property the kit declares a name with the extension prefix, everywhere it is
+ * declared or read. daisyUI prefixes its per-component variables (`--daisy-value`) but not its theme
+ * palette and radii (`--color-primary`, `--radius-box`, `--font-sans`): those, on `:root` or
+ * `[data-theme]`, would overwrite the site's own variables of the same name. Each name is renamed
+ * the same way in every rule, so the kit's CSS behaves as before, with its own variables.
+ */
+export function prefixGlobalVariables(css: string, prefix = "daisy-"): string {
+  const declared = new Set([...css.matchAll(/(?<![\w-])(--[a-z][a-z0-9-]*)\s*:/g)].map((m) => m[1] ?? ""));
+  const names = [...declared].filter((name) => !name.startsWith(`--${prefix}`) && !name.startsWith("--tw-"));
+  let out = css;
+  // Longest first, so `--color-primary` never renames inside `--color-primary-content`.
+  for (const name of names.sort((a, b) => b.length - a.length)) {
+    const bare = new RegExp(`(?<![\\w-])${escapeRe(name)}(?![\\w-])`, "g");
+    out = out.replace(bare, `--${prefix}${name.slice(2)}`);
+  }
+  return out;
+}
+
+/**
+ * daisyUI's `prose` rule targets a bare class the page may use for its own typography. The kit's
+ * class names all start with the prefix, so that class becomes `daisy-prose`, which no page element
+ * carries: the rule can no longer restyle buttons on the site.
+ */
+export function prefixProseClass(css: string, prefix = "daisy-"): string {
+  return css.replace(/\.prose(?![\w-])/g, `.${prefix}prose`);
+}
+
 /** Build one extension stylesheet. Returns the CSS text. */
 export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): string {
   // Prefixed names generate daisyUI components; plain names generate Tailwind utilities.
@@ -121,7 +152,7 @@ export function buildDaisyCss({ name, classes, extras = "" }: BuildOptions): str
     // Undo it, so text-rotate and any other keyframe with decimal stops animates correctly.
     const built = readFileSync(cssOut, "utf8");
     const named = prefixUtilitySelectors(unvariantSelectors(built, prefixed), raw);
-    const unmangled = named.replace(/(\d)\.daisy-(\d+)%/g, "$1.$2%");
+    const unmangled = prefixProseClass(prefixGlobalVariables(named.replace(/(\d)\.daisy-(\d+)%/g, "$1.$2%")));
     // Global base rules (preflight, `h1`, `button`, `*`) would restyle the whole page; scope them.
     const flat = scopeGlobalSelectors(flattenLayers(unmangled));
     return extras ? `${flat}\n${extras.trim()}\n` : flat;

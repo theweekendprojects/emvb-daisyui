@@ -450,7 +450,7 @@ export const testB = {
             "class": "daisy-w-full",
             "role": "timer",
             "aria-label": "Time remaining",
-            "data-daisy-countdown-local": "2026-12-01T09:00:00"
+            "data-daisy-countdown-local": "2026-12-02T09:00:00"
           },
           "children": [
             {
@@ -515,11 +515,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:22] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:12] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "h"
                               },
                               "children": [
-                                "22"
+                                "12"
                               ]
                             }
                           ]
@@ -550,11 +550,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:9] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:7] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "m"
                               },
                               "children": [
-                                "9"
+                                "7"
                               ]
                             }
                           ]
@@ -585,11 +585,11 @@ export const testB = {
                             {
                               "tag": "span",
                               "attrs": {
-                                "class": "daisy-[--daisy-value:47] daisy-[--daisy-digits:2]",
+                                "class": "daisy-[--daisy-value:26] daisy-[--daisy-digits:2]",
                                 "data-daisy-unit": "s"
                               },
                               "children": [
-                                "47"
+                                "26"
                               ]
                             }
                           ]

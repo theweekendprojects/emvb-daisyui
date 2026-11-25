@@ -216,7 +216,7 @@ export default test${U};
   writeFileSync(
     join(dir, "package.json"),
     JSON.stringify(
-      { name: `emvb-ext-daisy-test-${L}`, version: "0.1.0", private: true, type: "module", main: "index.ts", files: ["index.ts", "ext.ts", "daisy-all.css"] },
+      { name: `emvb-ext-daisy-test-${L}`, version: "0.1.2", private: true, type: "module", main: "index.ts", files: ["index.ts", "ext.ts", "daisy-all.css"] },
       null,
       2,
     ) + "\n",
